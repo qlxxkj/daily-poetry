@@ -1,5 +1,5 @@
 // 诗文详情页:由 today/fh/search 携带整首诗跳转过来(小程序 query 有长度限制,
-// 诗文短无碍)。onLoad 里设动态标题「<诗词名> · <作者> | 一诗一令」供搜一搜抓。
+// 诗文短无碍)。onLoad 里设动态标题「<诗词名> · <作者> | 一诗一令古诗词」供搜一搜抓。
 Page({
     data: {
         poem: null,
@@ -18,7 +18,7 @@ Page({
         }
         this.setData({ poem: p });
         wx.setNavigationBarTitle({
-            title: `${p.title} · ${p.author} | 一诗一令`,
+            title: `${p.title} · ${p.author} | 一诗一令古诗词`,
         });
     },
     onCopy() {

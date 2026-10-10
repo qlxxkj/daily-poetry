@@ -19,12 +19,12 @@ Page({
             this.setData({ poem: p, loading: false });
             // 诗文详情: 动态标题供微信搜一搜抓
             wx.setNavigationBarTitle({
-                title: `${p.title} · ${p.author} | 一诗一令`,
+                title: `${p.title} · ${p.author} | 一诗一令古诗词`,
             });
         } catch (e) {
             this.setData({ loading: false, error: e.message || "飞花令失败" });
             wx.setNavigationBarTitle({
-                title: "一诗一令 - 飞花令抽字觅诗",
+                title: "一诗一令古诗词 - 飞花令抽字觅诗",
             });
         }
     },

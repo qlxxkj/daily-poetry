@@ -19,17 +19,17 @@ Page({
             // 检索有结果时,标题展示榜首诗文供微信搜一搜抓
             if (list.length) {
                 wx.setNavigationBarTitle({
-                    title: `${list[0].title} · ${list[0].author} | 一诗一令`,
+                    title: `${list[0].title} · ${list[0].author} | 一诗一令古诗词`,
                 });
             } else {
                 wx.setNavigationBarTitle({
-                    title: `一诗一令 - 古诗词检索「${q}」`,
+                    title: `一诗一令古诗词 - 古诗词检索「${q}」`,
                 });
             }
         } catch (e) {
             this.setData({ loading: false, error: e.message || "检索失败" });
             wx.setNavigationBarTitle({
-                title: "一诗一令 - 古诗词标题作者全文检索",
+                title: "一诗一令古诗词 - 古诗词标题作者全文检索",
             });
         }
     },

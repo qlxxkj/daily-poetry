@@ -7,7 +7,7 @@
     "pages/poem/poem"
   ],
   "window": {
-    "navigationBarTitleText": "一诗一令",
+    "navigationBarTitleText": "一诗一令古诗词",
     "navigationBarBackgroundColor": "#0f1115",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#0f1115"

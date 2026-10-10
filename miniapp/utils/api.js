@@ -5,11 +5,7 @@
 // 本模块统一 join 成字符串给 UI。
 
 function base() {
-    return (
-        getApp().globalData.apiBase ||
-        wx.getStorageSync("poetry_api_base") ||
-        ""
-    ).replace(/\/+$/, "");
+    return (getApp().globalData.apiBase || "").replace(/\/+$/, "");
 }
 function lang() {
     return getApp().globalData.lang || wx.getStorageSync("poetry_lang") || "zh-Hans";
@@ -19,7 +15,7 @@ function http(method, p, body) {
     return new Promise((resolve, reject) => {
         const host = base();
         if (!host) {
-            reject(new Error("请先在「设置」里填 API 地址 (HTTPS 域)"));
+            reject(new Error("API 地址未配置 (config.js)"));
             return;
         }
         const q = new URLSearchParams();
