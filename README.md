@@ -10,7 +10,7 @@
 | 文件夹 | 内容 |
 |---|---|
 | `backend/` | 后端:`docker-compose.yml` + `.env` + `deploy/`(nginx + Let's Encrypt 脚本) |
-| `miniapp/` | 前端:微信小程程序(app.* + pages/ + utils/,原生 wx 无构建) |
+| `miniapp/` | 前端:微信小程序(app.* + pages/ + utils/,原生 wx 无构建) |
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -39,6 +39,10 @@ curl http://127.0.0.1:1279/api/v1/stats   # 37 万首验证
 镜像 `palemoky/chinese-poetry-api:latest` 支持 amd64/arm64;SQLite 自包含,无需外部 DB。
 换端口:改 `.env` 的 `PORT`。
 
+**注意**:容器数据挂载相对 compose 所在目录。重排目录后务必从 `backend/` 起,
+旧位置的 `data/` 删了会导致容器 503(database connection failed),
+删掉旧容器再 `docker compose up -d` 即可。
+
 公网 HTTPS 暴露(nginx + Let's Encrypt,本次实际跑通的方案):
 
 ```bash
@@ -54,7 +58,7 @@ curl -sI https://poetry.70kj.vip/api/v1/health   # 期望 200
 ## 小程序
 
 ```
-# 微信开发者工具:导入本目录的 miniapp/ (已带 project.config.json)
+# 微信开发者工具:导入 miniapp/ 目录 (已带 project.config.json)
 # 设置页填: API 地址 = https://poetry.70kj.vip (或你暴露的域)
 # 测试连接 → 显示 "连接成功 · 371313 首诗"
 ```
@@ -74,3 +78,142 @@ curl -sI https://poetry.70kj.vip/api/v1/health   # 期望 200
 - **IP 限速 10r/s**:个人/小团队够;多人高并发要解开 compose 的 `RATE_LIMIT` 调高。
 - **content 是逐句数组**:`miniapp/utils/api.js` 已统一 join 成换行文本给 UI。
 - **飞花令只在 REST**:`char` 参数 GraphQL 的 `randomPoem` 不支持,小程序走 REST。
+
+---
+
+# API 说明(原作者项目文档)
+
+## 多语言支持
+
+所有接口支持 `lang` 参数切换简繁体:
+
+| 参数值 | 说明 |
+|---|---|
+| `zh-Hans` | 简体中文(默认) |
+| `zh-Hant` | 繁体中文 |
+
+## REST API
+
+```bash
+# 健康检查
+curl "http://localhost:1279/api/v1/health"
+
+# 统计信息
+curl "http://localhost:1279/api/v1/stats"
+
+# 简体中文(默认)
+curl "http://localhost:1279/api/v1/poems"
+
+# 繁体中文
+curl "http://localhost:1279/api/v1/poems?lang=zh-Hant"
+
+# 诗词列表(带过滤,与 /poems/random 使用同一组参数)
+curl "http://localhost:1279/api/v1/poems?dynasty=唐"
+curl "http://localhost:1279/api/v1/poems?author=李白&page=2&page_size=50"
+curl "http://localhost:1279/api/v1/poems?dynasty_id=1&type_id=11&type_id=12"  # 多个 type_id 为「或」关系
+
+# 游标翻页:把上一页 pagination.next_cursor 的值回传给 after
+curl "http://localhost:1279/api/v1/poems?page_size=50&after=cG9lbTo0MjA"
+
+# 搜索诗词
+curl "http://localhost:1279/api/v1/poems/search?q=静夜思"
+
+# 随机诗词
+curl "http://localhost:1279/api/v1/poems/random"
+
+# 随机诗词(带过滤)
+curl "http://localhost:1279/api/v1/poems/random?author=李白"
+curl "http://localhost:1279/api/v1/poems/random?type=五言绝句"
+curl "http://localhost:1279/api/v1/poems/random?char=春"  # 飞花令等单字场景
+curl "http://localhost:1279/api/v1/poems/random?author=李白&type=五言绝句"
+curl "http://localhost:1279/api/v1/poems/random?author=李白&dynasty=唐&type=五言绝句"
+curl "http://localhost:1279/api/v1/poems/random?author=李白&dynasty=唐&type=五言绝句&type=七言绝句&type=五言律诗"
+
+# 作者列表
+curl "http://localhost:1279/api/v1/authors?page=1&page_size=20"
+
+# 作者详情
+curl "http://localhost:1279/api/v1/authors/1"
+
+# 朝代列表
+curl "http://localhost:1279/api/v1/dynasties"
+
+# 朝代详情
+curl "http://localhost:1279/api/v1/dynasties/1"
+
+# 诗词体裁列表
+curl "http://localhost:1279/api/v1/types"
+
+# 诗词体裁详情
+curl "http://localhost:1279/api/v1/types/10"
+```
+
+## GraphQL API
+
+端点:`http://localhost:1279/graphql`
+
+```graphql
+# 繁体中文查询
+query {
+  poems(lang: ZH_HANT, pageSize: 10) {
+    edges {
+      node {
+        title
+        content
+        author {
+          name
+        }
+      }
+    }
+    totalCount
+  }
+}
+
+# 搜索诗词
+query {
+  searchPoems(query: "静夜思", searchType: TITLE) {
+    edges {
+      node {
+        title
+        author {
+          name
+        }
+      }
+    }
+  }
+}
+
+# 统计信息
+query {
+  statistics {
+    totalPoems
+    totalAuthors
+    poemsByDynasty {
+      dynasty {
+        name
+      }
+      count
+    }
+  }
+}
+```
+
+## 搜索功能
+
+| 类型 | 说明 | 示例 |
+|---|---|---|
+| `all` | 全文搜索(默认) | `?q=月` |
+| `title` | 标题搜索 | `?q=静夜思&type=title` |
+| `content` | 内容搜索 | `?q=床前明月光&type=content` |
+| `author` | 作者搜索 | `?q=李白&type=author` |
+
+## 数据集
+
+本项目基于 chinese-poetry 数据集,使用的是修正了错字、朝代与作者等问题的
+[palemoky/chinese-poetry](https://github.com/palemoky/chinese-poetry)(fix-typo 分支),包含:
+
+| 分类 | 数量 | 分类 | 数量 | 分类 | 数量 | 分类 | 数量 |
+|---|---|---|---|---|---|---|---|
+| 五言绝句 | 16,860 | 七言绝句 | 82,744 | 五言律诗 | 59,681 | 七言律诗 | 68,696 |
+| 乐府诗 | 6,714 | 五代词 | 543 | 宋词 | 21,347 | 元曲 | 10,904 |
+| 诗经 | 305 | 楚辞 | 65 | 论语 | 20 | 四书五经 | 14 | 其他 | 76,077 |
