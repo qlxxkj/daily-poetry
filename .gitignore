@@ -1,6 +1,6 @@
 # 后端 SQLite 数据(镜像自带, 容器启动生成, 不入库)
-data/
-logs/
+backend/data/
+backend/logs/
 
 # 杂项
 *.log

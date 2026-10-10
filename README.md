@@ -3,7 +3,14 @@
 自托管 [chinese-poetry-api](https://github.com/palemoky/chinese-poetry-api)(37 万首 唐诗/宋词/元曲,免 Key)
 + 一个薄微信小程序:今日一诗 / 飞花令 / 全文检索 / 简繁切换。
 
-## 两层
+## 两个工程
+
+仓库根目录分两个文件夹,各管一边:
+
+| 文件夹 | 内容 |
+|---|---|
+| `backend/` | 后端:`docker-compose.yml` + `.env` + `deploy/`(nginx + Let's Encrypt 脚本) |
+| `miniapp/` | 前端:微信小程程序(app.* + pages/ + utils/,原生 wx 无构建) |
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -12,48 +19,48 @@
 │  - GraphQL: /graphql                          │
 │  - 免 Key, IP 限速 10r/s                      │
 └──────────────┬──────────────────────────────┘
-               │  HTTPS (自托管域, 小程序需加白)
+               │  HTTPS (公网域, 小程序需加白)
 ┌──────────────▼──────────────────────────────┐
 │  小程序: miniapp/ (原生 wx, 无构建)          │
 │  页:  今日一诗 / 飞花令 / 检索 / 设置         │
 └─────────────────────────────────────────────┘
 ```
 
-小程序 `wx.request` 只能打加白的 HTTPS 域,打不了 `127.0.0.1`。所以后端要暴露成公网 HTTPS(见「暴露」)。
+小程序 `wx.request` 只能打加白的 HTTPS 域,打不了 `127.0.0.1`。所以后端要暴露成公网 HTTPS(见「部署后端」)。
 
 ## 部署后端
 
 ```bash
-cd /home/hawk/claude/daily-poetry
-docker compose up -d          # 起容器, 数据落 ./data (persist)
+cd backend
+docker compose up -d              # 起容器, 数据落 ./data (persist)
 curl http://127.0.0.1:1279/api/v1/stats   # 37 万首验证
 ```
 
 镜像 `palemoky/chinese-poetry-api:latest` 支持 amd64/arm64;SQLite 自包含,无需外部 DB。
 换端口:改 `.env` 的 `PORT`。
 
-## 暴露成 HTTPS(让小程序连上)
-
-小程序要一个公网 HTTPS 域。推荐 Cloudflare Tunnel(免费,和上一套收件箱同理):
+公网 HTTPS 暴露(nginx + Let's Encrypt,本次实际跑通的方案):
 
 ```bash
-docker run --rm -it ghcr.io/cloudflare/cloudflared:latest \
-  tunnel --no-tls-verify --url http://127.0.0.1:1279 run
-# 或在 CF 后台建 Quick Tunnel, 拿到 https://xxx.trycloudflare.com
+cd backend/deploy
+# 1) 先把 Cloudflare 上 poetry.70kj.vip 记录改灰云(DNS-only)
+sudo bash install.sh poetry.70kj.vip you@example.com
+# 2) 签完证书,把 CF 记录改回橙云(代理),SSL 模式 Full(strict)
+curl -sI https://poetry.70kj.vip/api/v1/health   # 期望 200
 ```
 
-把这个域填到小程序「设置」页。**发布期**要在小程序后台把它加进
-「开发设置 → 服务器域名 → request 合法域名」(必须 HTTPS)。开发期 devtools 勾「不校验合法域名」即可。
+详见 `backend/deploy/README.md`。
 
 ## 小程序
 
-```bash
-# 微信开发者工具导入 miniapp/
-# 设置页填:  API 地址 = https://<你暴露的域>
+```
+# 微信开发者工具:导入本目录的 miniapp/ (已带 project.config.json)
+# 设置页填: API 地址 = https://poetry.70kj.vip (或你暴露的域)
 # 测试连接 → 显示 "连接成功 · 371313 首诗"
 ```
 
 4 页 tabBar:
+
 | 页 | 功能 | 调的端点 |
 |---|---|---|
 | 今日一诗 | 随机一首,同日不重复,可切简繁/复制 | `GET /poems/random?lang=` |
