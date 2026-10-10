@@ -21,6 +21,7 @@
         </view>
         <view class="hit">含「{{char}}」· {{poem.type}}</view>
         <button class="btn" bindtap="onCopy">复制</button>
+        <button class="btn btn--ghost" bindtap="onDetail">查看详情</button>
     </view>
 
     <view wx:if="{{error}}" class="err">{{error}}</view>

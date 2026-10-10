@@ -1,0 +1,9 @@
+.page { padding: 24rpx; }
+.card { background: #141821; border: 1rpx solid #232a38; border-radius: 20rpx; padding: 36rpx; }
+.meta { display: flex; gap: 16rpx; font-size: 22rpx; color: #8a90a0; }
+.dynasty { color: #4cd78b; } .author { color: #cfd4e0; } .type { color: #5a6070; }
+.title { font-size: 36rpx; margin: 16rpx 0 20rpx; font-weight: 600; }
+.body { font-size: 30rpx; line-height: 1.9; color: #dfe3ec; white-space: pre-wrap; text-align: center; }
+.btn { background: #3a6cff; color: #fff; font-size: 26rpx; border-radius: 12rpx; margin-top: 28rpx; }
+.btn--ghost { background: #232a38; color: #cfd4e0; font-size: 24rpx; margin-top: 20rpx; }
+.err { margin-top: 60rpx; text-align: center; color: #ff6b6b; font-size: 26rpx; }

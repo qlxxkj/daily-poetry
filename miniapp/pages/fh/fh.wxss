@@ -3,6 +3,7 @@
 .row { display: flex; gap: 16rpx; }
 .input { flex: 1; background: #1a1d24; border: 1rpx solid #2a2f3a; border-radius: 12rpx; padding: 20rpx; color: #e8ebf2; font-size: 32rpx; }
 .btn { background: #3a6cff; color: #fff; font-size: 28rpx; border-radius: 12rpx; padding: 0 40rpx; }
+.btn--ghost { background: #232a38; color: #cfd4e0; font-size: 26rpx; margin-top: 20rpx; }
 .quick { display: flex; gap: 14rpx; margin-top: 20rpx; flex-wrap: wrap; }
 .q { background: #232a38; color: #cfd4e0; font-size: 26rpx; padding: 10rpx 24rpx; border-radius: 24rpx; }
 .card { background: #141821; border: 1rpx solid #232a38; border-radius: 20rpx; padding: 36rpx; margin-top: 28rpx; }

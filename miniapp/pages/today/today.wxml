@@ -23,6 +23,7 @@
             <button class="btn" bindtap="pick">再抽一首</button>
             <button class="btn btn--ghost" bindtap="onShare">复制</button>
             <button class="btn btn--ghost" bindtap="toggleLang">繁/简</button>
+            <button class="btn btn--ghost" bindtap="onDetail">详情</button>
         </view>
     </view>
 

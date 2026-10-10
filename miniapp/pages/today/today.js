@@ -37,6 +37,13 @@ Page({
             success: () => wx.showToast({ title: "已复制", icon: "success" }),
         });
     },
+    // 诗文详情:跳 poem 页,带上整首诗
+    onDetail() {
+        const p = this.data.poem;
+        if (!p) return;
+        const q = encodeURIComponent(JSON.stringify(p));
+        wx.navigateTo({ url: `/pages/poem/poem?p=${q}` });
+    },
     toggleLang() {
         const next = this.data.lang === "zh-Hans" ? "zh-Hant" : "zh-Hans";
         getApp().globalData.lang = next;

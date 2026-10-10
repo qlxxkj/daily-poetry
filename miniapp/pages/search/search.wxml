@@ -13,6 +13,7 @@
         <view class="title">{{item.title}}</view>
         <view class="body">{{item.content}}</view>
         <button class="btn btn--ghost" data-poem="{{item}}" bindtap="onCopy">复制</button>
+        <button class="btn btn--ghost" data-poem="{{item}}" bindtap="onDetail">详情</button>
     </view>
     <view wx:if="{{!results.length && !loading && !error}}" class="ph">输入关键词检索 37 万首</view>
     <view wx:if="{{error}}" class="err">{{error}}</view>

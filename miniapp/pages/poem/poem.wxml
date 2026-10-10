@@ -1,0 +1,13 @@
+<view class="page">
+    <view wx:if="{{poem}}" class="card">
+        <view class="meta">
+            <text class="dynasty">{{poem.dynasty}}</text>
+            <text class="author">{{poem.author}}</text>
+            <text class="type">{{poem.type}}</text>
+        </view>
+        <view class="title">《{{poem.title}}》</view>
+        <view class="body">{{poem.content}}</view>
+        <button class="btn" bindtap="onCopy">复制</button>
+    </view>
+    <view wx:if="{{error}}" class="err">{{error}}</view>
+</view>

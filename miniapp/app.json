@@ -3,10 +3,11 @@
     "pages/today/today",
     "pages/fh/fh",
     "pages/search/search",
-    "pages/settings/settings"
+    "pages/settings/settings",
+    "pages/poem/poem"
   ],
   "window": {
-    "navigationBarTitleText": "每天吟诗",
+    "navigationBarTitleText": "一诗一令",
     "navigationBarBackgroundColor": "#0f1115",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#0f1115"
