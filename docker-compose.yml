@@ -1,0 +1,21 @@
+# 每天吟诗 — 中国古诗词 API 本地部署
+# 镜像支持 amd64/arm64;SQLite 数据落在 ./data(persist)
+services:
+  poetry:
+    image: palemoky/chinese-poetry-api:latest
+    container_name: chinese-poetry-api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-1279}:1279"
+    volumes:
+      - ./data:/app/data
+    environment:
+      # 自包含 SQLite,无需外部 DB。需要调速/改路径时再解开:
+      # RATE_LIMIT: "10"
+      # RATE_LIMIT_BURST: "20"
+      TZ: "Asia/Shanghai"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

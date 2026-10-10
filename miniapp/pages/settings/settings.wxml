@@ -1,0 +1,19 @@
+<view class="page">
+    <view class="block">
+        <view class="label">古诗词 API 地址 (HTTPS)</view>
+        <input class="input" placeholder="https://poetry.你的域" value="{{apiBase}}" bindinput="onBase" />
+        <view class="hint">小程序只打加白的 HTTPS 域。自托管时把 1279 服务用 CF Tunnel 暴露成 HTTPS,填那个域。</view>
+    </view>
+
+    <view class="block">
+        <view class="label">文字</view>
+        <view class="row">
+            <view class="opt {{lang==='zh-Hans'?'opt--on':''}}" data-lang="zh-Hans" bindtap="setLang">简体</view>
+            <view class="opt {{lang==='zh-Hant'?'opt--on':''}}" data-lang="zh-Hant" bindtap="setLang">繁体</view>
+        </view>
+    </view>
+
+    <button class="btn" bindtap="save">保存</button>
+    <button class="btn btn--ghost" loading="{{testing}}" bindtap="test">测试连接</button>
+    <view wx:if="{{testResult}}" class="{{testResult[0]==='连'?'ok':'err'}}">{{testResult}}</view>
+</view>

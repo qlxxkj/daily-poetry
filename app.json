@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/today/today",
+    "pages/fh/fh",
+    "pages/search/search",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarTitleText": "每天吟诗",
+    "navigationBarBackgroundColor": "#0f1115",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0f1115"
+  },
+  "tabBar": {
+    "color": "#5a6070",
+    "selectedColor": "#4cd78b",
+    "backgroundColor": "#0f1115",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/today/today", "text": "今日" },
+      { "pagePath": "pages/fh/fh", "text": "飞花令" },
+      { "pagePath": "pages/search/search", "text": "检索" },
+      { "pagePath": "pages/settings/settings", "text": "设置" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

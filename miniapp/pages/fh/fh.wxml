@@ -1,0 +1,27 @@
+<view class="page">
+    <view class="block">
+        <view class="label">飞花令 · 一个字,抽含它的一首诗</view>
+        <view class="row">
+            <input class="input" placeholder="字" value="{{char}}" bindinput="onCharInput" />
+            <button class="btn" loading="{{loading}}" bindtap="play">抽诗</button>
+        </view>
+        <view class="quick">
+            <view wx:for="{{quick}}" wx:key="*this" class="q" data-c="{{item}}" bindtap="onQuick">{{item}}</view>
+        </view>
+    </view>
+
+    <view wx:if="{{poem}}" class="card">
+        <view class="meta">
+            <text class="dynasty">{{poem.dynasty}}</text>
+            <text class="author">{{poem.author}}</text>
+        </view>
+        <view class="title">{{poem.title}}</view>
+        <view class="body">
+            <view wx:for="{{poem.lines}}" wx:key="*this" class="line">{{item}}</view>
+        </view>
+        <view class="hit">含「{{char}}」· {{poem.type}}</view>
+        <button class="btn" bindtap="onCopy">复制</button>
+    </view>
+
+    <view wx:if="{{error}}" class="err">{{error}}</view>
+</view>

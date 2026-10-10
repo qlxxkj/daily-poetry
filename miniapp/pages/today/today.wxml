@@ -1,0 +1,30 @@
+<view class="page">
+    <view wx:if="{{!poem && !loading && !error}}" class="placeholder">
+        <view class="ph-title">今日一诗</view>
+        <button class="btn" loading="{{loading}}" disabled="{{loading}}" bindtap="pick">
+            {{loading ? '抽诗中…' : '抽一首'}}
+        </button>
+        <button class="btn btn--ghost" bindtap="toggleLang">
+            切换繁体 ({{lang === 'zh-Hans' ? '简体' : '繁体'})
+        </button>
+    </view>
+
+    <view wx:if="{{poem}}" class="card">
+        <view class="meta">
+            <text class="dynasty">{{poem.dynasty}}</text>
+            <text class="author">{{poem.author}}</text>
+            <text wx:if="{{poem.type}}" class="type">{{poem.type}}</text>
+        </view>
+        <view class="title">{{poem.title}}</view>
+        <view class="body">
+            <view wx:for="{{poem.lines}}" wx:key="*this" class="line">{{item}}</view>
+        </view>
+        <view class="actions">
+            <button class="btn" bindtap="pick">再抽一首</button>
+            <button class="btn btn--ghost" bindtap="onShare">复制</button>
+            <button class="btn btn--ghost" bindtap="toggleLang">繁/简</button>
+        </view>
+    </view>
+
+    <view wx:if="{{error}}" class="err">{{error}}</view>
+</view>
