@@ -1,0 +1,20 @@
+<view class="tb {{theme === 'dark' ? 'tb--dark' : ''}}">
+    <view class="tb__inner">
+        <view
+            wx:for="{{list}}"
+            wx:key="key"
+            class="tb__item {{selected === index ? 'tb__item--on' : ''}}"
+            data-index="{{index}}"
+            data-path="{{item.path}}"
+            bindtap="onTap"
+        >
+            <image
+                class="tb__ic"
+                src="/assets/tabbar/{{item.key}}{{selected === index ? '-active' : ''}}{{theme === 'dark' ? '-dark' : ''}}.png"
+                mode="aspectFit"
+            />
+            <text class="tb__text">{{item.text}}</text>
+        </view>
+    </view>
+    <view class="tb__safe"></view>
+</view>

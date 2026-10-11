@@ -1,0 +1,94 @@
+<navbar title="{{T.tab_mine}}" theme="{{theme}}" />
+
+<view class="page page--tab {{theme === 'dark' ? 't-dark' : ''}}">
+    <!-- ---------- 头像 / 昵称 ---------- -->
+    <view class="card me rise">
+        <button class="me__avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+            <image class="me__avatar" src="{{avatarSrc}}" mode="aspectFill" />
+            <view class="me__badge">
+                <view class="ic ic-camera me__badge-ic"></view>
+            </view>
+        </button>
+
+        <view class="me__info">
+            <input
+                class="me__name"
+                type="nickname"
+                value="{{nick}}"
+                placeholder="{{T.mine_nick_ph}}"
+                placeholder-class="me__ph"
+                maxlength="16"
+                bindinput="onNickInput"
+                bindblur="onNickBlur"
+            />
+            <view class="me__stat">{{T.mine_faved_prefix}}{{favCount}}{{T.mine_faved_suffix}}</view>
+        </view>
+    </view>
+
+    <!-- ---------- 我的收藏 ---------- -->
+    <view class="section-title section-title--gap">{{T.sec_fav}}</view>
+    <view class="card group">
+        <view class="row" bindtap="goFav">
+            <view class="ic ic-heart-fill ic--acc row__ic"></view>
+            <text class="row__label">{{T.mine_myfav}}</text>
+            <text class="row__value">{{favCount ? favCount + T.mine_faved_suffix : T.mine_nofav}}</text>
+            <view class="ic ic-chevron row__arrow"></view>
+        </view>
+    </view>
+
+    <!-- ---------- 我的设置 ---------- -->
+    <view class="section-title section-title--gap">{{T.sec_settings}}</view>
+    <view class="card group">
+        <view class="row" bindtap="pickTheme">
+            <view class="ic ic-moon row__ic"></view>
+            <text class="row__label">{{T.mine_appearance}}</text>
+            <text class="row__value">{{themeLabel}}</text>
+            <view class="ic ic-chevron row__arrow"></view>
+        </view>
+        <view class="hr"></view>
+        <view class="row" bindtap="pickLang">
+            <view class="ic ic-lang row__ic"></view>
+            <text class="row__label">{{T.mine_text}}</text>
+            <text class="row__value">{{langLabel}}</text>
+            <view class="ic ic-chevron row__arrow"></view>
+        </view>
+    </view>
+
+    <!-- ---------- 分享 ---------- -->
+    <view class="section-title section-title--gap">{{T.sec_share}}</view>
+    <view class="card group">
+        <!-- 布局交给 view（button 的 flex 在真机里被默认 center 吃掉，不可靠）；
+             button 仅作 open-type="share" 的满宽触发区 -->
+        <view class="row row__share">
+            <button class="row__share-btn" open-type="share">
+                <view class="row__lead">
+                    <view class="ic ic-share row__ic"></view>
+                    <text class="row__label">{{T.share_friend}}</text>
+                </view>
+            </button>
+            <view class="ic ic-chevron row__arrow"></view>
+        </view>
+        <view class="hr"></view>
+        <view class="row" bindtap="onTimelineTip">
+            <view class="ic ic-image row__ic"></view>
+            <text class="row__label">{{T.share_moments}}</text>
+            <text class="row__value">{{T.moments_hint}}</text>
+            <view class="ic ic-chevron row__arrow"></view>
+        </view>
+    </view>
+
+    <!-- ---------- 关于 ---------- -->
+    <view class="section-title section-title--gap">{{T.sec_about}}</view>
+    <view class="card group">
+        <view class="row">
+            <view class="ic ic-info row__ic"></view>
+            <text class="row__label">{{T.about_version}}</text>
+            <text class="row__value">{{version}}</text>
+        </view>
+    </view>
+
+    <view class="about">
+        <view class="about__brand serif">{{T.about_brand}}</view>
+        <view class="about__desc">{{T.about_desc}}</view>
+    </view>
+</view>

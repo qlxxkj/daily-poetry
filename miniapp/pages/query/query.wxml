@@ -1,0 +1,86 @@
+<navbar title="{{T.nav_query}}" theme="{{theme}}" back="{{true}}" bind:back="onBack" />
+
+<view class="page {{theme === 'dark' ? 't-dark' : ''}}">
+    <!-- ---------- 查询框 ----------
+         标题交给导航栏，输入框单独挂在内容区顶部，比塞进导航栏更宽、更好点。 -->
+    <view class="field rise">
+        <view class="ic ic-search field__ic"></view>
+        <input
+            class="field__input"
+            value="{{q}}"
+            focus="{{true}}"
+            confirm-type="search"
+            placeholder="{{T.query_ph}}"
+            placeholder-class="field__ph"
+            bindinput="onInput"
+            bindconfirm="doSearch"
+        />
+        <view wx:if="{{q}}" class="field__clear" bindtap="onClear">
+            <view class="ic ic-close field__clear-ic"></view>
+        </view>
+        <view class="field__go {{q ? '' : 'field__go--off'}}" bindtap="doSearch">{{T.query_go}}</view>
+    </view>
+
+    <block wx:if="{{!searched}}">
+        <view class="section-title section-title--gap">{{T.query_try}}</view>
+        <view class="hot">
+            <view
+                wx:for="{{hot}}"
+                wx:key="*this"
+                class="chip chip--wide"
+                data-q="{{item}}"
+                bindtap="onHot"
+            >{{item}}</view>
+        </view>
+    </block>
+
+    <block wx:if="{{searched}}">
+        <view wx:if="{{results.length}}" class="section-title section-title--gap">{{T.query_count_prefix}}{{results.length}}{{T.query_count_suffix}}</view>
+
+        <view
+            wx:for="{{results}}"
+            wx:key="index"
+            class="card item rise-item"
+            style="animation-delay: {{(index > 8 ? 8 : index) * 40}}ms"
+            data-index="{{index}}"
+            bindtap="onDetail"
+        >
+            <view class="item__head">
+                <text class="item__title serif">{{item.title}}</text>
+                <text wx:if="{{item.dynasty}}" class="tag tag--accent">{{item.dynasty}}</text>
+            </view>
+            <view class="item__meta">
+                {{item.author}}<text wx:if="{{item.type}}"> · {{item.type}}</text>
+            </view>
+            <view class="item__body serif">{{item.content}}</view>
+
+            <view class="item__foot">
+                <view class="item__acts">
+                    <view
+                        class="item__act {{item.faved ? 'item__act--on' : ''}}"
+                        data-index="{{index}}"
+                        catchtap="onFav"
+                    >
+                        <view class="ic {{item.faved ? 'ic-heart-fill' : 'ic-heart'}} item__act-ic {{item.faved ? 'ic--acc' : ''}}"></view>
+                        <text>{{item.faved ? T.fav_on : T.fav_off}}</text>
+                    </view>
+                    <view class="item__act" data-index="{{index}}" catchtap="onCopy">
+                        <view class="ic ic-copy item__act-ic"></view>
+                        <text>{{T.copy}}</text>
+                    </view>
+                </view>
+                <view class="ic ic-chevron item__arrow"></view>
+            </view>
+        </view>
+
+        <view wx:if="{{!results.length && !loading}}" class="state">
+            <view class="ic ic-search state__ic"></view>
+            <view class="state__text">{{T.query_empty}}</view>
+        </view>
+    </block>
+
+    <view wx:if="{{error}}" class="err-box">
+        <view class="ic ic-alert"></view>
+        <text>{{error}}</text>
+    </view>
+</view>

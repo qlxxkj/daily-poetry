@@ -1,28 +1,87 @@
-<view class="page">
-    <view class="block">
-        <view class="label">飞花令 · 一个字,抽含它的一首诗</view>
-        <view class="row">
-            <input class="input" placeholder="字" value="{{char}}" bindinput="onCharInput" />
-            <button class="btn" loading="{{loading}}" bindtap="play">抽诗</button>
-        </view>
-        <view class="quick">
-            <view wx:for="{{quick}}" wx:key="*this" class="q" data-c="{{item}}" bindtap="onQuick">{{item}}</view>
-        </view>
+<navbar title="{{T.tab_fh}}" theme="{{theme}}" search="{{true}}" bind:search="goQuery" />
+
+<view class="page page--tab {{theme === 'dark' ? 't-dark' : ''}}">
+    <!-- 导航栏已经写了「飞花令」，这里不再重复大标题，只留一句引导 -->
+    <view class="hero hero--lead">
+        <view class="hero__desc">{{T.fh_desc}}</view>
     </view>
 
-    <view wx:if="{{poem}}" class="card">
-        <view class="meta">
-            <text class="dynasty">{{poem.dynasty}}</text>
-            <text class="author">{{poem.author}}</text>
+    <view class="card grab rise">
+        <input
+            class="grab__input serif"
+            value="{{char}}"
+            bindinput="onCharInput"
+            maxlength="1"
+            placeholder="{{T.fh_ph}}"
+            placeholder-class="grab__ph"
+        />
+
+        <view class="grab__quick">
+            <view
+                wx:for="{{quick}}"
+                wx:key="*this"
+                class="chip {{item === char ? 'chip--on' : ''}}"
+                data-c="{{item}}"
+                bindtap="onQuick"
+            >{{item}}</view>
         </view>
-        <view class="title">{{poem.title}}</view>
-        <view class="body">
-            <view wx:for="{{poem.lines}}" wx:key="*this" class="line">{{item}}</view>
-        </view>
-        <view class="hit">含「{{char}}」· {{poem.type}}</view>
-        <button class="btn" bindtap="onCopy">复制</button>
-        <button class="btn btn--ghost" bindtap="onDetail">查看详情</button>
+
+        <button class="btn btn--block" bindtap="play" disabled="{{loading}}">
+            {{loading ? T.fh_play_loading : T.fh_play}}
+        </button>
     </view>
 
-    <view wx:if="{{error}}" class="err">{{error}}</view>
+    <block wx:if="{{poem}}">
+        <view class="card poem result rise">
+            <view class="poem__top">
+                <view class="poem__meta">
+                    <text wx:if="{{poem.dynasty}}" class="tag tag--accent">{{poem.dynasty}}</text>
+                    <text wx:if="{{poem.author}}" class="poem__author">{{poem.author}}</text>
+                </view>
+                <view class="poem__acts">
+                    <view class="pact {{faved ? 'pact--on' : ''}}" bindtap="onFav" aria-label="{{T.aria_fav}}">
+                        <view class="ic {{faved ? 'ic-heart-fill' : 'ic-heart'}} {{faved ? 'ic--acc' : ''}}"></view>
+                    </view>
+                    <view class="pact" bindtap="onCopy" aria-label="{{T.aria_copy}}">
+                        <view class="ic ic-copy"></view>
+                    </view>
+                    <view class="pact" bindtap="openShare" aria-label="{{T.aria_share}}">
+                        <view class="ic ic-share"></view>
+                    </view>
+                    <view class="pact" bindtap="onDetail" aria-label="{{T.aria_detail}}">
+                        <view class="ic ic-chevron"></view>
+                    </view>
+                </view>
+            </view>
+
+            <view class="poem__title serif">{{poem.title}}</view>
+            <view class="poem__rule"></view>
+
+            <view class="poem__body serif">
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">{{item}}</view>
+            </view>
+
+            <view class="result__hit">含「{{char}}」<text wx:if="{{poem.type}}"> · {{poem.type}}</text></view>
+        </view>
+
+        <button class="btn btn--block pick" loading="{{loading}}" bindtap="play" disabled="{{loading}}">
+            {{loading ? T.fh_play_loading : T.fh_change}}
+        </button>
+    </block>
+
+    <view wx:if="{{error}}" class="err-box">
+        <view class="ic ic-alert"></view>
+        <text>{{error}}</text>
+    </view>
 </view>
+
+<share-sheet
+    show="{{sheet}}"
+    t="{{T}}"
+    theme="{{theme}}"
+    title="{{poem.title}}"
+    sub="{{poem.author}}"
+    bind:close="closeShare"
+    bind:timeline="onTimelineTip"
+    bind:copy="onCopy"
+/>

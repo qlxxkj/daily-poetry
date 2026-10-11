@@ -1,8 +1,389 @@
+@import "styles/icons.wxss";
+
+/* ==========================================================================
+   一诗一令 · 设计系统
+   --------------------------------------------------------------------------
+   现代极简。墨色做骨架，朱砂做强调，其余全部留给留白。
+   支持浅色 / 深色两套 token：深色由根节点的 .t-dark 触发（见 utils/theme.js）。
+
+   色值在 OKLCH 感知均匀空间生成后转 hex（小程序 WebView 对 oklch() 支持不稳）：
+   · 中性色统一带朱砂的暖色调（hue 40），避免"死灰"
+   · 不用纯白 #fff / 纯黑 #000
+   · 两套主题各 13 项对比度逐条校验 WCAG AA，正文与占位文字均 ≥ 4.5:1
+   ========================================================================== */
 page {
-    background: #0f1115;
-    color: #e8ebf2;
-    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    /* 面 */
+    --bg: #F9F6F5;
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --fill-2: #EFE8E5;
+    --line: #EAE5E3;
+
+    /* 字 */
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+
+    /* 强调 */
+    --accent: #A5492B;
+    --accent-bg: #FDEEE9;
+    --on-solid: #FDF9F8;
+    --ok: #397852;
+    --ok-bg: #E5F7EB;
+    --err: #B24037;
+    --err-bg: #FFEFED;
+
+    /* 浮层遮罩 */
+    --mask: rgba(36, 29, 27, 0.42);
+
+    /* 字阶：基准 32rpx，比例约 1.25。刻意拉开档位，避免 14/15/16 这种发糊的层次 */
+    --t-cap: 24rpx;
+    --t-sm: 28rpx;
+    --t-body: 32rpx;
+    --t-poem: 36rpx;
+    --t-title: 44rpx;
+    --t-display: 52rpx;
+
+    /* 间距：8rpx 网格 */
+    --s-1: 8rpx;
+    --s-2: 16rpx;
+    --s-3: 24rpx;
+    --s-4: 32rpx;
+    --s-5: 40rpx;
+    --s-6: 56rpx;
+    --s-7: 72rpx;
+
+    --r-sm: 12rpx;
+    --r-md: 18rpx;
+    --r-lg: 28rpx;
+
+    --shadow: 0 2rpx 16rpx rgba(36, 29, 27, 0.06);
+
+    /* 动效：只动 transform / opacity；指数缓动，不用回弹 */
+    --dur-1: 120ms;
+    --dur-2: 240ms;
+    --dur-3: 420ms;
+    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+
+    background: var(--bg);
+    color: var(--ink);
+    font-size: var(--t-body);
+    line-height: 1.6;
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
+
+/* 深色主题：整体替换三类变量。数值同样出自 OKLCH + WCAG 校验，
+   注意强调色在深底上必须提亮，直接沿用浅色的朱砂会掉到 2:1 上下 */
+.t-dark {
+    --bg: #141110;
+    --card: #211D1C;
+    --fill: #302B2A;
+    --fill-2: #3E3836;
+    --line: #373230;
+
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+
+    --accent: #E78F73;
+    --accent-bg: #3D2821;
+    --on-solid: #181210;
+    --ok: #7BC495;
+    --ok-bg: #163120;
+    --err: #F09286;
+    --err-bg: #422521;
+
+    --mask: rgba(0, 0, 0, 0.62);
+
+    --shadow: 0 2rpx 18rpx rgba(0, 0, 0, 0.36);
+}
+
+/* 诗词用衬线，与 UI 的无衬线形成结构对比 */
+.serif {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+}
+
+/* ---------- 布局 ---------- */
 .page {
-    padding: 24rpx 32rpx calc(40rpx + env(safe-area-inset-bottom));
+    padding: var(--s-4) var(--s-4) calc(var(--s-6) + env(safe-area-inset-bottom));
+    /* 内容区底色：必须挂在 .page 视图自身，否则深色下只会露出 page 元素的浅色底
+       （page 元素拿不到 .t-dark 类，只能靠这里把背景画在可见层） */
+    background: var(--bg);
+}
+/* 带自定义 tabBar 的页面，底部要再让出一条，别被 tabBar 压住 */
+.page--tab {
+    padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.card {
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow);
+}
+
+.hr { height: 1rpx; background: var(--line); }
+
+/* ---------- 文字 ---------- */
+.section-title {
+    margin: 0 4rpx var(--s-2);
+    font-size: var(--t-cap);
+    letter-spacing: 2rpx;
+    color: var(--ink-3);
+}
+.section-title--gap { margin-top: var(--s-5); }
+
+.muted { color: var(--ink-3); }
+
+/* ---------- 页头 ---------- */
+.hero { padding: var(--s-3) 0 var(--s-6); }
+.hero__title {
+    font-size: var(--t-display);
+    font-weight: 600;
+    letter-spacing: 6rpx;
+    color: var(--ink);
+}
+.hero__desc {
+    margin-top: var(--s-2);
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+}
+/* 页面名已经在导航栏给出，内容区不再重复大标题，只留一句引导 */
+.hero--lead { padding: var(--s-2) 0 var(--s-5); }
+.hero--lead .hero__desc { margin-top: 0; }
+
+/* ---------- 按钮 ---------- */
+button { padding: 0; margin: 0; background: transparent; line-height: 1; font-size: inherit; color: inherit; }
+button::after { border: none; }
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 92rpx;
+    padding: 0 var(--s-5);
+    border-radius: var(--r-md);
+    font-size: var(--t-body);
+    font-weight: 500;
+    letter-spacing: 1rpx;
+    background: var(--ink);
+    color: var(--on-solid);
+    transition: transform var(--dur-1) var(--ease), opacity var(--dur-1) var(--ease);
+}
+.btn:active { transform: scale(0.975); opacity: 0.88; }
+.btn--ghost { background: var(--fill); color: var(--ink); }
+.btn--ghost:active { opacity: 1; }
+.btn--block { width: 100%; }
+.btn[disabled] { opacity: 0.45; transform: none; }
+
+/* 诗词卡片下方唯一的重按钮，与卡片拉开层级（今日「再抽一首」/ 飞花令「换一首」复用） */
+.pick { margin-top: var(--s-5); }
+
+.icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92rpx;
+    height: 92rpx;
+    flex: none;
+    border-radius: var(--r-md);
+    background: var(--fill);
+    transition: background var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+}
+.icon-btn:active { background: var(--fill-2); transform: scale(0.94); }
+
+.ic { width: 38rpx; height: 38rpx; flex: none; }
+
+/* ---------- 标签 ---------- */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    height: 40rpx;
+    padding: 0 var(--s-2);
+    border-radius: 999rpx;
+    font-size: var(--t-cap);
+    line-height: 1;
+    background: var(--fill);
+    color: var(--ink-2);
+}
+.tag--accent { background: var(--accent-bg); color: var(--accent); }
+
+/* ---------- 圆形字块（飞花令快捷字） ---------- */
+.chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92rpx;
+    height: 92rpx;
+    border-radius: 50%;
+    background: var(--fill);
+    color: var(--ink-2);
+    font-size: var(--t-body);
+    transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease),
+        transform var(--dur-1) var(--ease);
+}
+.chip:active { transform: scale(0.94); }
+.chip--on { background: var(--accent); color: var(--on-solid); }
+
+/* ---------- 诗词展示块 ---------- */
+.poem { padding: var(--s-7) var(--s-5) var(--s-5); }
+
+.poem__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+}
+.poem__author { font-size: var(--t-sm); color: var(--ink-2); }
+.poem__type { font-size: var(--t-cap); color: var(--ink-3); }
+
+.poem__title {
+    margin-top: var(--s-3);
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 2rpx;
+    color: var(--ink);
+}
+
+/* 朱砂短横，标题与正文之间的分隔 */
+.poem__rule {
+    width: 56rpx;
+    height: 5rpx;
+    border-radius: 3rpx;
+    background: var(--accent);
+    margin: var(--s-5) 0;
+}
+
+.poem__body { text-align: center; }
+.poem__line {
+    font-size: var(--t-poem);
+    line-height: 2;
+    letter-spacing: 3rpx;
+    color: var(--ink);
+}
+
+/* 诗词卡片的操作已改为右上角纯图标（见下面的 .poem__top / .pact），
+   旧的卡片内 .actbar 四格工具条不再使用，保留此处注释以便回溯。 */
+
+/* ---------- 卡片右上角的纯图标动作 ----------
+   收藏 / 复制 / 分享 / 详情 收进卡片头部的右上角，只有图标没有文字，
+   不抢标题、不堆底部，四个刚好。收藏选中时爱心填朱砂。 */
+.poem__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+}
+.poem__top .poem__meta { flex: 1; min-width: 0; }
+.poem__acts {
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-left: var(--s-2);
+}
+.pact {
+    width: 64rpx;
+    height: 64rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-sm);
+    transition: background var(--dur-1) var(--ease);
+}
+.pact:active { background: var(--fill); }
+.pact .ic { width: 38rpx; height: 38rpx; }
+.pact--on .ic { --ic: var(--accent); }
+
+/* 详情 / 换一首 等次级入口已并入卡片右上角图标或卡片下方的通栏按钮，
+   旧的 .cta 组合按钮不再使用。 */
+
+/* ---------- 提示条 ---------- */
+.err-box {
+    display: flex;
+    align-items: center;
+    margin-top: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-md);
+    background: var(--err-bg);
+    color: var(--err);
+    font-size: var(--t-sm);
+}
+.err-box .ic { width: 32rpx; height: 32rpx; margin-right: var(--s-2); --ic: var(--err); }
+
+.notice {
+    display: flex;
+    align-items: center;
+    margin-top: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-md);
+    font-size: var(--t-sm);
+}
+.notice__ic { width: 32rpx; height: 32rpx; margin-right: var(--s-2); }
+.notice--ok { background: var(--ok-bg); color: var(--ok); }
+.notice--err { background: var(--err-bg); color: var(--err); }
+.notice--ok .notice__ic { --ic: var(--ok); }
+.notice--err .notice__ic { --ic: var(--err); }
+
+/* ---------- 分组列表行（我的 / 收藏） ---------- */
+.group { overflow: hidden; }
+
+.row {
+    display: flex;
+    align-items: center;
+    min-height: 112rpx;
+    padding: 0 var(--s-4);
+    transition: background var(--dur-1) var(--ease);
+}
+.row:active { background: var(--fill); }
+.row__ic {
+    width: 40rpx;
+    height: 40rpx;
+    flex: none;
+    margin-right: var(--s-3);
+}
+.row__label {
+    flex: none;
+    font-size: var(--t-body);
+    color: var(--ink);
+}
+.row__value {
+    flex: 1;
+    min-width: 0;
+    margin-left: var(--s-3);
+    text-align: right;
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.row__mark { width: 36rpx; height: 36rpx; margin-left: var(--s-2); }
+.row__arrow { width: 30rpx; height: 30rpx; margin-left: var(--s-2); }
+
+/* ---------- 空态 ---------- */
+.state { padding: 140rpx 0; text-align: center; }
+.state__ic { width: 72rpx; height: 72rpx; margin: 0 auto var(--s-4); opacity: 0.55; }
+.state__text { font-size: var(--t-sm); color: var(--ink-3); }
+
+/* ---------- 入场动效 ---------- */
+@keyframes rise {
+    from { opacity: 0; transform: translateY(16rpx); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rise { animation: rise var(--dur-3) var(--ease) both; }
+
+/* 列表逐项浮现。延迟由模板内联给出，调用方自行封顶避免长列表拖尾 */
+.rise-item {
+    animation: rise var(--dur-3) var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rise,
+    .rise-item { animation: none; }
+    .btn,
+    .icon-btn,
+    .chip,
+    .pact,
+    .row { transition: none; }
 }

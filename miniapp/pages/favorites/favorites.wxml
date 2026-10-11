@@ -1,0 +1,50 @@
+<navbar title="{{T.nav_fav}}" theme="{{theme}}" back="{{true}}" bind:back="onBack" />
+
+<view class="page {{theme === 'dark' ? 't-dark' : ''}}">
+    <block wx:if="{{list.length}}">
+        <view class="section-title">{{T.fav_count_prefix}}{{list.length}}{{T.fav_count_suffix}}</view>
+
+        <view
+            wx:for="{{list}}"
+            wx:key="index"
+            class="card item rise-item"
+            style="animation-delay: {{(index > 8 ? 8 : index) * 40}}ms"
+            data-index="{{index}}"
+            bindtap="onDetail"
+        >
+            <view class="item__head">
+                <text class="item__title serif">{{item.title}}</text>
+                <text wx:if="{{item.dynasty}}" class="tag tag--accent">{{item.dynasty}}</text>
+            </view>
+            <view class="item__meta">
+                {{item.author}}<text wx:if="{{item.type}}"> · {{item.type}}</text>
+            </view>
+            <view class="item__body serif">{{item.content}}</view>
+
+            <view class="item__foot">
+                <view class="item__acts">
+                    <view
+                        class="item__act item__act--on"
+                        data-index="{{index}}"
+                        catchtap="onUnfav"
+                    >
+                        <view class="ic ic-heart-fill item__act-ic ic--acc"></view>
+                        <text>{{T.fav_on}}</text>
+                    </view>
+                    <view class="item__act" data-index="{{index}}" catchtap="onCopy">
+                        <view class="ic ic-copy item__act-ic"></view>
+                        <text>{{T.copy}}</text>
+                    </view>
+                </view>
+                <view class="ic ic-chevron item__arrow"></view>
+            </view>
+        </view>
+    </block>
+
+    <view wx:else class="state">
+        <view class="ic ic-heart state__ic"></view>
+        <view class="state__text">{{T.fav_empty_title}}</view>
+        <view class="state__hint">{{T.fav_empty_hint}}</view>
+        <button class="btn btn--ghost state__btn" bindtap="goToday">{{T.fav_gotoday}}</button>
+    </view>
+</view>

@@ -1,0 +1,126 @@
+/* .hero* / .card / .row* / .section-title 已提到 app.wxss。 */
+
+/* ---------- 头部：头像 + 昵称 ---------- */
+.me {
+    display: flex;
+    align-items: center;
+    padding: var(--s-5) var(--s-4);
+}
+
+.me__avatar-btn {
+    position: relative;
+    display: block;
+    width: 132rpx;
+    height: 132rpx;
+    flex: 0 0 132rpx;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    overflow: visible;
+    background: transparent;
+}
+.me__avatar-btn::after { border: none; }
+
+.me__avatar {
+    display: block;
+    width: 132rpx;
+    height: 132rpx;
+    border-radius: 50%;
+    background: var(--fill);
+}
+
+/* 右下角的小相机，提示头像可以换 */
+.me__badge {
+    position: absolute;
+    right: -6rpx;
+    bottom: -6rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow: 0 2rpx 10rpx rgba(36, 29, 27, 0.14);
+}
+.me__badge-ic {
+    width: 28rpx;
+    height: 28rpx;
+    --ic: var(--ink-3);
+}
+
+.me__info {
+    flex: 1;
+    min-width: 0;
+    margin-left: var(--s-3);
+}
+.me__name {
+    width: 100%;
+    height: 56rpx;
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 1rpx;
+    color: var(--ink);
+}
+.me__ph {
+    font-size: var(--t-title);
+    font-weight: 400;
+    color: #9C918C;
+}
+.t-dark .me__ph { color: #7A726F; }
+
+.me__stat {
+    margin-top: var(--s-1);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+
+/* ---------- 「分享给好友」一行：布局交给 view，button 只做触发 ----------
+   微信 <button> 默认 display:flex; justify-content:center，类选择器盖不住
+   它，导致行内容在真机上横向居中。所以让普通 view（.row__share）接管
+   flex + space-between 两端对齐（view 的 flex 在真机里 100% 可靠），
+   button（.row__share-btn）作为满宽透明触发区，open-type="share" 热区是整行。 */
+.row__share {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 112rpx;
+    padding: 0 var(--s-4);
+}
+.row__share-btn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-sizing: border-box;
+    /* button 默认字重偏重，重置为普通 400，与旁边 .row__label 一致 */
+    font-weight: 400;
+}
+.row__share-btn::after { border: none; }
+
+/* 图标 + 文字 作为整体靠左，与「分享到朋友圈」那一行的节奏一致 */
+.row__lead {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/* ---------- 页脚 ---------- */
+.about {
+    margin-top: var(--s-7);
+    text-align: center;
+}
+.about__brand {
+    font-size: var(--t-title);
+    letter-spacing: 6rpx;
+    color: var(--ink-3);
+}
+.about__desc {
+    margin-top: var(--s-2);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}

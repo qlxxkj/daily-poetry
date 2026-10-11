@@ -1,32 +1,97 @@
-// 诗文详情页:由 today/fh/search 携带整首诗跳转过来(小程序 query 有长度限制,
-// 诗文短无碍)。onLoad 里设动态标题「<诗词名> · <作者> | 一诗一令古诗词」供搜一搜抓。
+// 诗文详情页:由 today/fh/search/favorites 跳转过来,也可能由分享链接直接打开。
+// 短诗走 URL 的 p= 参数(便于搜一搜抓取),长诗走 getApp().globalData.pendingPoem
+// (见 utils/nav.js),这里两条路都读。
+const fav = require("../../utils/fav.js");
+const share = require("../../utils/share.js");
+const theme = require("../../utils/theme.js");
+const i18n = require("../../utils/i18n.js");
+
 Page({
     data: {
         poem: null,
         error: "",
+        theme: "light",
+        faved: false,
+        sheet: false,
+        T: {},
     },
+
     onLoad(opt) {
-        let p = null;
-        try {
-            p = JSON.parse(decodeURIComponent(opt.p));
-        } catch (e) {
-            /* 无参兜底 */
+        // 优先读全局缓存(不受 URL 长度限制);opt.p 是分享/旧版 query 传参,作兜底
+        let p = getApp().globalData.pendingPoem;
+        getApp().globalData.pendingPoem = null;
+        if (!p && opt && opt.p) {
+            try {
+                p = JSON.parse(decodeURIComponent(opt.p));
+            } catch (e) {
+                p = null;
+            }
         }
         if (!p || !p.title) {
-            this.setData({ error: "未找到诗文" });
+            this.setData({ error: i18n.t("poem_empty") });
             return;
         }
-        this.setData({ poem: p });
-        wx.setNavigationBarTitle({
-            title: `${p.title} · ${p.author} | 一诗一令古诗词`,
+        this.setData({ poem: p, faved: fav.has(p) });
+    },
+
+    onShow() {
+        theme.sync(this);
+        if (this.data.poem) this.setData({ faved: fav.has(this.data.poem) });
+        this.setData({ T: i18n.dict() });
+        if (this._langOff) this._langOff();
+        this._langOff = i18n.onChange(() => this.onLangChange());
+    },
+
+    onHide() {
+        if (this._langOff) { this._langOff(); this._langOff = null; }
+    },
+    onUnload() {
+        if (this._langOff) { this._langOff(); this._langOff = null; }
+    },
+
+    onLangChange() {
+        this.setData({ T: i18n.dict() });
+    },
+
+    onBack() {
+        wx.navigateBack({
+            fail: () => wx.switchTab({ url: "/pages/today/today" }),
         });
     },
-    onCopy() {
+
+    onFav() {
         const p = this.data.poem;
         if (!p) return;
-        wx.setClipboardData({
-            data: `《${p.title}》 ${p.author}\n${p.content}\n`,
-            success: () => wx.showToast({ title: "已复制", icon: "success" }),
+        const added = fav.toggle(p);
+        this.setData({ faved: added });
+        wx.showToast({ title: added ? i18n.t("toast_faved") : i18n.t("toast_unfav"), icon: added ? "success" : "none" });
+    },
+
+    onCopy() {
+        return share.copy(this.data.poem);
+    },
+
+    openShare() {
+        if (!this.data.poem) return;
+        this.setData({ sheet: true });
+    },
+    closeShare() {
+        this.setData({ sheet: false });
+    },
+    onTimelineTip() {
+        this.setData({ sheet: false });
+        wx.showModal({
+            title: i18n.t("modal_moments_title"),
+            content: i18n.t("modal_moments_content"),
+            showCancel: false,
+            confirmText: i18n.t("modal_ok"),
         });
+    },
+
+    onShareAppMessage() {
+        return share.appMessage(this.data.poem, "/pages/today/today");
+    },
+    onShareTimeline() {
+        return share.timeline(this.data.poem, "");
     },
 });

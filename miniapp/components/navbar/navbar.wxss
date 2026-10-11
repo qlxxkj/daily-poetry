@@ -1,0 +1,103 @@
+@import "../../styles/icons.wxss";
+
+/* 组件自带一套 token：样式隔离下，页面的 .t-dark 够不到组件内部，
+   所以深浅两色由 theme 属性直接切换，不依赖外部作用域。 */
+.nb {
+    --bg: #F9F6F5;
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --fill-2: #EFE8E5;
+    --line: #EAE5E3;
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+    --accent: #A5492B;
+    --on-solid: #FDF9F8;
+
+    --s-1: 8rpx;
+    --s-2: 16rpx;
+    --s-3: 24rpx;
+    --s-4: 32rpx;
+    --r-sm: 12rpx;
+    --r-md: 18rpx;
+    --r-lg: 28rpx;
+
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background: var(--bg);
+}
+.nb--dark {
+    --bg: #141110;
+    --card: #211D1C;
+    --fill: #302B2A;
+    --fill-2: #3E3836;
+    --line: #373230;
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+    --on-solid: #181210;
+}
+.nb--line { box-shadow: 0 1rpx 0 var(--line); }
+
+.nb__status { width: 100%; }
+
+.nb__bar {
+    position: relative;   /* 标题绝对定位的参照物 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nb__side {
+    display: flex;
+    align-items: center;
+    flex: none;
+    min-width: 72rpx;
+}
+.nb__side--right { justify-content: flex-end; }
+
+/* ---------- 标题 ----------
+   左右内缩量由 JS 给（= 胶囊宽 [+ 查询按钮宽]），两侧相等所以文字居中于屏幕。
+   这个内缩框同时也是「安全区」：左边不压返回键，右边不压胶囊和查询键，
+   长标题只在框内省略，不会盖到任何一个按钮上。 */
+.nb__title {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    /* 安全区仍与右侧按钮有重叠段，不加这行会吃掉查询按钮的点击 */
+    pointer-events: none;
+}
+.nb__title-text {
+    max-width: 100%;
+    font-size: 34rpx;
+    font-weight: 600;
+    letter-spacing: 2rpx;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nb__btn {
+    /* 标题是绝对定位的，会压在静态元素之上；抬一层保证按钮始终能点 */
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    transition: background 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.nb__btn:active { background: var(--fill); }
+.nb__ic { width: 40rpx; height: 40rpx; }

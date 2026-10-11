@@ -1,31 +1,70 @@
-<view class="page">
-    <view wx:if="{{!poem && !loading && !error}}" class="placeholder">
-        <view class="ph-title">今日一诗</view>
-        <button class="btn" loading="{{loading}}" disabled="{{loading}}" bindtap="pick">
-            {{loading ? '抽诗中…' : '抽一首'}}
+<navbar title="{{T.tab_today}}" theme="{{theme}}" search="{{true}}" bind:search="goQuery" />
+
+<view class="page page--tab {{theme === 'dark' ? 't-dark' : ''}}">
+    <!-- 页头一行：只有日期，简繁切换已收进「我的」设置，避免两处重复 -->
+    <view class="daybar">
+        <text class="daybar__date">{{dateText}}</text>
+    </view>
+
+    <block wx:if="{{poem}}">
+        <!-- 卡片里只放诗；四个动作收成右上角纯图标，不再堆底部 -->
+        <view class="card poem rise">
+            <view class="poem__top">
+                <view class="poem__meta">
+                    <text wx:if="{{poem.dynasty}}" class="tag tag--accent">{{poem.dynasty}}</text>
+                    <text wx:if="{{poem.author}}" class="poem__author">{{poem.author}}</text>
+                    <text wx:if="{{poem.type}}" class="poem__type">{{poem.type}}</text>
+                </view>
+                <view class="poem__acts">
+                    <view class="pact {{faved ? 'pact--on' : ''}}" bindtap="onFav" aria-label="{{T.aria_fav}}">
+                        <view class="ic {{faved ? 'ic-heart-fill' : 'ic-heart'}} {{faved ? 'ic--acc' : ''}}"></view>
+                    </view>
+                    <view class="pact" bindtap="onCopy" aria-label="{{T.aria_copy}}">
+                        <view class="ic ic-copy"></view>
+                    </view>
+                    <view class="pact" bindtap="openShare" aria-label="{{T.aria_share}}">
+                        <view class="ic ic-share"></view>
+                    </view>
+                    <view class="pact" bindtap="onDetail" aria-label="{{T.aria_detail}}">
+                        <view class="ic ic-chevron"></view>
+                    </view>
+                </view>
+            </view>
+
+            <view class="poem__title serif">{{poem.title}}</view>
+            <view class="poem__rule"></view>
+
+            <view class="poem__body serif">
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">{{item}}</view>
+            </view>
+        </view>
+
+        <button class="btn btn--block pick rise-item" style="animation-delay: 80ms" loading="{{loading}}" bindtap="onPickMore" disabled="{{loading}}">
+            {{loading ? T.today_pick_loading : T.today_pick}}
         </button>
-        <button class="btn btn--ghost" bindtap="toggleLang">
-            切换繁体 ({{lang === 'zh-Hans' ? '简体' : '繁体'})
+    </block>
+
+    <view wx:else class="welcome rise">
+        <view class="welcome__seal serif">{{T.today_seal}}</view>
+        <view class="welcome__desc">{{T.today_welcome}}</view>
+        <button class="btn btn--block" loading="{{loading}}" bindtap="onPickMore" disabled="{{loading}}">
+            {{loading ? T.today_empty_loading : T.today_empty}}
         </button>
     </view>
 
-    <view wx:if="{{poem}}" class="card">
-        <view class="meta">
-            <text class="dynasty">{{poem.dynasty}}</text>
-            <text class="author">{{poem.author}}</text>
-            <text wx:if="{{poem.type}}" class="type">{{poem.type}}</text>
-        </view>
-        <view class="title">{{poem.title}}</view>
-        <view class="body">
-            <view wx:for="{{poem.lines}}" wx:key="*this" class="line">{{item}}</view>
-        </view>
-        <view class="actions">
-            <button class="btn" bindtap="pick">再抽一首</button>
-            <button class="btn btn--ghost" bindtap="onShare">复制</button>
-            <button class="btn btn--ghost" bindtap="toggleLang">繁/简</button>
-            <button class="btn btn--ghost" bindtap="onDetail">详情</button>
-        </view>
+    <view wx:if="{{error}}" class="err-box">
+        <view class="ic ic-alert"></view>
+        <text>{{error}}</text>
     </view>
-
-    <view wx:if="{{error}}" class="err">{{error}}</view>
 </view>
+
+<share-sheet
+    show="{{sheet}}"
+    t="{{T}}"
+    theme="{{theme}}"
+    title="{{poem.title}}"
+    sub="{{poem.author}}"
+    bind:close="closeShare"
+    bind:timeline="onTimelineTip"
+    bind:copy="onCopy"
+/>

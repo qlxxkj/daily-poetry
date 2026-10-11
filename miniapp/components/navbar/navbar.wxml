@@ -1,0 +1,27 @@
+<view
+    class="nb {{theme === 'dark' ? 'nb--dark' : ''}} {{border ? 'nb--line' : ''}}"
+    style="height:{{totalH}}px"
+>
+    <view class="nb__status" style="height:{{statusH}}px"></view>
+
+    <view class="nb__bar" style="height:{{barH}}px; padding-right:{{capsuleRight}}px">
+        <view class="nb__side">
+            <view wx:if="{{back}}" class="nb__btn" bindtap="onBack">
+                <view class="ic ic-back nb__ic"></view>
+            </view>
+        </view>
+
+        <view class="nb__side nb__side--right">
+            <view wx:if="{{search}}" class="nb__btn" bindtap="onSearch">
+                <view class="ic ic-search nb__ic"></view>
+            </view>
+        </view>
+
+        <!-- 标题绝对定位，左右内缩量相等 → 文字落在屏幕正中。
+             内缩量由 JS 算（胶囊宽 + 查询按钮槽位），左侧也留同样宽才不会偏。
+             若改成 flex 居中，右侧为胶囊让出的 padding 会把中心往左推几十 px。 -->
+        <view class="nb__title" style="left:{{titleInset}}px; right:{{titleInset}}px">
+            <text class="nb__title-text">{{title}}</text>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,142 @@
+@import "../../styles/icons.wxss";
+
+.ss {
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --line: #EAE5E3;
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+    --accent: #A5492B;
+    --on-solid: #FDF9F8;
+    --mask: rgba(36, 29, 27, 0.42);
+
+    --s-1: 8rpx;
+    --s-2: 16rpx;
+    --s-3: 24rpx;
+    --s-4: 32rpx;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+.ss--dark {
+    --card: #211D1C;
+    --fill: #302B2A;
+    --line: #373230;
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+    --on-solid: #181210;
+    --mask: rgba(0, 0, 0, 0.62);
+}
+
+.ss__mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--mask);
+    animation: ss-fade 240ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.ss__sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--s-4) var(--s-4) calc(var(--s-4) + env(safe-area-inset-bottom));
+    border-radius: 32rpx 32rpx 0 0;
+    background: var(--card);
+    animation: ss-up 300ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.ss__head {
+    padding: var(--s-2) 0 var(--s-5);
+    text-align: center;
+}
+.ss__title {
+    display: block;
+    font-size: 40rpx;
+    font-weight: 600;
+    letter-spacing: 2rpx;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ss__sub {
+    display: block;
+    margin-top: 8rpx;
+    font-size: 24rpx;
+    color: var(--ink-3);
+}
+
+.ss__grid {
+    display: flex;
+    gap: var(--s-2);
+}
+.ss__item {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3) 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 18rpx;
+    line-height: 1.4;
+    transition: background 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ss__item::after { border: none; }
+.ss__item:active { background: var(--fill); }
+
+.ss__icbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 104rpx;
+    height: 104rpx;
+    border-radius: 50%;
+    background: var(--fill);
+}
+.ss__ic { width: 44rpx; height: 44rpx; }
+.ss__label {
+    font-size: 26rpx;
+    color: var(--ink-2);
+}
+
+.ss__cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 96rpx;
+    margin-top: var(--s-3);
+    border-radius: 18rpx;
+    background: var(--fill);
+    font-size: 32rpx;
+    color: var(--ink);
+    transition: opacity 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ss__cancel:active { opacity: 0.7; }
+
+@keyframes ss-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes ss-up {
+    from { opacity: 0; transform: translateY(64rpx); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ss__mask,
+    .ss__sheet { animation: none; }
+}

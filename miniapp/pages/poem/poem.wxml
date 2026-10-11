@@ -1,13 +1,51 @@
-<view class="page">
-    <view wx:if="{{poem}}" class="card">
-        <view class="meta">
-            <text class="dynasty">{{poem.dynasty}}</text>
-            <text class="author">{{poem.author}}</text>
-            <text class="type">{{poem.type}}</text>
+<navbar title="{{poem.title}}" theme="{{theme}}" back="{{true}}" bind:back="onBack" />
+
+<view class="page {{theme === 'dark' ? 't-dark' : ''}}">
+    <block wx:if="{{poem}}">
+        <view class="card poem rise">
+            <view class="poem__top">
+                <view class="poem__meta">
+                    <text wx:if="{{poem.dynasty}}" class="tag tag--accent">{{poem.dynasty}}</text>
+                    <text wx:if="{{poem.author}}" class="poem__author">{{poem.author}}</text>
+                    <text wx:if="{{poem.type}}" class="poem__type">{{poem.type}}</text>
+                </view>
+                <view class="poem__acts">
+                    <view class="pact {{faved ? 'pact--on' : ''}}" bindtap="onFav" aria-label="{{T.aria_fav}}">
+                        <view class="ic {{faved ? 'ic-heart-fill' : 'ic-heart'}} {{faved ? 'ic--acc' : ''}}"></view>
+                    </view>
+                    <view class="pact" bindtap="onCopy" aria-label="{{T.aria_copy}}">
+                        <view class="ic ic-copy"></view>
+                    </view>
+                    <view class="pact" bindtap="openShare" aria-label="{{T.aria_share}}">
+                        <view class="ic ic-share"></view>
+                    </view>
+                </view>
+            </view>
+
+            <view class="poem__title serif">{{poem.title}}</view>
+            <view class="poem__rule"></view>
+
+            <view class="poem__body serif">
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">{{item}}</view>
+            </view>
+
+            <view wx:if="{{poem.typeDesc}}" class="poem__note">{{poem.typeDesc}}</view>
         </view>
-        <view class="title">《{{poem.title}}》</view>
-        <view class="body">{{poem.content}}</view>
-        <button class="btn" bindtap="onCopy">复制</button>
+    </block>
+
+    <view wx:else class="state">
+        <view class="ic ic-alert state__ic"></view>
+        <view class="state__text">{{error || T.poem_empty}}</view>
     </view>
-    <view wx:if="{{error}}" class="err">{{error}}</view>
 </view>
+
+<share-sheet
+    show="{{sheet}}"
+    t="{{T}}"
+    theme="{{theme}}"
+    title="{{poem.title}}"
+    sub="{{poem.author}}"
+    bind:close="closeShare"
+    bind:timeline="onTimelineTip"
+    bind:copy="onCopy"
+/>

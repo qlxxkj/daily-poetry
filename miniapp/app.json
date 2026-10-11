@@ -2,28 +2,34 @@
   "pages": [
     "pages/today/today",
     "pages/fh/fh",
-    "pages/search/search",
-    "pages/settings/settings",
+    "pages/mine/mine",
+    "pages/query/query",
+    "pages/favorites/favorites",
     "pages/poem/poem"
   ],
   "window": {
+    "navigationStyle": "custom",
     "navigationBarTitleText": "一诗一令古诗词",
-    "navigationBarBackgroundColor": "#0f1115",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#0f1115"
+    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarTextStyle": "@navTxtStyle",
+    "backgroundColor": "@bgColor",
+    "backgroundTextStyle": "@bgTxtStyle"
   },
   "tabBar": {
-    "color": "#5a6070",
-    "selectedColor": "#4cd78b",
-    "backgroundColor": "#0f1115",
-    "borderStyle": "black",
+    "custom": true,
+    "color": "#766D6A",
+    "selectedColor": "#A5492B",
+    "backgroundColor": "#FEFCFC",
+    "borderStyle": "white",
     "list": [
       { "pagePath": "pages/today/today", "text": "今日" },
       { "pagePath": "pages/fh/fh", "text": "飞花令" },
-      { "pagePath": "pages/search/search", "text": "检索" },
-      { "pagePath": "pages/settings/settings", "text": "设置" }
+      { "pagePath": "pages/mine/mine", "text": "我的" }
     ]
   },
+  "darkmode": true,
+  "themeLocation": "theme.json",
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

@@ -1,0 +1,35 @@
+<view wx:if="{{show}}" class="ss {{theme === 'dark' ? 'ss--dark' : ''}}">
+    <view class="ss__mask" bindtap="onClose"></view>
+
+    <view class="ss__sheet">
+        <view class="ss__head">
+            <text class="ss__title serif">{{title}}</text>
+            <text class="ss__sub">{{sub}}</text>
+        </view>
+
+        <view class="ss__grid">
+            <button class="ss__item" open-type="share">
+                <view class="ss__icbox">
+                    <view class="ic ic-share ss__ic"></view>
+                </view>
+                <text class="ss__label">{{t.ss_friend}}</text>
+            </button>
+
+            <view class="ss__item" bindtap="onTimeline">
+                <view class="ss__icbox">
+                    <view class="ic ic-image ss__ic"></view>
+                </view>
+                <text class="ss__label">{{t.ss_moments}}</text>
+            </view>
+
+            <view class="ss__item" bindtap="onCopy">
+                <view class="ss__icbox">
+                    <view class="ic ic-copy ss__ic"></view>
+                </view>
+                <text class="ss__label">{{t.ss_copy}}</text>
+            </view>
+        </view>
+
+        <view class="ss__cancel" bindtap="onClose">{{t.ss_cancel}}</view>
+    </view>
+</view>

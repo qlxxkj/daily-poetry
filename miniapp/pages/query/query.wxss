@@ -1,0 +1,154 @@
+/* .hero* / .state* / .card / .section-title 已提到 app.wxss。 */
+
+/* ---------- 查询框 ----------
+   挂在内容区顶部而不是塞进导航栏：导航栏右侧要给微信胶囊让位，
+   输入框在那儿最多只有半屏宽，这里能铺满整行，还能放下清空和查询按钮。 */
+.field {
+    display: flex;
+    align-items: center;
+    height: 96rpx;
+    padding: 0 12rpx 0 var(--s-4);
+    box-sizing: border-box;
+    border-radius: 999rpx;
+    background: var(--fill);
+}
+.field__ic {
+    width: 32rpx;
+    height: 32rpx;
+    flex: none;
+    margin-right: var(--s-2);
+}
+.field__input {
+    flex: 1;
+    min-width: 0;
+    height: 96rpx;
+    font-size: 30rpx;
+    color: var(--ink);
+}
+/* placeholder 是原生伪元素，不保证继承 CSS 变量，深色单独覆盖 */
+.field__ph { font-size: 30rpx; color: #766D6A; }
+.t-dark .field__ph { color: #8E8786; }
+
+.field__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64rpx;
+    height: 64rpx;
+    flex: none;
+}
+.field__clear-ic { width: 28rpx; height: 28rpx; }
+
+/* 查询按钮常驻，空词时压成灰态 —— 避免输入过程中布局左右跳 */
+.field__go {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72rpx;
+    padding: 0 var(--s-3);
+    flex: none;
+    border-radius: 999rpx;
+    font-size: var(--t-cap);
+    background: var(--ink);
+    color: var(--on-solid);
+    transition: transform var(--dur-1) var(--ease), opacity var(--dur-1) var(--ease);
+}
+.field__go:active { transform: scale(0.96); opacity: 0.88; }
+.field__go--off {
+    background: var(--fill-2);
+    color: var(--ink-3);
+}
+.field__go--off:active { opacity: 1; }
+
+/* ---------- 热词 ---------- */
+.hot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+}
+/* 圆形字块只放得下一个字，这里是词，改成胶囊 */
+.chip--wide {
+    width: auto;
+    height: 72rpx;
+    padding: 0 var(--s-4);
+    border-radius: 999rpx;
+    font-size: var(--t-sm);
+}
+
+/* ---------- 结果条目：整卡可点，收藏/复制是卡内次级操作 ---------- */
+.item {
+    margin-top: var(--s-3);
+    padding: var(--s-4) var(--s-4) var(--s-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item:active { background: var(--fill); }
+
+.item__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+}
+.item__title {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 1rpx;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.item__meta {
+    margin-top: var(--s-1);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+
+/* 正文最多三行，超出省略 */
+.item__body {
+    margin-top: var(--s-2);
+    font-size: var(--t-body);
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre-wrap;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.item__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--s-2);
+    border-top: 1rpx solid var(--line);
+}
+.item__acts {
+    display: flex;
+    gap: var(--s-3);
+}
+/* 80rpx ≈ 40px，配上整卡可点，触控目标足够 */
+.item__act {
+    display: flex;
+    align-items: center;
+    min-height: 80rpx;
+    padding: 0 var(--s-3);
+    margin-left: calc(var(--s-3) * -1);
+    border-radius: var(--r-sm);
+    font-size: var(--t-cap);
+    color: var(--ink-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item__act:active { background: var(--fill-2); }
+.item__act--on { color: var(--accent); }
+.item__act-ic {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: var(--s-1);
+}
+.item__arrow {
+    width: 32rpx;
+    height: 32rpx;
+}

@@ -1,17 +1,40 @@
-.placeholder { margin-top: 120rpx; text-align: center; }
-.ph-title { font-size: 44rpx; color: #8a90a0; margin-bottom: 32rpx; }
-.card {
-    background: #141821; border: 1rpx solid #232a38; border-radius: 20rpx;
-    padding: 40rpx 36rpx; margin-top: 24rpx;
+/* .poem* / .actbar / .btn 等通用件已提到 app.wxss，首页只留自己特有的部分。 */
+
+/* 页头：一行，左边日期，右边简繁分段控件。不再有大标题抢诗词的视觉重量 */
+.daybar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--s-1) 0 var(--s-5);
 }
-.meta { display: flex; align-items: center; gap: 16rpx; font-size: 24rpx; color: #8a90a0; }
-.dynasty { color: #4cd78b; }
-.author { color: #cfd4e0; }
-.type { color: #5a6070; }
-.title { font-size: 34rpx; color: #e8ebf2; margin: 20rpx 0 28rpx; font-weight: 600; }
-.body { text-align: center; }
-.line { font-size: 32rpx; line-height: 1.9; color: #dfe3ec; letter-spacing: 2rpx; }
-.actions { display: flex; gap: 16rpx; margin-top: 40rpx; flex-wrap: wrap; }
-.btn { flex: 1; min-width: 160rpx; background: #3a6cff; color: #fff; font-size: 28rpx; border-radius: 12rpx; }
-.btn--ghost { background: #232a38; color: #cfd4e0; }
-.err { margin-top: 32rpx; color: #ff6b6b; font-size: 26rpx; }
+.daybar__date {
+    font-size: var(--t-cap);
+    letter-spacing: 3rpx;
+    color: var(--ink-3);
+}
+
+/* ---------- 空态 ---------- */
+.welcome {
+    padding: 96rpx 0 0;
+    text-align: center;
+}
+/* 朱砂印章，替掉原来干巴巴的标题 */
+.welcome__seal {
+    width: 144rpx;
+    height: 144rpx;
+    margin: 0 auto var(--s-5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-lg);
+    background: var(--accent);
+    color: var(--on-solid);
+    font-size: 68rpx;
+    line-height: 1;
+    box-shadow: 0 10rpx 28rpx rgba(165, 73, 43, 0.2);
+}
+.welcome__desc {
+    margin-bottom: var(--s-6);
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+}

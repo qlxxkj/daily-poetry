@@ -1,0 +1,1211 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>一诗一令 · 界面预览</title><style>
+* { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
+body { margin:0; background:#DCD6D3; display:flex; flex-wrap:wrap; align-items:flex-start;
+       gap:28px 24px; padding:24px 24px 60px;
+       font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; }
+.hd { width:100%; color:#3A3230; }
+.hd__h { font-size:22px; font-weight:600; letter-spacing:1px; }
+.hd__p { margin-top:6px; font-size:13px; color:#6E645F; }
+.phone { flex:none; width:375px; height:812px; position:relative; overflow:hidden; background:var(--bg,#F9F6F5);
+         display:flex; flex-direction:column; border-radius:14px; box-shadow:0 6px 28px rgba(36,29,27,.18); }
+.tb { position:absolute !important; }
+.ss { position:absolute !important; }
+.nb { flex:none; }
+.viewport { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+.viewport > .page { flex:1; overflow:hidden; background:var(--bg); }
+input { border:none; outline:none; background:transparent; font-family:inherit; width:100%; }
+button { border:none; font-family:inherit; cursor:pointer; }
+.rise, .rise-item, .ss__mask, .ss__sheet { animation:none !important; }
+/* --------------------------------------------------------------------------
+   图标：一份 SVG 做 mask，颜色由 background-color 提供（CSS 变量 --ic）。
+   好处：深浅两个主题、各种语义色共用同一份资产，不需要为每种颜色各存一份 base64。
+   用法：<view class="ic ic-heart ic--acc" />
+   -------------------------------------------------------------------------- */
+.ic {
+    --ic: var(--ink-3);
+    background-color: var(--ic);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+}
+
+/* 语义色：叠加在 ic 上改写 --ic 即可 */
+.ic--ink { --ic: var(--ink); }
+.ic--ink2 { --ic: var(--ink-2); }
+.ic--acc { --ic: var(--accent); }
+.ic--w { --ic: var(--on-solid); }
+.ic--ok { --ic: var(--ok); }
+.ic--err { --ic: var(--err); }
+.ic--line { --ic: var(--line); }
+
+.ic-refresh { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAuNSAxMmE4LjUgOC41IDAgMCAwLTE0LjYtNS45TDMgOSIvPjxwYXRoIGQ9Ik0zIDMuNVY5aDUuNSIvPjxwYXRoIGQ9Ik0zLjUgMTJhOC41IDguNSAwIDAgMCAxNC42IDUuOUwyMSAxNSIvPjxwYXRoIGQ9Ik0yMSAyMC41VjE1aC01LjUiLz48L3N2Zz4="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAuNSAxMmE4LjUgOC41IDAgMCAwLTE0LjYtNS45TDMgOSIvPjxwYXRoIGQ9Ik0zIDMuNVY5aDUuNSIvPjxwYXRoIGQ9Ik0zLjUgMTJhOC41IDguNSAwIDAgMCAxNC42IDUuOUwyMSAxNSIvPjxwYXRoIGQ9Ik0yMSAyMC41VjE1aC01LjUiLz48L3N2Zz4="); }
+.ic-copy { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSIyLjUiLz48cGF0aCBkPSJNNS41IDE1SDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoOGEyIDIgMCAwIDEgMiAydi41Ii8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSIyLjUiLz48cGF0aCBkPSJNNS41IDE1SDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoOGEyIDIgMCAwIDEgMiAydi41Ii8+PC9zdmc+"); }
+.ic-chevron { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtOSAxOCA2LTYtNi02Ii8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtOSAxOCA2LTYtNi02Ii8+PC9zdmc+"); }
+.ic-back { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtMTUgMTgtNi02IDYtNiIvPjwvc3ZnPg=="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtMTUgMTgtNi02IDYtNiIvPjwvc3ZnPg=="); }
+.ic-search { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI3Ii8+PHBhdGggZD0ibTIwLjUgMjAuNS00LjItNC4yIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI3Ii8+PHBhdGggZD0ibTIwLjUgMjAuNS00LjItNC4yIi8+PC9zdmc+"); }
+.ic-close { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTggNiA2IDE4Ii8+PHBhdGggZD0ibTYgNiAxMiAxMiIvPjwvc3ZnPg=="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTggNiA2IDE4Ii8+PHBhdGggZD0ibTYgNiAxMiAxMiIvPjwvc3ZnPg=="); }
+.ic-check { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgNi41IDkgMTcuNWwtNS01Ii8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgNi41IDkgMTcuNWwtNS01Ii8+PC9zdmc+"); }
+.ic-alert { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI5Ii8+PHBhdGggZD0iTTEyIDcuNXY1LjUiLz48cGF0aCBkPSJNMTIgMTYuNGguMDEiLz48L3N2Zz4="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI5Ii8+PHBhdGggZD0iTTEyIDcuNXY1LjUiLz48cGF0aCBkPSJNMTIgMTYuNGguMDEiLz48L3N2Zz4="); }
+.ic-heart { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTkgMTRjMS40OS0xLjQ2IDMtMy4yMSAzLTUuNUE1LjUgNS41IDAgMCAwIDE2LjUgM2MtMS43NiAwLTMgLjUtNC41IDItMS41LTEuNS0yLjc0LTItNC41LTJBNS41IDUuNSAwIDAgMCAyIDguNWMwIDIuMyAxLjUgNC4wNSAzIDUuNWw3IDdaIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTkgMTRjMS40OS0xLjQ2IDMtMy4yMSAzLTUuNUE1LjUgNS41IDAgMCAwIDE2LjUgM2MtMS43NiAwLTMgLjUtNC41IDItMS41LTEuNS0yLjc0LTItNC41LTJBNS41IDUuNSAwIDAgMCAyIDguNWMwIDIuMyAxLjUgNC4wNSAzIDUuNWw3IDdaIi8+PC9zdmc+"); }
+.ic-heart-fill { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBmaWxsPSIjMDAwIiBzdHJva2U9Im5vbmUiIGQ9Ik0xOSAxNGMxLjQ5LTEuNDYgMy0zLjIxIDMtNS41QTUuNSA1LjUgMCAwIDAgMTYuNSAzYy0xLjc2IDAtMyAuNS00LjUgMi0xLjUtMS41LTIuNzQtMi00LjUtMkE1LjUgNS41IDAgMCAwIDIgOC41YzAgMi4zIDEuNSA0LjA1IDMgNS41bDcgN1oiLz48L3N2Zz4="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBmaWxsPSIjMDAwIiBzdHJva2U9Im5vbmUiIGQ9Ik0xOSAxNGMxLjQ5LTEuNDYgMy0zLjIxIDMtNS41QTUuNSA1LjUgMCAwIDAgMTYuNSAzYy0xLjc2IDAtMyAuNS00LjUgMi0xLjUtMS41LTIuNzQtMi00LjUtMkE1LjUgNS41IDAgMCAwIDIgOC41YzAgMi4zIDEuNSA0LjA1IDMgNS41bDcgN1oiLz48L3N2Zz4="); }
+.ic-share { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxOCIgY3k9IjUiIHI9IjMiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTIiIHI9IjMiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE5IiByPSIzIi8+PHBhdGggZD0ibTguNiAxMy41IDYuOCAzLjkiLz48cGF0aCBkPSJNMTUuNCA2LjYgOC42IDEwLjUiLz48L3N2Zz4="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxOCIgY3k9IjUiIHI9IjMiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTIiIHI9IjMiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE5IiByPSIzIi8+PHBhdGggZD0ibTguNiAxMy41IDYuOCAzLjkiLz48cGF0aCBkPSJNMTUuNCA2LjYgOC42IDEwLjUiLz48L3N2Zz4="); }
+.ic-image { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIzIi8+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjIiLz48cGF0aCBkPSJtMjEgMTUtNC4zLTQuM2EyIDIgMCAwIDAtMi44IDBMMyAyMSIvPjwvc3ZnPg=="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIzIi8+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjIiLz48cGF0aCBkPSJtMjEgMTUtNC4zLTQuM2EyIDIgMCAwIDAtMi44IDBMMyAyMSIvPjwvc3ZnPg=="); }
+.ic-moon { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgM2E2IDYgMCAwIDAgOSA5IDkgOSAwIDEgMS05LTlaIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgM2E2IDYgMCAwIDAgOSA5IDkgOSAwIDEgMS05LTlaIi8+PC9zdmc+"); }
+.ic-lang { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtNSA4IDYgNiIvPjxwYXRoIGQ9Im00IDE0IDYtNiAyLTMiLz48cGF0aCBkPSJNMiA1aDEyIi8+PHBhdGggZD0iTTcgMmgxIi8+PHBhdGggZD0ibTIyIDIyLTUtMTAtNSAxMCIvPjxwYXRoIGQ9Ik0xNCAxOGg2Ii8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtNSA4IDYgNiIvPjxwYXRoIGQ9Im00IDE0IDYtNiAyLTMiLz48cGF0aCBkPSJNMiA1aDEyIi8+PHBhdGggZD0iTTcgMmgxIi8+PHBhdGggZD0ibTIyIDIyLTUtMTAtNSAxMCIvPjxwYXRoIGQ9Ik0xNCAxOGg2Ii8+PC9zdmc+"); }
+.ic-trash { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMyA2aDE4Ii8+PHBhdGggZD0iTTE5IDZ2MTRhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJWNiIvPjxwYXRoIGQ9Ik04IDZWNGEyIDIgMCAwIDEgMi0yaDRhMiAyIDAgMCAxIDIgMnYyIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMyA2aDE4Ii8+PHBhdGggZD0iTTE5IDZ2MTRhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJWNiIvPjxwYXRoIGQ9Ik04IDZWNGEyIDIgMCAwIDEgMi0yaDRhMiAyIDAgMCAxIDIgMnYyIi8+PC9zdmc+"); }
+.ic-info { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI5Ii8+PHBhdGggZD0iTTEyIDhoLjAxIi8+PHBhdGggZD0iTTExIDEyaDF2NGgxIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI5Ii8+PHBhdGggZD0iTTEyIDhoLjAxIi8+PHBhdGggZD0iTTExIDEyaDF2NGgxIi8+PC9zdmc+"); }
+.ic-camera { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQuNSA0aC01TDcgN0g0YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDE2YTIgMiAwIDAgMCAyLTJWOWEyIDIgMCAwIDAtMi0yaC0zbC0yLjUtM3oiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEzIiByPSIzIi8+PC9zdmc+"); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQuNSA0aC01TDcgN0g0YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDE2YTIgMiAwIDAgMCAyLTJWOWEyIDIgMCAwIDAtMi0yaC0zbC0yLjUtM3oiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEzIiByPSIzIi8+PC9zdmc+"); }
+.ic-bookmark { -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTkgMjEgMTIgMTYuNSA1IDIxVjVhMiAyIDAgMCAxIDItMmgxMGEyIDIgMCAwIDEgMiAyWiIvPjwvc3ZnPg=="); mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTkgMjEgMTIgMTYuNSA1IDIxVjVhMiAyIDAgMCAxIDItMmgxMGEyIDIgMCAwIDEgMiAyWiIvPjwvc3ZnPg=="); }
+
+
+/* ==========================================================================
+   一诗一令 · 设计系统
+   --------------------------------------------------------------------------
+   现代极简。墨色做骨架，朱砂做强调，其余全部留给留白。
+   支持浅色 / 深色两套 token：深色由根节点的 .t-dark 触发（见 utils/theme.js）。
+
+   色值在 OKLCH 感知均匀空间生成后转 hex（小程序 WebView 对 oklch() 支持不稳）：
+   · 中性色统一带朱砂的暖色调（hue 40），避免"死灰"
+   · 不用纯白 #fff / 纯黑 #000
+   · 两套主题各 13 项对比度逐条校验 WCAG AA，正文与占位文字均 ≥ 4.5:1
+   ========================================================================== */
+page, .phone {
+    /* 面 */
+    --bg: #F9F6F5;
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --fill-2: #EFE8E5;
+    --line: #EAE5E3;
+
+    /* 字 */
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+
+    /* 强调 */
+    --accent: #A5492B;
+    --accent-bg: #FDEEE9;
+    --on-solid: #FDF9F8;
+    --ok: #397852;
+    --ok-bg: #E5F7EB;
+    --err: #B24037;
+    --err-bg: #FFEFED;
+
+    /* 浮层遮罩 */
+    --mask: rgba(36, 29, 27, 0.42);
+
+    /* 字阶：基准 16px，比例约 1.25。刻意拉开档位，避免 14/15/16 这种发糊的层次 */
+    --t-cap: 12px;
+    --t-sm: 14px;
+    --t-body: 16px;
+    --t-poem: 18px;
+    --t-title: 22px;
+    --t-display: 26px;
+
+    /* 间距：4px 网格 */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 20px;
+    --s-6: 28px;
+    --s-7: 36px;
+
+    --r-sm: 6px;
+    --r-md: 9px;
+    --r-lg: 14px;
+
+    --shadow: 0 1px 8px rgba(36, 29, 27, 0.06);
+
+    /* 动效：只动 transform / opacity；指数缓动，不用回弹 */
+    --dur-1: 120ms;
+    --dur-2: 240ms;
+    --dur-3: 420ms;
+    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+
+    background: var(--bg);
+    color: var(--ink);
+    font-size: var(--t-body);
+    line-height: 1.6;
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 深色主题：整体替换三类变量。数值同样出自 OKLCH + WCAG 校验，
+   注意强调色在深底上必须提亮，直接沿用浅色的朱砂会掉到 2:1 上下 */
+.t-dark {
+    --bg: #141110;
+    --card: #211D1C;
+    --fill: #302B2A;
+    --fill-2: #3E3836;
+    --line: #373230;
+
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+
+    --accent: #E78F73;
+    --accent-bg: #3D2821;
+    --on-solid: #181210;
+    --ok: #7BC495;
+    --ok-bg: #163120;
+    --err: #F09286;
+    --err-bg: #422521;
+
+    --mask: rgba(0, 0, 0, 0.62);
+
+    --shadow: 0 1px 9px rgba(0, 0, 0, 0.36);
+}
+
+/* 诗词用衬线，与 UI 的无衬线形成结构对比 */
+.serif {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+}
+
+/* ---------- 布局 ---------- */
+.page {
+    padding: var(--s-4) var(--s-4) calc(var(--s-6) + env(safe-area-inset-bottom));
+    /* 内容区底色：必须挂在 .page 视图自身，否则深色下只会露出 page 元素的浅色底
+       （page 元素拿不到 .t-dark 类，只能靠这里把背景画在可见层） */
+    background: var(--bg);
+}
+/* 带自定义 tabBar 的页面，底部要再让出一条，别被 tabBar 压住 */
+.page--tab {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+.card {
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow);
+}
+
+.hr { height: 0.5px; background: var(--line); }
+
+/* ---------- 文字 ---------- */
+.section-title {
+    margin: 0 2px var(--s-2);
+    font-size: var(--t-cap);
+    letter-spacing: 1px;
+    color: var(--ink-3);
+}
+.section-title--gap { margin-top: var(--s-5); }
+
+.muted { color: var(--ink-3); }
+
+/* ---------- 页头 ---------- */
+.hero { padding: var(--s-3) 0 var(--s-6); }
+.hero__title {
+    font-size: var(--t-display);
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--ink);
+}
+.hero__desc {
+    margin-top: var(--s-2);
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+}
+/* 页面名已经在导航栏给出，内容区不再重复大标题，只留一句引导 */
+.hero--lead { padding: var(--s-2) 0 var(--s-5); }
+.hero--lead .hero__desc { margin-top: 0; }
+
+/* ---------- 按钮 ---------- */
+button { padding: 0; margin: 0; background: transparent; line-height: 1; font-size: inherit; color: inherit; }
+button::after { border: none; }
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    padding: 0 var(--s-5);
+    border-radius: var(--r-md);
+    font-size: var(--t-body);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    background: var(--ink);
+    color: var(--on-solid);
+    transition: transform var(--dur-1) var(--ease), opacity var(--dur-1) var(--ease);
+}
+.btn:active { transform: scale(0.975); opacity: 0.88; }
+.btn--ghost { background: var(--fill); color: var(--ink); }
+.btn--ghost:active { opacity: 1; }
+.btn--block { width: 100%; }
+.btn[disabled] { opacity: 0.45; transform: none; }
+
+/* 诗词卡片下方唯一的重按钮，与卡片拉开层级（今日「再抽一首」/ 飞花令「换一首」复用） */
+.pick { margin-top: var(--s-5); }
+
+.icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: var(--r-md);
+    background: var(--fill);
+    transition: background var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+}
+.icon-btn:active { background: var(--fill-2); transform: scale(0.94); }
+
+.ic { width: 19px; height: 19px; flex: none; }
+
+/* ---------- 标签 ---------- */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 var(--s-2);
+    border-radius: 499.5px;
+    font-size: var(--t-cap);
+    line-height: 1;
+    background: var(--fill);
+    color: var(--ink-2);
+}
+.tag--accent { background: var(--accent-bg); color: var(--accent); }
+
+/* ---------- 圆形字块（飞花令快捷字） ---------- */
+.chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--fill);
+    color: var(--ink-2);
+    font-size: var(--t-body);
+    transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease),
+        transform var(--dur-1) var(--ease);
+}
+.chip:active { transform: scale(0.94); }
+.chip--on { background: var(--accent); color: var(--on-solid); }
+
+/* ---------- 诗词展示块 ---------- */
+.poem { padding: var(--s-7) var(--s-5) var(--s-5); }
+
+.poem__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+}
+.poem__author { font-size: var(--t-sm); color: var(--ink-2); }
+.poem__type { font-size: var(--t-cap); color: var(--ink-3); }
+
+.poem__title {
+    margin-top: var(--s-3);
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink);
+}
+
+/* 朱砂短横，标题与正文之间的分隔 */
+.poem__rule {
+    width: 28px;
+    height: 2.5px;
+    border-radius: 1.5px;
+    background: var(--accent);
+    margin: var(--s-5) 0;
+}
+
+.poem__body { text-align: center; }
+.poem__line {
+    font-size: var(--t-poem);
+    line-height: 2;
+    letter-spacing: 1.5px;
+    color: var(--ink);
+}
+
+/* 诗词卡片的操作已改为右上角纯图标（见下面的 .poem__top / .pact），
+   旧的卡片内 .actbar 四格工具条不再使用，保留此处注释以便回溯。 */
+
+/* ---------- 卡片右上角的纯图标动作 ----------
+   收藏 / 复制 / 分享 / 详情 收进卡片头部的右上角，只有图标没有文字，
+   不抢标题、不堆底部，四个刚好。收藏选中时爱心填朱砂。 */
+.poem__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+}
+.poem__top .poem__meta { flex: 1; min-width: 0; }
+.poem__acts {
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-left: var(--s-2);
+}
+.pact {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-sm);
+    transition: background var(--dur-1) var(--ease);
+}
+.pact:active { background: var(--fill); }
+.pact .ic { width: 19px; height: 19px; }
+.pact--on .ic { --ic: var(--accent); }
+
+/* 详情 / 换一首 等次级入口已并入卡片右上角图标或卡片下方的通栏按钮，
+   旧的 .cta 组合按钮不再使用。 */
+
+/* ---------- 提示条 ---------- */
+.err-box {
+    display: flex;
+    align-items: center;
+    margin-top: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-md);
+    background: var(--err-bg);
+    color: var(--err);
+    font-size: var(--t-sm);
+}
+.err-box .ic { width: 16px; height: 16px; margin-right: var(--s-2); --ic: var(--err); }
+
+.notice {
+    display: flex;
+    align-items: center;
+    margin-top: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-md);
+    font-size: var(--t-sm);
+}
+.notice__ic { width: 16px; height: 16px; margin-right: var(--s-2); }
+.notice--ok { background: var(--ok-bg); color: var(--ok); }
+.notice--err { background: var(--err-bg); color: var(--err); }
+.notice--ok .notice__ic { --ic: var(--ok); }
+.notice--err .notice__ic { --ic: var(--err); }
+
+/* ---------- 分组列表行（我的 / 收藏） ---------- */
+.group { overflow: hidden; }
+
+.row {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 0 var(--s-4);
+    transition: background var(--dur-1) var(--ease);
+}
+.row:active { background: var(--fill); }
+.row__ic {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-right: var(--s-3);
+}
+.row__label {
+    flex: none;
+    font-size: var(--t-body);
+    color: var(--ink);
+}
+.row__value {
+    flex: 1;
+    min-width: 0;
+    margin-left: var(--s-3);
+    text-align: right;
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.row__mark { width: 18px; height: 18px; margin-left: var(--s-2); }
+.row__arrow { width: 15px; height: 15px; margin-left: var(--s-2); }
+
+/* ---------- 空态 ---------- */
+.state { padding: 70px 0; text-align: center; }
+.state__ic { width: 36px; height: 36px; margin: 0 auto var(--s-4); opacity: 0.55; }
+.state__text { font-size: var(--t-sm); color: var(--ink-3); }
+
+/* ---------- 入场动效 ---------- */
+@keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rise { animation: rise var(--dur-3) var(--ease) both; }
+
+/* 列表逐项浮现。延迟由模板内联给出，调用方自行封顶避免长列表拖尾 */
+.rise-item {
+    animation: rise var(--dur-3) var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rise,
+    .rise-item { animation: none; }
+    .btn,
+    .icon-btn,
+    .chip,
+    .pact,
+    .row { transition: none; }
+}
+
+
+/* 组件自带一套 token：样式隔离下，页面的 .t-dark 够不到组件内部，
+   所以深浅两色由 theme 属性直接切换，不依赖外部作用域。 */
+.nb {
+    --bg: #F9F6F5;
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --fill-2: #EFE8E5;
+    --line: #EAE5E3;
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+    --accent: #A5492B;
+    --on-solid: #FDF9F8;
+
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --r-sm: 6px;
+    --r-md: 9px;
+    --r-lg: 14px;
+
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background: var(--bg);
+}
+.nb--dark {
+    --bg: #141110;
+    --card: #211D1C;
+    --fill: #302B2A;
+    --fill-2: #3E3836;
+    --line: #373230;
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+    --on-solid: #181210;
+}
+.nb--line { box-shadow: 0 0.5px 0 var(--line); }
+
+.nb__status { width: 100%; }
+
+.nb__bar {
+    position: relative;   /* 标题绝对定位的参照物 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nb__side {
+    display: flex;
+    align-items: center;
+    flex: none;
+    min-width: 36px;
+}
+.nb__side--right { justify-content: flex-end; }
+
+/* ---------- 标题 ----------
+   左右内缩量由 JS 给（= 胶囊宽 [+ 查询按钮宽]），两侧相等所以文字居中于屏幕。
+   这个内缩框同时也是「安全区」：左边不压返回键，右边不压胶囊和查询键，
+   长标题只在框内省略，不会盖到任何一个按钮上。 */
+.nb__title {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    /* 安全区仍与右侧按钮有重叠段，不加这行会吃掉查询按钮的点击 */
+    pointer-events: none;
+}
+.nb__title-text {
+    max-width: 100%;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nb__btn {
+    /* 标题是绝对定位的，会压在静态元素之上；抬一层保证按钮始终能点 */
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: background 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.nb__btn:active { background: var(--fill); }
+.nb__ic { width: 20px; height: 20px; }
+/* 自带 token：样式隔离下拿不到页面的主题变量，由 theme 属性切换整套色值 */
+.tb {
+    --card: #FEFCFC;
+    --line: #EAE5E3;
+    --ink-3: #766D6A;
+    --accent: #A5492B;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    background: var(--card);
+    box-shadow: 0 -0.5px 0 var(--line);
+}
+.tb--dark {
+    --card: #211D1C;
+    --line: #373230;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+}
+
+.tb__inner {
+    display: flex;
+    height: 52px;
+}
+.tb__item {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+.tb__ic {
+    width: 24px;
+    height: 24px;
+    transition: transform 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.tb__item--on .tb__ic { transform: scale(1.04); }
+.tb__text {
+    font-size: 11px;
+    line-height: 1;
+    color: var(--ink-3);
+}
+.tb__item--on .tb__text { color: var(--accent); }
+
+/* iPhone 底部横条区域 */
+.tb__safe {
+    height: env(safe-area-inset-bottom);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tb__ic { transition: none; }
+}
+
+
+.ss {
+    --card: #FEFCFC;
+    --fill: #F6F0EF;
+    --line: #EAE5E3;
+    --ink: #241D1B;
+    --ink-2: #645B59;
+    --ink-3: #766D6A;
+    --accent: #A5492B;
+    --on-solid: #FDF9F8;
+    --mask: rgba(36, 29, 27, 0.42);
+
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+.ss--dark {
+    --card: #211D1C;
+    --fill: #302B2A;
+    --line: #373230;
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+    --on-solid: #181210;
+    --mask: rgba(0, 0, 0, 0.62);
+}
+
+.ss__mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--mask);
+    animation: ss-fade 240ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.ss__sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--s-4) var(--s-4) calc(var(--s-4) + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+    background: var(--card);
+    animation: ss-up 300ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.ss__head {
+    padding: var(--s-2) 0 var(--s-5);
+    text-align: center;
+}
+.ss__title {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ss__sub {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--ink-3);
+}
+
+.ss__grid {
+    display: flex;
+    gap: var(--s-2);
+}
+.ss__item {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3) 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 9px;
+    line-height: 1.4;
+    transition: background 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ss__item::after { border: none; }
+.ss__item:active { background: var(--fill); }
+
+.ss__icbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--fill);
+}
+.ss__ic { width: 22px; height: 22px; }
+.ss__label {
+    font-size: 13px;
+    color: var(--ink-2);
+}
+
+.ss__cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    margin-top: var(--s-3);
+    border-radius: 9px;
+    background: var(--fill);
+    font-size: 16px;
+    color: var(--ink);
+    transition: opacity 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ss__cancel:active { opacity: 0.7; }
+
+@keyframes ss-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes ss-up {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ss__mask,
+    .ss__sheet { animation: none; }
+}
+/* .poem* / .actbar / .btn 等通用件已提到 app.wxss，首页只留自己特有的部分。 */
+
+/* 页头：一行，左边日期，右边简繁分段控件。不再有大标题抢诗词的视觉重量 */
+.daybar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--s-1) 0 var(--s-5);
+}
+.daybar__date {
+    font-size: var(--t-cap);
+    letter-spacing: 1.5px;
+    color: var(--ink-3);
+}
+
+/* ---------- 空态 ---------- */
+.welcome {
+    padding: 48px 0 0;
+    text-align: center;
+}
+/* 朱砂印章，替掉原来干巴巴的标题 */
+.welcome__seal {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto var(--s-5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-lg);
+    background: var(--accent);
+    color: var(--on-solid);
+    font-size: 34px;
+    line-height: 1;
+    box-shadow: 0 5px 14px rgba(165, 73, 43, 0.2);
+}
+.welcome__desc {
+    margin-bottom: var(--s-6);
+    font-size: var(--t-sm);
+    color: var(--ink-3);
+}
+/* .poem* / .hero* / .actbar / .cta / .chip 已提到 app.wxss。 */
+
+/* ---------- 取字卡 ---------- */
+.grab {
+    padding: var(--s-6) var(--s-5) var(--s-5);
+}
+
+/* 大字输入，像在格子里落一笔 */
+.grab__input {
+    height: 68px;
+    text-align: center;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-4);
+}
+/* placeholder 是原生伪元素，不保证继承 CSS 变量，写死色值；深色下另给一套 */
+.grab__ph {
+    font-size: var(--t-sm);
+    letter-spacing: 1px;
+    color: #766D6A;
+}
+.t-dark .grab__ph { color: #8E8786; }
+
+/* 固定 4 列。用 flex-wrap 会按剩余宽度排出 5+3 这种不齐的行 */
+.grab__quick {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-5);
+}
+
+/* ---------- 结果卡 ---------- */
+.result { margin-top: var(--s-4); }
+
+.result__hit {
+    margin-top: var(--s-4);
+    text-align: center;
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+/* .hero* / .state* / .card / .section-title 已提到 app.wxss。 */
+
+/* ---------- 查询框 ----------
+   挂在内容区顶部而不是塞进导航栏：导航栏右侧要给微信胶囊让位，
+   输入框在那儿最多只有半屏宽，这里能铺满整行，还能放下清空和查询按钮。 */
+.field {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 6px 0 var(--s-4);
+    box-sizing: border-box;
+    border-radius: 499.5px;
+    background: var(--fill);
+}
+.field__ic {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-right: var(--s-2);
+}
+.field__input {
+    flex: 1;
+    min-width: 0;
+    height: 48px;
+    font-size: 15px;
+    color: var(--ink);
+}
+/* placeholder 是原生伪元素，不保证继承 CSS 变量，深色单独覆盖 */
+.field__ph { font-size: 15px; color: #766D6A; }
+.t-dark .field__ph { color: #8E8786; }
+
+.field__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+}
+.field__clear-ic { width: 14px; height: 14px; }
+
+/* 查询按钮常驻，空词时压成灰态 —— 避免输入过程中布局左右跳 */
+.field__go {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 var(--s-3);
+    flex: none;
+    border-radius: 499.5px;
+    font-size: var(--t-cap);
+    background: var(--ink);
+    color: var(--on-solid);
+    transition: transform var(--dur-1) var(--ease), opacity var(--dur-1) var(--ease);
+}
+.field__go:active { transform: scale(0.96); opacity: 0.88; }
+.field__go--off {
+    background: var(--fill-2);
+    color: var(--ink-3);
+}
+.field__go--off:active { opacity: 1; }
+
+/* ---------- 热词 ---------- */
+.hot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+}
+/* 圆形字块只放得下一个字，这里是词，改成胶囊 */
+.chip--wide {
+    width: auto;
+    height: 36px;
+    padding: 0 var(--s-4);
+    border-radius: 499.5px;
+    font-size: var(--t-sm);
+}
+
+/* ---------- 结果条目：整卡可点，收藏/复制是卡内次级操作 ---------- */
+.item {
+    margin-top: var(--s-3);
+    padding: var(--s-4) var(--s-4) var(--s-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item:active { background: var(--fill); }
+
+.item__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+}
+.item__title {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.item__meta {
+    margin-top: var(--s-1);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+
+/* 正文最多三行，超出省略 */
+.item__body {
+    margin-top: var(--s-2);
+    font-size: var(--t-body);
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre-wrap;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.item__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--s-2);
+    border-top: 0.5px solid var(--line);
+}
+.item__acts {
+    display: flex;
+    gap: var(--s-3);
+}
+/* 40px ≈ 40px，配上整卡可点，触控目标足够 */
+.item__act {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 var(--s-3);
+    margin-left: calc(var(--s-3) * -1);
+    border-radius: var(--r-sm);
+    font-size: var(--t-cap);
+    color: var(--ink-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item__act:active { background: var(--fill-2); }
+.item__act--on { color: var(--accent); }
+.item__act-ic {
+    width: 15px;
+    height: 15px;
+    margin-right: var(--s-1);
+}
+.item__arrow {
+    width: 16px;
+    height: 16px;
+}
+/* .poem* / .state* / .actbar 已提到 app.wxss。 */
+
+/* 体裁说明（如「五言绝句」的解释），作为正文之外的附属信息 */
+.poem__note {
+    margin-top: var(--s-5);
+    padding-top: var(--s-4);
+    border-top: 0.5px solid var(--line);
+    font-size: var(--t-cap);
+    line-height: 1.7;
+    color: var(--ink-3);
+}
+/* .hero* / .card / .row* / .section-title 已提到 app.wxss。 */
+
+/* ---------- 头部：头像 + 昵称 ---------- */
+.me {
+    display: flex;
+    align-items: center;
+    padding: var(--s-5) var(--s-4);
+}
+
+.me__avatar-btn {
+    position: relative;
+    display: block;
+    width: 66px;
+    height: 66px;
+    flex: 0 0 66px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    overflow: visible;
+    background: transparent;
+}
+.me__avatar-btn::after { border: none; }
+
+.me__avatar {
+    display: block;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: var(--fill);
+}
+
+/* 右下角的小相机，提示头像可以换 */
+.me__badge {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow: 0 1px 5px rgba(36, 29, 27, 0.14);
+}
+.me__badge-ic {
+    width: 14px;
+    height: 14px;
+    --ic: var(--ink-3);
+}
+
+.me__info {
+    flex: 1;
+    min-width: 0;
+    margin-left: var(--s-3);
+}
+.me__name {
+    width: 100%;
+    height: 28px;
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+}
+.me__ph {
+    font-size: var(--t-title);
+    font-weight: 400;
+    color: #9C918C;
+}
+.t-dark .me__ph { color: #7A726F; }
+
+.me__stat {
+    margin-top: var(--s-1);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+
+/* ---------- 「分享给好友」一行：布局交给 view，button 只做触发 ----------
+   微信 <button> 默认 display:flex; justify-content:center，类选择器盖不住
+   它，导致行内容在真机上横向居中。所以让普通 view（.row__share）接管
+   flex + space-between 两端对齐（view 的 flex 在真机里 100% 可靠），
+   button（.row__share-btn）作为满宽透明触发区，open-type="share" 热区是整行。 */
+.row__share {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 var(--s-4);
+}
+.row__share-btn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    box-sizing: border-box;
+    /* button 默认字重偏重，重置为普通 400，与旁边 .row__label 一致 */
+    font-weight: 400;
+}
+.row__share-btn::after { border: none; }
+
+/* 图标 + 文字 作为整体靠左，与「分享到朋友圈」那一行的节奏一致 */
+.row__lead {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/* ---------- 页脚 ---------- */
+.about {
+    margin-top: var(--s-7);
+    text-align: center;
+}
+.about__brand {
+    font-size: var(--t-title);
+    letter-spacing: 3px;
+    color: var(--ink-3);
+}
+.about__desc {
+    margin-top: var(--s-2);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+/* 收藏列表用的就是查询页那套条目结构，这里只补空态。 */
+
+.item {
+    margin-top: var(--s-3);
+    padding: var(--s-4) var(--s-4) var(--s-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item:active { background: var(--fill); }
+
+.item__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+}
+.item__title {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.item__meta {
+    margin-top: var(--s-1);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+}
+.item__body {
+    margin-top: var(--s-2);
+    font-size: var(--t-body);
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre-wrap;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.item__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--s-2);
+    border-top: 0.5px solid var(--line);
+}
+.item__acts { display: flex; gap: var(--s-3); }
+.item__act {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 var(--s-3);
+    margin-left: calc(var(--s-3) * -1);
+    border-radius: var(--r-sm);
+    font-size: var(--t-cap);
+    color: var(--ink-2);
+    transition: background var(--dur-1) var(--ease);
+}
+.item__act:active { background: var(--fill-2); }
+.item__act--on { color: var(--accent); }
+.item__act-ic { width: 15px; height: 15px; margin-right: var(--s-1); }
+.item__arrow { width: 16px; height: 16px; }
+
+/* ---------- 空态 ---------- */
+.state__hint {
+    margin-top: var(--s-2);
+    font-size: var(--t-cap);
+    color: var(--ink-3);
+    opacity: 0.8;
+}
+.state__btn {
+    display: inline-flex;
+    margin-top: var(--s-5);
+    padding: 0 var(--s-5);
+}
+</style></head><body><div class="hd"><div class="hd__h">一诗一令古诗词 · 界面预览</div><div class="hd__p">按 1rpx = 0.5px 等比例渲染｜前六屏浅色（今日 / 飞花令 / 查询结果 / 查询起始 / 我的 / 收藏），后五屏深色（今日 / 详情 / 飞花令 / 我的 / 查询），最后一屏为分享面板</div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"><div class="nb__btn"><div class="ic ic-search nb__ic"></div></div></div><div class="nb__title" style="left:132px;right:132px"><span class="nb__title-text">今日</span></div></div></div><div class="page page--tab"><div class="daybar"><span class="daybar__date">十月十一日 星期日</span></div><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact pact--on"><div class="ic ic-heart-fill ic--acc"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div><div class="pact"><div class="ic ic-chevron"></div></div></div></div><div class="poem__title serif">静夜思</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">床前明月光，</div><div class="poem__line">疑是地上霜。</div><div class="poem__line">举头望明月，</div><div class="poem__line">低头思故乡。</div></div></div><button class="btn btn--block pick">再抽一首</button></div></div><div class="tb"><div class="tb__inner"><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2csW3EMAxFbxT3aTyC23QewaN4E1epPYJHuBE8AkdIbECFEYiGEognSvc+wCKNRb2TRIkS83gghBBCCCGE0Nvq6/NjPGwNNrbapnVnvn/Z2Fqb1hDXSIfW1tq0hrhFOrS11iYQgQhEIAIRiFXA6w+bD9sjHZLQUSuTSJt78KevAd6kgPNkp3+TR3idMo082+lv52nqSmUAr0tL72EE1grwCrLzFn1T1iTLwPKfNXkrGUQ0p56HDZ6yOMGf543PUwmI2i++eM4nnv5pM6REMImOwEr2sdqI7F/pxKw4MVQCcVD8n0snW6WyU5UUTd62cD4t3gcg2jlgnVh4RaKiOMQWDIhABCIQCSxscdgnAhGIQAQiEIEIRCC+C8RwFbtcNsQS/u6AmPbt6eYuW3LdyjULMfExQJbL9pYhLomJggWI+ndTn6QIEPXvJqetgMhIZE0kOrNPZJ/IiYWzMxCB2CpEntZlcIBHnhmc4LlxJkd2q9OEsd8+Hr5fNsW3JRgOp7CvEoybCOfxfY64LAb6w1mXsrTEIEOBZKYRSaluxmBD0XjGKT6Hk42HwLJW8+8LEEIIIYQQQiirfgDaVCCl1lVd1wAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1czc2jMBClBEqgBEpwCSnB55VW4rRnOqAEl5ASXIJLoASXkCWSkRCC8XgYsAPzpLnk+7CTl/H8PNupKoFAIBAIBAKBQCAQCK7Bv79/6sn0ZGYyN9lnYS68/v17LWxtk9dP5lfE7ZkP/y9kBgLVZCOSvLV9n1NPJ1ATyVubFgKFSBKBTUL8+yTEyeZJJNoIId8s/JoTR0g8r/A69Jx9UiKBvEkhnoe8WD2BxDdAYIscowWIfD+BxD0P6hLH6fbGeupS9sTx/G2XdFhuOnQVSzOcSxAIDWZjbo0NFyW0bpTuoyfO2RO7nPJaxlB+HKn7riRxmchepRBoGApl7uWcYuYOBM72Ing/19wmF4H9CW0bR514aUg5q+tYiqjrzBz74A45v0N8IesM7RDvWV1Joo2Qpw54cEctsmMeFb58l733jnihw5QOOQWIMJbL6o3AB/HY2iu3FBaI9NmSDFBMp/a+WUVZICyMOQWEOmOG7wlz11kEDCAejifE1xRTzKtK5SDR/iiJNgeJLbOUpYAksbV575lJ3BuvzRUTG8JYQ0qGBCqDgTB3k03UBWqsnjEmdWdnVCCpuStIHABvbBk+xK5XQ96T8iUCYYnk1RXnMsCKCJEa0R7odjSSQM8Zls6QwHxYdvWqJtNB//NHMi0io/swj954D11k/uskMWTb5oPXmMQWb/eQEuHw06zmWOT7baorcULbtiVCLAUIc/J8usqBC4h0wevdLQm8kMjPrQlcZTxL3L7kIIIyji1yHxoZt+Z932aVuUcCcXoRN5uEfW9TlYiI0PkJ5UUTed6kJh2geugimbgukcSOI+4g9pLfTPG6K5FEy7F0Ih6d7EGAd9sSSfxwyUqAN76JSa/8I3hAP+2ZvZoq/vqsfXImxdteNJ76BRJdISS6XyCRdefsBBLZdijPJtJztVWcJAJljq9KA5BRHVNoIC1BYCm/SyRRH22zQlgYEe0e9riK+blrbBECYq1aiuA6Rk6exVrIsSoVCFnMh40utTB94NjwvA2wHG9AqNi6KhlM56jPtPJvXCHO/+XSHNHnJ+9GZB/G6x9F4IrIgeuOycG7MsNP/15ECPY2gbzd206EH9ywt7q6u1Cb533gpQ3EeyzDxlgmpqILBAKBQCAQCAQCgUAgEAieiP/UxZvOlLcO2AAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2b0W2DMBRFM4JHYARGYISMwHelSPnqNxt0BEZgBEbICIzgERxbMRWiUdo0vOBnnyPdjwiFKEd2uNjkcAAAAAAAAIAn+Dx9VD5Hn26R8LrCzu/yWp+Lj3uQcLzF1k959R/k3ZNZY+8mMExT+6TAOeF9R0bg/+StU5cq0LwwAu+NSFOixH4jgXP6EiuME0hVksSzkMRzSRJHIYljSRKtkERbkkQnFSQikenMhYWKU2bFoWxz28cCBEthLIWxKCs+Itke2EgmG1UbVyC2TAEAAAAANijXZlGuxwcr3/OxuXwbxN1u84YXV3CGeB5TkrxwS/clsFll43mr3EdeJ7jTt5TZZTcy/RdqfCZheeuEz2tyEdi9Wd46nXaB/c4C9W5ixd+/SyICl4u5RpPEITGB33WIKVzC1I6l1ylIm3KJtkok2iRLueCTXq6IJ8himXYK06QkcVIqcWIU5jIaE+6EOrpjvDNxGcTsKbHNRGLLVNY8pRWV6zT/uiH48Ppeqag2GqtORheV/S4uCSz7699GQCIAAAAAAAAAwBu5Atcyp3LG46ipAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"><div class="nb__btn"><div class="ic ic-search nb__ic"></div></div></div><div class="nb__title" style="left:132px;right:132px"><span class="nb__title-text">飞花令</span></div></div></div><div class="page page--tab"><div class="hero hero--lead"><div class="hero__desc">取一个字，觅一首含它的诗</div></div><div class="card grab rise"><input class="grab__input serif" value="月"><div class="grab__quick"><div class="chip">春</div><div class="chip chip--on">月</div><div class="chip">花</div><div class="chip">风</div><div class="chip">雪</div><div class="chip">山</div><div class="chip">水</div><div class="chip">云</div></div><button class="btn btn--block">抽诗</button></div><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact"><div class="ic ic-heart"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div><div class="pact"><div class="ic ic-chevron"></div></div></div></div><div class="poem__title serif">鸟鸣涧</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">人闲桂花落，</div><div class="poem__line">夜静春山空。</div><div class="poem__line">月出惊山鸟，</div><div class="poem__line">时鸣春涧中。</div></div><div class="result__hit">含「月」 · 五言绝句</div></div><button class="btn btn--block pick">换一首</button></div></div><div class="tb"><div class="tb__inner"><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2cwW3FIAyG3ygZISNkhIyQc6Vee84mGSEjZIQ3QkbwCG0icYgqHNHKPAzv+yUfegnme4DB4D4eCCGEEEIIIfS2+vr8GA9bg42ttpm7M9+/bGytzdwQ10iH1tbazA1xi3Roa61NIAIRiEAEIhCrgNcfNh+2RzokoaO5TCJt7sGfvgZ4kwLOk53+TR7hdco08mynv52nqSuVAbwuLb2HEVgrwCvIzlv0TVmTcgaW/6zJW8kgojn1PGzwlMUJ/jxvfJ5KQNR+8cVzPvH0T5shJYJJdARWso/VRmT/SidmxYmhEoiD4v9cOtkqlZ2qpGjytoXzafE+ADGfA7kTC69IVBSH2IIBEYhABCKBhS0O+0QgAhGIQAQiEIEIxHeBGK5il8uGWMLfHRDTvj3d3GWL1a1csxATHwOYXLa3DHFJTBQsQNS/m/okRYCofzc5bQVERiJrItGZfSL7RE4snJ2BCMRWIfK0zsABHnkaOMFzYyNH9lynicx++3j4ftkU35ZgOJzCvkowbiKcx/c54rIY6A9nXcrSEoMMBZJGI5JSXcNgQ9G44RSfw8nGQ2BZq/n3BQghhBBCCCFkqh82BVyQ8MAN+QAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1czc2jMBClBErgvpeU4OveUoJLoAQ6oASf9pwSXIJLoASXkCXSICEE47EZsIF50lzyfdjJy3h+nu1UlUAgEAgEAoFAIBAIBOfg398/9Wh6NDOaG+07Mwev//5eC1vr5HWj+QVxW+bh/4VMIFCNNhDJW9rvOfV0AnUieUvTQqAQmURgExH/vhFxsnkSiTZAyC8Lv6fEAYnnDa9jz9knJRLMmxThecyL1RNI/CAEvohjvBAiP08gccuD2shx2q2xnrqUfeJ4/rZLGpabhq5iboZzCSKhwazMranhooTWLaX76BLn7BK7nPJaRig/9tR9Z5I4T2TvUgg0DIUy93KOMXMHAid7J3g/19wmF4HdAW0bR514akg5quuYi6jLzBz64I44vyN8IcsM7QjvWZ1Jog2Qp3Z4cJtaZIc8Cr58l733Dniho5QOOQUIGMtl9Ubkg3hq7ZVbCgMifbYkgxTTsb1vVlEWCQtDTgGhzpjhu4S56ywCBhIPhwPia4wp5lWlcpBoL0qizUHii1nKUkiSWNu898wkbo33yhUTm4Sx+pgMiVQGfcLcTTZRF6mxOsaY1B6dUZGk5s4gsUe88cXwITa9GvOemC8RCUtJXl1xLgOqiBCoEe2ObkcTCfScYekICczDsqsXNZkG/c/vybSEjO5hHr3yHtrA/OdJYsS2zYPXmMgWb/OQUsLhp0nNscT321Rn4oC2bU2EmAsQ5uD5dJUDJxDpwOvdLQk8kcjvrQlcZDybuH3JQUTKOLbIfWhi3Jr2fZtF5h4SiNOzuNlE7HubqkQEhM4vlBdN4HkTm3SQ6qENZOK6RBJbjrhD2Ev+MMXrtkQSLcfSCXh0tAch3m1LJPHLJSsh3vhJTHrlH8FD+mnP7NWp4q/P2idnUrztSeOpK5DoCiHRXYFE1p2zA0hk26E8mkjP1VZxkoiUOb4qDUhGdUyhIWkJIkv5UyKJem+bBWFhILR71OMq5nLX2AIEhFq1GMF1CJw8C7WQQ1UqCLKYh40uNTO949jwtA0wH68nqNi6KhlM56iPtPJvXBHO/+XSHMnnJ+9GZAfjdY8icEFkz3XHZOddmf7SvxcBwd5GkLd52ynhBzfsra7uztTmaR94bn3iPZZ+ZSwTUtEFAoFAIBAIBAKBQCAQCARPxH/Aoj77A1XmaAAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2b0W2DMBRFM4JHYARGYISMwHelSPnqNxt0BEZgBEbICIzgERxbMRWiUdo0vOBnnyPdjwiFKEd2uNjkcAAAAAAAAIAn+Dx9VD5Hn26R8LrCzu/yWp+Lj3uQcLzF1k959R/k3ZNZY+8mMExT+6TAOeF9R0bg/+StU5cq0LwwAu+NSFOixH4jgXP6EiuME0hVksSzkMRzSRJHIYljSRKtkERbkkQnFSQikenMhYWKU2bFoWxz28cCBEthLIWxKCs+Itke2EgmG1UbVyC2TAEAAAAANijXZlGuxwcr3/OxuXwbxN1u84YXV3CGeB5TkrxwS/clsFll43mr3EdeJ7jTt5TZZTcy/RdqfCZheeuEz2tyEdi9Wd46nXaB/c4C9W5ixd+/SyICl4u5RpPEITGB33WIKVzC1I6l1ylIm3KJtkok2iRLueCTXq6IJ8himXYK06QkcVIqcWIU5jIaE+6EOrpjvDNxGcTsKbHNRGLLVNY8pRWV6zT/uiH48Ppeqag2GqtORheV/S4uCSz7699GQCIAAAAAAAAAwBu5Atcyp3LG46ipAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"><div class="nb__btn"><div class="ic ic-back nb__ic"></div></div></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">查询</span></div></div></div><div class="page"><div class="field rise"><div class="ic ic-search field__ic"></div><input class="field__input" value="月" placeholder="诗名 / 作者 / 朝代 / 诗句"><div class="field__clear"><div class="ic ic-close field__clear-ic"></div></div><div class="field__go">查询</div></div><div class="section-title section-title--gap">共 3 首</div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">静夜思</span><span class="tag tag--accent">唐</span></div><div class="item__meta">李白 · 五言绝句</div><div class="item__body serif">床前明月光，疑是地上霜。
+举头望明月，低头思故乡。</div><div class="item__foot"><div class="item__acts"><div class="item__act item__act--on"><div class="ic ic-heart-fill item__act-ic ic--acc"></div><span>已收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">鸟鸣涧</span><span class="tag tag--accent">唐</span></div><div class="item__meta">王维 · 五言绝句</div><div class="item__body serif">人闲桂花落，夜静春山空。
+月出惊山鸟，时鸣春涧中。</div><div class="item__foot"><div class="item__acts"><div class="item__act"><div class="ic ic-heart item__act-ic"></div><span>收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">水调歌头</span><span class="tag tag--accent">宋</span></div><div class="item__meta">苏轼 · 宋词</div><div class="item__body serif">明月几时有，把酒问青天。
+不知天上宫阙，今夕是何年。</div><div class="item__foot"><div class="item__acts"><div class="item__act"><div class="ic ic-heart item__act-ic"></div><span>收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"><div class="nb__btn"><div class="ic ic-back nb__ic"></div></div></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">查询</span></div></div></div><div class="page"><div class="field rise"><div class="ic ic-search field__ic"></div><input class="field__input" value="" placeholder="诗名 / 作者 / 朝代 / 诗句"><div class="field__go field__go--off">查询</div></div><div class="section-title section-title--gap">试试这些</div><div class="hot"><div class="chip chip--wide">春</div><div class="chip chip--wide">月</div><div class="chip chip--wide">花</div><div class="chip chip--wide">李白</div><div class="chip chip--wide">杜甫</div><div class="chip chip--wide">唐</div><div class="chip chip--wide">山水</div><div class="chip chip--wide">思乡</div></div></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">我的</span></div></div></div><div class="page page--tab"><div class="card me rise"><div class="me__avatar-btn"><img class="me__avatar" src="data:image/png;base64,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"><div class="me__badge"><div class="ic ic-camera me__badge-ic"></div></div></div><div class="me__info"><div class="me__name">读诗的人</div><div class="me__stat">已收藏 3 首</div></div></div><div class="section-title section-title--gap">我的收藏</div><div class="card group"><div class="row"><div class="ic ic-heart-fill ic--acc row__ic"></div><span class="row__label">我收藏的诗词</span><span class="row__value">3 首</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">我的设置</div><div class="card group"><div class="row"><div class="ic ic-moon row__ic"></div><span class="row__label">外观</span><span class="row__value">跟随系统</span><div class="ic ic-chevron row__arrow"></div></div><div class="hr"></div><div class="row"><div class="ic ic-lang row__ic"></div><span class="row__label">文字</span><span class="row__value">简体中文</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">分享</div><div class="card group"><div class="row row__share"><div class="row__share-btn"><div class="row__lead"><div class="ic ic-share row__ic"></div><span class="row__label">分享给好友</span></div></div><div class="ic ic-chevron row__arrow"></div></div><div class="hr"></div><div class="row"><div class="ic ic-image row__ic"></div><span class="row__label">分享到朋友圈</span><span class="row__value">点右上角「···」</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">关于</div><div class="card group"><div class="row"><div class="ic ic-info row__ic"></div><span class="row__label">版本</span><span class="row__value">1.0.0</span></div></div><div class="about"><div class="about__brand serif">一诗一令</div><div class="about__desc">每日一诗 · 飞花令 · 全文查询</div></div></div></div><div class="tb"><div class="tb__inner"><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2cwW3FIAyG3ygZISNkhIyQc6Vee84mGSEjZIQ3QkbwCG0icYgqHNHKPAzv+yUfegnme4DB4D4eCCGEEEIIIfS2+vr8GA9bg42ttpm7M9+/bGytzdwQ10iH1tbazA1xi3Roa61NIAIRiEAEIhCrgNcfNh+2RzokoaO5TCJt7sGfvgZ4kwLOk53+TR7hdco08mynv52nqSuVAbwuLb2HEVgrwCvIzlv0TVmTcgaW/6zJW8kgojn1PGzwlMUJ/jxvfJ5KQNR+8cVzPvH0T5shJYJJdARWso/VRmT/SidmxYmhEoiD4v9cOtkqlZ2qpGjytoXzafE+ADGfA7kTC69IVBSH2IIBEYhABCKBhS0O+0QgAhGIQAQiEIEIxHeBGK5il8uGWMLfHRDTvj3d3GWL1a1csxATHwOYXLa3DHFJTBQsQNS/m/okRYCofzc5bQVERiJrItGZfSL7RE4snJ2BCMRWIfK0zsABHnkaOMFzYyNH9lynicx++3j4ftkU35ZgOJzCvkowbiKcx/c54rIY6A9nXcrSEoMMBZJGI5JSXcNgQ9G44RSfw8nGQ2BZq/n3BQghhBBCCCFkqh82BVyQ8MAN+QAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1czc2jMBClBEqgBEpwCSnB55VW4rRnOqAEl5ASXIJLoASXkCWSkRCC8XgYsAPzpLnk+7CTl/H8PNupKoFAIBAIBAKBQCAQCK7Bv79/6sn0ZGYyN9lnYS68/v17LWxtk9dP5lfE7ZkP/y9kBgLVZCOSvLV9n1NPJ1ATyVubFgKFSBKBTUL8+yTEyeZJJNoIId8s/JoTR0g8r/A69Jx9UiKBvEkhnoe8WD2BxDdAYIscowWIfD+BxD0P6hLH6fbGeupS9sTx/G2XdFhuOnQVSzOcSxAIDWZjbo0NFyW0bpTuoyfO2RO7nPJaxlB+HKn7riRxmchepRBoGApl7uWcYuYOBM72Ing/19wmF4H9CW0bR514aUg5q+tYiqjrzBz74A45v0N8IesM7RDvWV1Joo2Qpw54cEctsmMeFb58l733jnihw5QOOQWIMJbL6o3AB/HY2iu3FBaI9NmSDFBMp/a+WUVZICyMOQWEOmOG7wlz11kEDCAejifE1xRTzKtK5SDR/iiJNgeJLbOUpYAksbV575lJ3BuvzRUTG8JYQ0qGBCqDgTB3k03UBWqsnjEmdWdnVCCpuStIHABvbBk+xK5XQ96T8iUCYYnk1RXnMsCKCJEa0R7odjSSQM8Zls6QwHxYdvWqJtNB//NHMi0io/swj954D11k/uskMWTb5oPXmMQWb/eQEuHw06zmWOT7baorcULbtiVCLAUIc/J8usqBC4h0wevdLQm8kMjPrQlcZTxL3L7kIIIyji1yHxoZt+Z932aVuUcCcXoRN5uEfW9TlYiI0PkJ5UUTed6kJh2geugimbgukcSOI+4g9pLfTPG6K5FEy7F0Ih6d7EGAd9sSSfxwyUqAN76JSa/8I3hAP+2ZvZoq/vqsfXImxdteNJ76BRJdISS6XyCRdefsBBLZdijPJtJztVWcJAJljq9KA5BRHVNoIC1BYCm/SyRRH22zQlgYEe0e9riK+blrbBECYq1aiuA6Rk6exVrIsSoVCFnMh40utTB94NjwvA2wHG9AqNi6KhlM56jPtPJvXCHO/+XSHNHnJ+9GZB/G6x9F4IrIgeuOycG7MsNP/15ECPY2gbzd206EH9ywt7q6u1Cb533gpQ3EeyzDxlgmpqILBAKBQCAQCAQCgUAgEAieiP/UxZvOlLcO2AAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2bwW2DMBhGM4JH4N4LI3DtLSMwQkZgg4zAqWdGYISMwAgewbEVUyEapU3DH/zb70nfIUIhypMdPmxyOAAAAAAAAMATfH1+VD5Hn26R8LrCzu/yWp+Lj3uQcLzF1k959R/k3ZNZY+8mMExT+6TAOeF9R0bg/+StU5cq0LwwAu+NSFOixH4jgXP6EiuME0hVksSTkMRTSRJHIYljSRKtkERbkkQnFSQikenMhYWKU2bFoWxz28cCBEthLIWxKCs+Itke2EgmG1UbVyC2TAEAAAAANijXZlGuxwcr3/OxuXwbxN1u84YXV3CGeB5TkrxwS3cW2Kyy8bxV7iOvE9zpW8rsshuZ/gs1PpOwvHXC5zW5COzeLG+dTrvAfmeBejex4u/fJRGBy8Vco0nikJjA7zrEFC5hasfS6xSkTblEWyUSbZKlXPBJL1fEE2SxTDuFaVKSOCmVODEKcxmNCXdCHd0x3pm4DGL2lNhmIrFlKmue0orKdZp/3RB8eH2vVFQbjVUno4vKfheXBJb99W8jIBEAAAAAAAAA4I1cAQkDa7vfa2oRAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"><div class="nb__btn"><div class="ic ic-back nb__ic"></div></div></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">我的收藏</span></div></div></div><div class="page"><div class="section-title">共 3 首 · 存在本机</div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">静夜思</span><span class="tag tag--accent">唐</span></div><div class="item__meta">李白 · 五言绝句</div><div class="item__body serif">床前明月光，疑是地上霜。
+举头望明月，低头思故乡。</div><div class="item__foot"><div class="item__acts"><div class="item__act item__act--on"><div class="ic ic-heart-fill item__act-ic ic--acc"></div><span>已收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">鸟鸣涧</span><span class="tag tag--accent">唐</span></div><div class="item__meta">王维 · 五言绝句</div><div class="item__body serif">人闲桂花落，夜静春山空。
+月出惊山鸟，时鸣春涧中。</div><div class="item__foot"><div class="item__acts"><div class="item__act item__act--on"><div class="ic ic-heart-fill item__act-ic ic--acc"></div><span>已收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div></div></div></div><div class="phone t-dark"><div class="viewport"><div class="nb nb--dark" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"><div class="nb__btn"><div class="ic ic-search nb__ic"></div></div></div><div class="nb__title" style="left:132px;right:132px"><span class="nb__title-text">今日</span></div></div></div><div class="page page--tab t-dark"><div class="daybar"><span class="daybar__date">十月十一日 星期日</span></div><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact pact--on"><div class="ic ic-heart-fill ic--acc"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div><div class="pact"><div class="ic ic-chevron"></div></div></div></div><div class="poem__title serif">静夜思</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">床前明月光，</div><div class="poem__line">疑是地上霜。</div><div class="poem__line">举头望明月，</div><div class="poem__line">低头思故乡。</div></div></div><button class="btn btn--block pick">再抽一首</button></div></div><div class="tb tb--dark"><div class="tb__inner"><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwUlEQVR42u2cwXHEIAxFtxSX4BJcgktwD2nAHaQEl+ASXMKW4GOOlJDYMxw8GeQhGbEI7fszOuRixFtAIFAeD4QQQgghhBB6W319foyHrdFGr22W7sz3Lxu9tVka4pro0OqtzdIQt0SHNm9tAhGIQAQiEIHYBLz+sPmwPdGhEDtaykKizT3607cAbxLAWbLTv8kivE6YRpbt9LezNHVDYwCvS0tvYQS2CvAKsrMWfXPWpJKB5T9r8lYziEhOPQ8bLGVxoj/PG5+nGhClX3yxnE88/ZNmSI1gkhyBjexjpRHZv9KJWXBiaATiIPg/1062hsZOVaFq8tbD+bR6H4BYzoHSiYVXJCqqQ/RgQAQiEIFIYGGLwz4RiEAEIhCBCEQgAvFdIMar2OWyIQ7x7w6Ied+ebu6yg9atnFuImY8BVC7bPUNcMhMFCxDl7+Y+SQlAlL+bnbYCIiORNZHozD6RfSInFs7OQASiV4g8rVNwgEeeCk7w3FjJkb3UaaKw3zYevl82xbclGAansK0SjJsIZ/F9TjBZDPSHsy5laZlBhgJJpRFJqa5isKFoXHGKz/FkYyGwrM38+wKEEEIIIYQQUtUPlcYQYHugo7oAAAAASUVORK5CYII="><span class="tb__text">今日</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1c3c2rMAxlBEZgBEbICB0hIzACGzBCXq/uS6W7QEbICIyQEXqpFCSEwHGMISn4SH7p95G0p45/TpJWlUAgEAgEAoFAIBAIBNfg398/9WR6MjOZm+yzMBde//69Fra2yesn8yvi9syH/xcyA4FqshFJ3tq+z6mnE6iJ5K1NC4FCJInAJiH+fRLiZPMkEm2EkG8Wfs2JIySeV3gdes4+KZFA3qQQz0NerJ5A4hsgsEWO0QJEvp9A4p4HdYnjdHtjPXUpe+J4/rZLOiw3HbqKpRnOJQiEBrMxt8aGixJaN0r30RPn7IldTnktYyg/jtR9V5K4TGSvUgg0DIUy93JOMXMHAmd7Ebyfa26Ti8D+hLaNo068NKSc1XUsRdR1Zo59cIec3yG+kHWGdoj3rK4k0UbIUwc8uKMW2TGPCl++y957R7zQYUqHnAJEGMtl9Ubgg3hs7ZVbCgtE+mxJBiimU3vfrKIsEBbGnAJCnTHD94S56ywCBhAPxxPia4op5lWlcpBof5REm4PEllnKUkCS2Nq898wk7o3X5oqJDWGsISVDApXBQJi7ySbqAjVWzxiTurMzKpDU3BUkDoA3tgwfYterIe9J+RKBsETy6opzGWBFhEiNaA90OxpJoOcMS2dIYD4su3pVk+mg//kjmRaR0X2YR2+8hy4y/3WSGLJt88FrTGKLt3tIiXD4aVZzLPL9NtWVOKFt2xIhlgKEOXk+XeXABUS64PXulgReSOTn1gSuMp4lbl9yEEEZxxa5D42MW/O+b7PK3COBOL2Im03CvrepSkRE6PyE8qKJPG9Skw5QPXSRTFyXSGLHEXcQe8lvpnjdlUii5Vg6EY9O9iDAu22JJH64ZCXAG9/EpFf+ETygn/bMXk0Vf33WPjmT4m0vGk/9AomuEBLdL5DIunN2AolsO5RnE+m52ipOEoEyx1elAciojik0kJYgsJTfJZKoj7ZZISyMiHYPe1zF/Nw1tggBsVYtRXAdIyfPYi3kWJUKhCzmw0aXWpg+cGx43gZYjjcgVGxdlQymc9RnWvk3rhDn/3Jpjujzk3cjsg/j9Y8icEXkwHXH5OBdmeGnfy8iBHubQN7ubSfCD27YW13dXajN8z7w0gbiPZZhYywTU9EFAoFAIBAIBAKBQCAQCARPxH9zP2d89AmtOAAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2b0W2DMBRFM4JHYARGYISMwAgZgQ0yAr9Rf5C6ACNkBEbwCK6tmArRKG0aXvCzz5HuR4RClCM7XGxyOAAAAAAAAMATfH5cKp+jT7dIeF1h53d5rc/Vxz1ION5i66e8+g/y7smssXcTGKapfVLgnPC+IyPwf/LWqUsVaF4YgfdGpClRYr+RwDl9iRXGCaQqSeJJSOKpJImjkMSxJIlWSKItSaKTChKRyHTmwkLFKbPiULa57WMBgqUwlsJYlBUfkWwPbCSTjaqNKxBbpgAAAAAAG5RrsyjX44OV7/nYXL4N4m63ecOLKzhDPI8pSV64pTsLbFbZeN4q95HXCe70LWV22Y1M/4Uan0lY3jrh85pcBHZvlrdOp11gv7NAvZtY8ffvmojA5WKu0SRxSEzgdx1iCpcwtWPpdQrSplyirRKJNslSLviklyviCbJYpp3CNClJnJRKnBiFuYzGhDuhju4Y70xcBjF7SmwzkdgylTVPaUXlOs2/bgg+vL5XKqqNxqqT0UVlv4tLAsv++rcRkAgAAAAAAAAA8Ea+APG7/oxBRwJEAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone t-dark"><div class="viewport"><div class="nb nb--dark" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"><div class="nb__btn"><div class="ic ic-back nb__ic"></div></div></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">静夜思</span></div></div></div><div class="page t-dark"><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact pact--on"><div class="ic ic-heart-fill ic--acc"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div></div></div><div class="poem__title serif">静夜思</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">床前明月光，</div><div class="poem__line">疑是地上霜。</div><div class="poem__line">举头望明月，</div><div class="poem__line">低头思故乡。</div></div><div class="poem__note">五言绝句：四句，每句五字，讲究平仄对仗，是唐诗中最凝练的体裁之一。</div></div></div></div></div><div class="phone t-dark"><div class="viewport"><div class="nb nb--dark" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"><div class="nb__btn"><div class="ic ic-search nb__ic"></div></div></div><div class="nb__title" style="left:132px;right:132px"><span class="nb__title-text">飞花令</span></div></div></div><div class="page page--tab t-dark"><div class="hero hero--lead"><div class="hero__desc">取一个字，觅一首含它的诗</div></div><div class="card grab rise"><input class="grab__input serif" value="月"><div class="grab__quick"><div class="chip">春</div><div class="chip chip--on">月</div><div class="chip">花</div><div class="chip">风</div><div class="chip">雪</div><div class="chip">山</div><div class="chip">水</div><div class="chip">云</div></div><button class="btn btn--block">抽诗</button></div><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact"><div class="ic ic-heart"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div><div class="pact"><div class="ic ic-chevron"></div></div></div></div><div class="poem__title serif">鸟鸣涧</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">人闲桂花落，</div><div class="poem__line">夜静春山空。</div><div class="poem__line">月出惊山鸟，</div><div class="poem__line">时鸣春涧中。</div></div><div class="result__hit">含「月」 · 五言绝句</div></div><button class="btn btn--block pick">换一首</button></div></div><div class="tb tb--dark"><div class="tb__inner"><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2cwW3FIAyG3ygZISNkhIyQUbJJrlUvkbpARngjZASP0CYSh6jCEa3Mw/C+X/Khl2C+BxgM7uOBEEIIIYQQQm+rr8+P8bA12Nhqm7k78/3LxtbazA1xjXRoba3N3BC3SIe21toEIhCBCEQgArEKeP1h82F7pEMSOprLJNLmHvzpa4A3KeA82enf5BFep0wjz3b623maulIZwOvS0nsYgbUCvILsvEXflDUpZ2D5z5q8lQwimlPPwwZPWZzgz/PG56kERO0XXzznE0//tBlSIphER2Al+1htRPavdGJWnBgqgTgo/s+lk61S2alKiiZvWzifFu8DEPM5kDux8IpERXGILRgQgQhEIBJY2OKwTwQiEIEIRCACEYhAfBeI4Sp2uWyIJfzdATHt29PNXbZY3co1CzHxMYDJZXvLEJfERMECRP27qU9SBIj6d5PTVkBkJLImEp3ZJ7JP5MTC2RmIQGwVIk/rDBzgkaeBEzw3NnJkz3WayOy3j4fvl03xbQmGwynsqwTjJsJ5fJ8jLouB/nDWpSwtMchQIGk0IinVNQw2FI0bTvE5nGw8BJa1mn9fgBBCCCGEEEKm+gESi7RhdbxdUQAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZklEQVR42u1c3a2zMAxlBEZghI6QETpCRkD6FmADRsgIHSEjZAQe72NG4KOSkRACxwmGpOAj+aX3krSnjn9OklaVQCAQCAQCgUAgEAgE1+Cv/1dPpiczk7nJxoU5eP3791rY2iavm8yviNszD/8vZAKBarKBSN7avs+ppxOoE8lbmxYChcgkApuI+DdGxMnmSSTaACHfLPyeEwcknje8jj1nn5RIMG9ShOcxL1ZPIPGDEPgijvFCiPw8gcQ9D2ojx2n3xnrqUvaJ4/nbLmlYbhq6iqUZziWIhAazMbemhosSWreU7qNLnLNL7HLKaxmh/DhS911J4jKRvUsh0DAUytzLOcbMHQic7Z3g/Vxzm1wEdie0bRx14qUh5ayuYymirjNz6IM74vyO8IWsM7QjvGd1JYk2QJ464MFtapEd8ij48l323jvghY5SOuQUIGAsl9UbkQ/iqbVXbikMiPTZkgxSTMf2vllFWSQsDDkFhDpjhu8S5q6zCBhIPBxOiK8xpphXlcpBov1REm0OEl/MUpZCksTW5r1nJnFvvFeumNgkjNXHZEikMugT5m6yibpIjdUxxqT27IyKJDV3BYk94o0vhg+x69WY98R8iUhYSvLqinMZUEWEQI1oD3Q7mkig5wxLZ0hgHpZdvarJNOh//kimJWR0D/PojffQBua/ThIjtm0evMZEtni7h5QSDj/Nao4lvt+muhIntG1bIsRSgDAnz6erHLiASAde725J4IVEjrcmcJXxbOL2JQcRKePYIvehiXFr3vdtVpl7SCBOL+JmE7HvbaoSERA6RygvmsDzJjbpINVDG8jEdYkkthxxh7CX/GGK122JJFqOpRPw6GgPQrzblkjiyCUrId74SUx65R/BQ/ppz+zVqeKvz9onZ1K87UXjqV8g0RVCovsFEll3zk4gkW2H8mwiPVdbxUkiUub4qjQgGdUxhYakJYgs5U+JJOqjbRaEhYHQ7lGPq5ifu8YWICDUqsUIrkPg5FmohRyqUkGQxTxsdKmF6QPHhudtgOV4PUHF1lXJYDpHfaaVf+OKcP4vl+ZIPj95NyI7GK97FIErInuuOyYH78r0P/17ERDsbQR5u7edEn5ww97q6u5CbZ73gZfWJ95j6TfGMiEVXSAQCAQCgUAgEAgEAoFA8ET8B3C8slYGE0dcAAAAAElFTkSuQmCC"><span class="tb__text">飞花令</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2b0W2DMBRFM4JHYARGYISMwAgZgQ0yAr9Rf5C6ACNkBEbwCK6tmArRKG0aXvCzz5HuR4RClCM7XGxyOAAAAAAAAMATfH5cKp+jT7dIeF1h53d5rc/Vxz1ION5i66e8+g/y7smssXcTGKapfVLgnPC+IyPwf/LWqUsVaF4YgfdGpClRYr+RwDl9iRXGCaQqSeJJSOKpJImjkMSxJIlWSKItSaKTChKRyHTmwkLFKbPiULa57WMBgqUwlsJYlBUfkWwPbCSTjaqNKxBbpgAAAAAAG5RrsyjX44OV7/nYXL4N4m63ecOLKzhDPI8pSV64pTsLbFbZeN4q95HXCe70LWV22Y1M/4Uan0lY3jrh85pcBHZvlrdOp11gv7NAvZtY8ffvmojA5WKu0SRxSEzgdx1iCpcwtWPpdQrSplyirRKJNslSLviklyviCbJYpp3CNClJnJRKnBiFuYzGhDuhju4Y70xcBjF7SmwzkdgylTVPaUXlOs2/bgg+vL5XKqqNxqqT0UVlv4tLAsv++rcRkAgAAAAAAAAA8Ea+APG7/oxBRwJEAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone t-dark"><div class="viewport"><div class="nb nb--dark" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">我的</span></div></div></div><div class="page page--tab t-dark"><div class="card me rise"><div class="me__avatar-btn"><img class="me__avatar" src="data:image/png;base64,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"><div class="me__badge"><div class="ic ic-camera me__badge-ic"></div></div></div><div class="me__info"><div class="me__name">读诗的人</div><div class="me__stat">已收藏 3 首</div></div></div><div class="section-title section-title--gap">我的收藏</div><div class="card group"><div class="row"><div class="ic ic-heart-fill ic--acc row__ic"></div><span class="row__label">我收藏的诗词</span><span class="row__value">3 首</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">我的设置</div><div class="card group"><div class="row"><div class="ic ic-moon row__ic"></div><span class="row__label">外观</span><span class="row__value">跟随系统</span><div class="ic ic-chevron row__arrow"></div></div><div class="hr"></div><div class="row"><div class="ic ic-lang row__ic"></div><span class="row__label">文字</span><span class="row__value">简体中文</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">分享</div><div class="card group"><div class="row row__share"><div class="row__share-btn"><div class="row__lead"><div class="ic ic-share row__ic"></div><span class="row__label">分享给好友</span></div></div><div class="ic ic-chevron row__arrow"></div></div><div class="hr"></div><div class="row"><div class="ic ic-image row__ic"></div><span class="row__label">分享到朋友圈</span><span class="row__value">点右上角「···」</span><div class="ic ic-chevron row__arrow"></div></div></div><div class="section-title section-title--gap">关于</div><div class="card group"><div class="row"><div class="ic ic-info row__ic"></div><span class="row__label">版本</span><span class="row__value">1.0.0</span></div></div><div class="about"><div class="about__brand serif">一诗一令</div><div class="about__desc">每日一诗 · 飞花令 · 全文查询</div></div></div></div><div class="tb tb--dark"><div class="tb__inner"><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2cwW3FIAyG3ygZISNkhIyQUbJJrlUvkbpARngjZASP0CYSh6jCEa3Mw/C+X/Khl2C+BxgM7uOBEEIIIYQQQm+rr8+P8bA12Nhqm7k78/3LxtbazA1xjXRoba3N3BC3SIe21toEIhCBCEQgArEKeP1h82F7pEMSOprLJNLmHvzpa4A3KeA82enf5BFep0wjz3b623maulIZwOvS0nsYgbUCvILsvEXflDUpZ2D5z5q8lQwimlPPwwZPWZzgz/PG56kERO0XXzznE0//tBlSIphER2Al+1htRPavdGJWnBgqgTgo/s+lk61S2alKiiZvWzifFu8DEPM5kDux8IpERXGILRgQgQhEIBJY2OKwTwQiEIEIRCACEYhAfBeI4Sp2uWyIJfzdATHt29PNXbZY3co1CzHxMYDJZXvLEJfERMECRP27qU9SBIj6d5PTVkBkJLImEp3ZJ7JP5MTC2RmIQGwVIk/rDBzgkaeBEzw3NnJkz3WayOy3j4fvl03xbQmGwynsqwTjJsJ5fJ8jLouB/nDWpSwtMchQIGk0IinVNQw2FI0bTvE5nGw8BJa1mn9fgBBCCCGEEEKm+gESi7RhdbxdUQAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1c3c2rMAxlBEZgBEbICB0hIzACGzBCXq/uS6W7QEbICIyQEXqpFCSEwHGMISn4SH7p95G0p45/TpJWlUAgEAgEAoFAIBAIBNfg398/9WR6MjOZm+yzMBde//69Fra2yesn8yvi9syH/xcyA4FqshFJ3tq+z6mnE6iJ5K1NC4FCJInAJiH+fRLiZPMkEm2EkG8Wfs2JIySeV3gdes4+KZFA3qQQz0NerJ5A4hsgsEWO0QJEvp9A4p4HdYnjdHtjPXUpe+J4/rZLOiw3HbqKpRnOJQiEBrMxt8aGixJaN0r30RPn7IldTnktYyg/jtR9V5K4TGSvUgg0DIUy93JOMXMHAmd7Ebyfa26Ti8D+hLaNo068NKSc1XUsRdR1Zo59cIec3yG+kHWGdoj3rK4k0UbIUwc8uKMW2TGPCl++y957R7zQYUqHnAJEGMtl9Ubgg3hs7ZVbCgtE+mxJBiimU3vfrKIsEBbGnAJCnTHD94S56ywCBhAPxxPia4op5lWlcpBof5REm4PEllnKUkCS2Nq898wk7o3X5oqJDWGsISVDApXBQJi7ySbqAjVWzxiTurMzKpDU3BUkDoA3tgwfYterIe9J+RKBsETy6opzGWBFhEiNaA90OxpJoOcMS2dIYD4su3pVk+mg//kjmRaR0X2YR2+8hy4y/3WSGLJt88FrTGKLt3tIiXD4aVZzLPL9NtWVOKFt2xIhlgKEOXk+XeXABUS64PXulgReSOTn1gSuMp4lbl9yEEEZxxa5D42MW/O+b7PK3COBOL2Im03CvrepSkRE6PyE8qKJPG9Skw5QPXSRTFyXSGLHEXcQe8lvpnjdlUii5Vg6EY9O9iDAu22JJH64ZCXAG9/EpFf+ETygn/bMXk0Vf33WPjmT4m0vGk/9AomuEBLdL5DIunN2AolsO5RnE+m52ipOEoEyx1elAciojik0kJYgsJTfJZKoj7ZZISyMiHYPe1zF/Nw1tggBsVYtRXAdIyfPYi3kWJUKhCzmw0aXWpg+cGx43gZYjjcgVGxdlQymc9RnWvk3rhDn/3Jpjujzk3cjsg/j9Y8icEXkwHXH5OBdmeGnfy8iBHubQN7ubSfCD27YW13dXajN8z7w0gbiPZZhYywTU9EFAoFAIBAIBAKBQCAQCARPxH9zP2d89AmtOAAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABn0lEQVR42u2b0a2CMBhGHaEjMAIjMIIjMIKJC7CBIzACIzCCI/B4HztCbWO5IVzjvV6p9O9/TvI9GCLGk1Y+WjwcAAAAAAAA4AW+LufK5+jTLRJeV9j5XV7rc/VxTxKOt9j6Ka/+g7xHMmvs3QWGaWpfFDgnvO/ICPyfvHVqrQLNGyPw0Yg0GiX2Gwmc02usMC5BKk0ST4kknjRJHBNJHDVJtIkkWk0SXaogEYlMZy4sVBydFYeyzW0fCxAshbEUxqJs8hHJ9sBGMtmo2rgCsWUKAAAAALBBuTaLcj0+Wfmej83l2yDufps3vLmCM8TzGE3ywi3dJcFmlY3nrUofeV3Cnb6lzK64kem/UOMzJZa3Tvi8phSB3YflrdNJF9jvLFDuJlb8/btmInC5mGskSRwyE/hdh5jCGqZ2LL1OQNqcS7QVItFmWcoTPunlVDxBFsu0E5gmJ4mTUIkTo7CU0ZhxJ5TRHeOdiSsgZk+JbSESW6ay5CktqFzn+deNhA+v75WKaiOx6hR0Udnv4pLBsr/8bQQkAgAAAAAAAAB8kBuNBlqmXmt1BgAAAABJRU5ErkJggg=="><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div></div><div class="phone"><div class="viewport"><div class="nb nb--dark" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"><div class="nb__btn"><div class="ic ic-back nb__ic"></div></div></div><div class="nb__side nb__side--right"></div><div class="nb__title" style="left:96px;right:96px"><span class="nb__title-text">查询</span></div></div></div><div class="page t-dark"><div class="field rise"><div class="ic ic-search field__ic"></div><input class="field__input" value="月" placeholder="诗名 / 作者 / 朝代 / 诗句"><div class="field__clear"><div class="ic ic-close field__clear-ic"></div></div><div class="field__go">查询</div></div><div class="section-title section-title--gap">共 3 首</div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">静夜思</span><span class="tag tag--accent">唐</span></div><div class="item__meta">李白 · 五言绝句</div><div class="item__body serif">床前明月光，疑是地上霜。
+举头望明月，低头思故乡。</div><div class="item__foot"><div class="item__acts"><div class="item__act item__act--on"><div class="ic ic-heart-fill item__act-ic ic--acc"></div><span>已收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">鸟鸣涧</span><span class="tag tag--accent">唐</span></div><div class="item__meta">王维 · 五言绝句</div><div class="item__body serif">人闲桂花落，夜静春山空。
+月出惊山鸟，时鸣春涧中。</div><div class="item__foot"><div class="item__acts"><div class="item__act"><div class="ic ic-heart item__act-ic"></div><span>收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div><div class="card item rise-item"><div class="item__head"><span class="item__title serif">水调歌头</span><span class="tag tag--accent">宋</span></div><div class="item__meta">苏轼 · 宋词</div><div class="item__body serif">明月几时有，把酒问青天。
+不知天上宫阙，今夕是何年。</div><div class="item__foot"><div class="item__acts"><div class="item__act"><div class="ic ic-heart item__act-ic"></div><span>收藏</span></div><div class="item__act"><div class="ic ic-copy item__act-ic"></div><span>复制</span></div></div><div class="ic ic-chevron item__arrow"></div></div></div></div></div></div><div class="phone"><div class="viewport"><div class="nb" style="height:64px"><div class="nb__status" style="height:20px"></div><div class="nb__bar" style="height:44px;padding-right:96px"><div class="nb__side"></div><div class="nb__side nb__side--right"><div class="nb__btn"><div class="ic ic-search nb__ic"></div></div></div><div class="nb__title" style="left:132px;right:132px"><span class="nb__title-text">今日</span></div></div></div><div class="page page--tab"><div class="daybar"><span class="daybar__date">十月十一日 星期日</span></div><div class="card poem rise"><div class="poem__top"><div class="poem__meta"><span class="tag tag--accent">唐</span><span class="poem__author">李白</span><span class="poem__type">五言绝句</span></div><div class="poem__acts"><div class="pact pact--on"><div class="ic ic-heart-fill ic--acc"></div></div><div class="pact"><div class="ic ic-copy"></div></div><div class="pact"><div class="ic ic-share"></div></div><div class="pact"><div class="ic ic-chevron"></div></div></div></div><div class="poem__title serif">静夜思</div><div class="poem__rule"></div><div class="poem__body serif"><div class="poem__line">床前明月光，</div><div class="poem__line">疑是地上霜。</div><div class="poem__line">举头望明月，</div><div class="poem__line">低头思故乡。</div></div></div><button class="btn btn--block pick">再抽一首</button></div></div><div class="tb"><div class="tb__inner"><div class="tb__item tb__item--on"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABwElEQVR42u2csW3EMAxFbxT3aTyC23QewaN4E1epPYJHuBE8AkdIbECFEYiGEognSvc+wCKNRb2TRIkS83gghBBCCCGE0Nvq6/NjPGwNNrbapnVnvn/Z2Fqb1hDXSIfW1tq0hrhFOrS11iYQgQhEIAIRiFXA6w+bD9sjHZLQUSuTSJt78KevAd6kgPNkp3+TR3idMo082+lv52nqSmUAr0tL72EE1grwCrLzFn1T1iTLwPKfNXkrGUQ0p56HDZ6yOMGf543PUwmI2i++eM4nnv5pM6REMImOwEr2sdqI7F/pxKw4MVQCcVD8n0snW6WyU5UUTd62cD4t3gcg2jlgnVh4RaKiOMQWDIhABCIQCSxscdgnAhGIQAQiEIEIRCC+C8RwFbtcNsQS/u6AmPbt6eYuW3LdyjULMfExQJbL9pYhLomJggWI+ndTn6QIEPXvJqetgMhIZE0kOrNPZJ/IiYWzMxCB2CpEntZlcIBHnhmc4LlxJkd2q9OEsd8+Hr5fNsW3JRgOp7CvEoybCOfxfY64LAb6w1mXsrTEIEOBZKYRSaluxmBD0XjGKT6Hk42HwLJW8+8LEEIIIYQQQiirfgDaVCCl1lVd1wAAAABJRU5ErkJggg=="><span class="tb__text">今日</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAADZ0lEQVR42u1czc2jMBClBEqgBEpwCSnB55VW4rRnOqAEl5ASXIJLoASXkCWSkRCC8XgYsAPzpLnk+7CTl/H8PNupKoFAIBAIBAKBQCAQCK7Bv79/6sn0ZGYyN9lnYS68/v17LWxtk9dP5lfE7ZkP/y9kBgLVZCOSvLV9n1NPJ1ATyVubFgKFSBKBTUL8+yTEyeZJJNoIId8s/JoTR0g8r/A69Jx9UiKBvEkhnoe8WD2BxDdAYIscowWIfD+BxD0P6hLH6fbGeupS9sTx/G2XdFhuOnQVSzOcSxAIDWZjbo0NFyW0bpTuoyfO2RO7nPJaxlB+HKn7riRxmchepRBoGApl7uWcYuYOBM72Ing/19wmF4H9CW0bR514aUg5q+tYiqjrzBz74A45v0N8IesM7RDvWV1Joo2Qpw54cEctsmMeFb58l733jnihw5QOOQWIMJbL6o3AB/HY2iu3FBaI9NmSDFBMp/a+WUVZICyMOQWEOmOG7wlz11kEDCAejifE1xRTzKtK5SDR/iiJNgeJLbOUpYAksbV575lJ3BuvzRUTG8JYQ0qGBCqDgTB3k03UBWqsnjEmdWdnVCCpuStIHABvbBk+xK5XQ96T8iUCYYnk1RXnMsCKCJEa0R7odjSSQM8Zls6QwHxYdvWqJtNB//NHMi0io/swj954D11k/uskMWTb5oPXmMQWb/eQEuHw06zmWOT7baorcULbtiVCLAUIc/J8usqBC4h0wevdLQm8kMjPrQlcZTxL3L7kIIIyji1yHxoZt+Z932aVuUcCcXoRN5uEfW9TlYiI0PkJ5UUTed6kJh2geugimbgukcSOI+4g9pLfTPG6K5FEy7F0Ih6d7EGAd9sSSfxwyUqAN76JSa/8I3hAP+2ZvZoq/vqsfXImxdteNJ76BRJdISS6XyCRdefsBBLZdijPJtJztVWcJAJljq9KA5BRHVNoIC1BYCm/SyRRH22zQlgYEe0e9riK+blrbBECYq1aiuA6Rk6exVrIsSoVCFnMh40utTB94NjwvA2wHG9AqNi6KhlM56jPtPJvXCHO/+XSHNHnJ+9GZB/G6x9F4IrIgeuOycG7MsNP/15ECPY2gbzd206EH9ywt7q6u1Cb533gpQ3EeyzDxlgmpqILBAKBQCAQCAQCgUAgEAieiP/UxZvOlLcO2AAAAABJRU5ErkJggg=="><span class="tb__text">飞花令</span></div><div class="tb__item"><img class="tb__ic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAABoUlEQVR42u2b0W2DMBRFM4JHYARGYISMwHelSPnqNxt0BEZgBEbICIzgERxbMRWiUdo0vOBnnyPdjwiFKEd2uNjkcAAAAAAAAIAn+Dx9VD5Hn26R8LrCzu/yWp+Lj3uQcLzF1k959R/k3ZNZY+8mMExT+6TAOeF9R0bg/+StU5cq0LwwAu+NSFOixH4jgXP6EiuME0hVksSzkMRzSRJHIYljSRKtkERbkkQnFSQikenMhYWKU2bFoWxz28cCBEthLIWxKCs+Itke2EgmG1UbVyC2TAEAAAAANijXZlGuxwcr3/OxuXwbxN1u84YXV3CGeB5TkrxwS/clsFll43mr3EdeJ7jTt5TZZTcy/RdqfCZheeuEz2tyEdi9Wd46nXaB/c4C9W5ixd+/SyICl4u5RpPEITGB33WIKVzC1I6l1ylIm3KJtkok2iRLueCTXq6IJ8himXYK06QkcVIqcWIU5jIaE+6EOrpjvDNxGcTsKbHNRGLLVNY8pRWV6zT/uiH48Ppeqag2GqtORheV/S4uCSz7699GQCIAAAAAAAAAwBu5Atcyp3LG46ipAAAAAElFTkSuQmCC"><span class="tb__text">我的</span></div></div><div class="tb__safe"></div></div><div class="ss"><div class="ss__mask"></div><div class="ss__sheet"><div class="ss__head"><span class="ss__title serif">静夜思</span><span class="ss__sub">李白</span></div><div class="ss__grid"><div class="ss__item"><div class="ss__icbox"><div class="ic ic-share ss__ic"></div></div><span class="ss__label">微信好友</span></div><div class="ss__item"><div class="ss__icbox"><div class="ic ic-image ss__ic"></div></div><span class="ss__label">朋友圈</span></div><div class="ss__item"><div class="ss__icbox"><div class="ic ic-copy ss__ic"></div></div><span class="ss__label">复制全文</span></div></div><div class="ss__cancel">取消</div></div></div></div></body></html>
