@@ -26,7 +26,8 @@ function buildQuery(p) {
     return parts.join("&");
 }
 
-function http(method, p, body) {
+function http(method, p, body, retry) {
+    retry = retry === undefined ? 1 : retry; // 默认重试 1 次
     return new Promise((resolve, reject) => {
         const host = base();
         if (!host) {
@@ -40,12 +41,20 @@ function http(method, p, body) {
             method,
             data: body,
             header: { "content-type": "application/json" },
-            timeout: 15000,
+            timeout: 8000,
             success: (res) => {
                 if (res.statusCode >= 200 && res.statusCode < 300) resolve(res.data);
                 else reject(new Error(`HTTP ${res.statusCode}: ${(res.data && res.data.error) || ""}`.trim()));
             },
-            fail: (err) => reject(new Error(err.errMsg || i18n.t("err_net"))),
+            fail: (err) => {
+                // 网络层错误(超时/fail)且还有重试额度 → 等 800ms 重发一次;
+                // 否则 reject。业务 4xx/5xx 走 success 分支,不会进这里。
+                if (retry > 0 && /fail|timeout/i.test(err.errMsg || "")) {
+                    setTimeout(() => http(method, p, body, retry - 1).then(resolve, reject), 800);
+                } else {
+                    reject(new Error(err.errMsg || i18n.t("err_net")));
+                }
+            },
         });
     });
 }

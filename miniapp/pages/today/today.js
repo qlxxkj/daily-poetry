@@ -60,11 +60,16 @@ Page({
             return;
         }
 
-        // 页面重建 / 首次进入 → 同一天 + 同一语言就复用当天那首
+        // 页面重建 / 首次进入 → 同一天 + 同一语言就复用当天那首。
+        // 关键增强:若只有缓存、没有今日这首,先渲染缓存(弱网也能秒开),
+        // 再后台静默刷新,成功就换掉,失败保留缓存不报错。
         const cached = wx.getStorageSync(storeKey(lang));
-        if (cached && cached.day === today() && cached.poem) {
+        if (cached && cached.poem) {
+            const isToday = cached.day === today();
             this.setData({ poem: cached.poem, lang, error: "", faved: fav.has(cached.poem) });
             this._poemLang = lang;
+            // 缓存版作为兜底先上屏;再后台拉今日这首(或刷新)
+            this.pick(true, !isToday); // stale = 不是今天的,强制后台刷新
             return;
         }
 
@@ -84,21 +89,43 @@ Page({
         const lang = i18n.lang();
         this.setData({ T: i18n.dict(), lang, error: "" });
         this._poemLang = null;
-        this.pick(true);
+        // 目标语言有缓存 → 先渲染缓存版(弱网也能秒切),再后台刷新
+        const cached = wx.getStorageSync(storeKey(lang));
+        if (cached && cached.poem) {
+            this.setData({ poem: cached.poem, faved: fav.has(cached.poem) });
+            this._poemLang = lang;
+            this.pick(true, cached.day !== today());
+        } else {
+            this.pick(true);
+        }
     },
 
-    // auto=true 表示这就是「今日这首」,结果写进当天缓存;
-    // 手动「再抽一首」不写,否则随手一抽就把今日那首顶掉了。
-    async pick(auto) {
+    // auto=true 表示「今日这首」,结果写进当天缓存;
+    // 手动「再抽一首」(onPickMore)传 auto=false,不写缓存,避免顶掉今日这首。
+    // force=true:即使已渲染了缓存版,也要后台重新拉取(stale 或手动刷新)。
+    async pick(auto, force) {
+        // 已有缓存且不是强制刷新 → 直接用缓存,不发请求(避免打断正在看的)
+        if (force !== true && this.data.poem && this._poemLang === this.data.lang) {
+            this.setData({ faved: fav.has(this.data.poem) });
+            return;
+        }
         if (this.data.loading) return;
-        this.setData({ loading: true, error: "" });
+        // 已有诗先保持(不闪 loading 遮罩),后台静默拉取
+        const silent = !!this.data.poem;
+        this.setData({ loading: silent ? false : true, error: "" });
         try {
             const p = await randomPoem();
             this.setData({ poem: p, loading: false, faved: fav.has(p) });
             this._poemLang = this.data.lang;
             if (auto === true) this.saveToday(p);
         } catch (e) {
-            this.setData({ loading: false, poem: null, error: e.message || i18n.t("err_load") });
+            // 已有缓存版在屏上时,静默失败不报错(保留缓存,体感更顺);
+            // 屏上无诗时才显示错误
+            if (silent) {
+                this.setData({ loading: false });
+            } else {
+                this.setData({ loading: false, poem: null, error: e.message || i18n.t("err_load") });
+            }
         }
     },
 
