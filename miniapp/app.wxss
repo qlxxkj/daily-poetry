@@ -260,6 +260,8 @@ button::after { border: none; }
     line-height: 2;
     letter-spacing: 3rpx;
     color: var(--ink);
+    /* 七言句加字距后可能超卡片宽, 单行不换行; 若仍溢出, 卡片横向自适应 */
+    white-space: nowrap;
 }
 
 /* 诗词卡片的操作已改为右上角纯图标（见下面的 .poem__top / .pact），
