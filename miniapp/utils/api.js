@@ -64,7 +64,7 @@ function http(method, p, body, retry) {
 // 切开点优先选已有的句读（，。、！？；等），没有就硬切（不补标点，保持原文不动）。
 function wrapLines(lines) {
     const out = [];
-    const cut = 16; // 单行 16 字 + 字距 3rpx 在 36rpx 字号下刚好不撑满卡片
+    const cut = 14; // 每段 ≤ 14 字：36rpx 字号 + 3rpx 字距，14 字约 546rpx，留出卡片左右 padding 富余
     const PUNCT = /[，。、！？；：「」『』（）()]/g;
     lines.forEach((l) => {
         if (typeof l !== "string" || l.length <= cut) {
@@ -72,21 +72,19 @@ function wrapLines(lines) {
             return;
         }
         // 收集可断位置：每个标点后面（即下一个字符的 index）
-        const breaks = new Set();
+        const breaks = [];
         PUNCT.lastIndex = 0;
         let m;
-        while ((m = PUNCT.exec(l)) !== null) breaks.add(m.index + 1);
+        while ((m = PUNCT.exec(l)) !== null) breaks.push(m.index + 1);
+        breaks.sort((a, b) => a - b);
         let i = 0;
+        let bi = 0; // 指向 > i 的第一个断点
         while (i < l.length) {
-            // 从 i+cut 往回/往前找最近的断点，找不到就硬切在 i+cut
+            // 默认硬切在 i+cut（保证不溢出）；若 [i+8, i+cut] 内有句读断点则用它，读起来更顺
             let next = i + cut;
-            if (!breaks.has(next)) {
-                let found = -1;
-                breaks.forEach((b) => {
-                    if (b > i && (found === -1 || Math.abs(b - next) < Math.abs(found - next))) found = b;
-                });
-                if (found > i + 8) next = found; // 离目标不远才采用，避免一行过短
-            }
+            while (bi < breaks.length && breaks[bi] <= i) bi++;
+            const b = bi < breaks.length ? breaks[bi] : -1;
+            if (b !== -1 && b >= i + 8 && b <= next) next = b;
             out.push(l.slice(i, next));
             i = next;
         }
