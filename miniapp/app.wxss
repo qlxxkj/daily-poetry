@@ -262,10 +262,6 @@ button::after { border: none; }
     line-height: 2;
     letter-spacing: 3rpx;
     color: var(--ink);
-    /* 长句在卡片内换行, 不溢出 */
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
 }
 
 /* 诗词卡片的操作已改为右上角纯图标（见下面的 .poem__top / .pact），

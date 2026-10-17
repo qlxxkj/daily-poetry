@@ -1,12 +1,5 @@
 /* .poem* / .state* / .actbar 已提到 app.wxss。 */
 
-/* 超过 8 字的句（如长句、标题长句）允许换行, 不溢出卡片 */
-.poem__line--wrap {
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-}
-
 /* 体裁说明（如「五言绝句」的解释），作为正文之外的附属信息 */
 .poem__note {
     margin-top: var(--s-5);

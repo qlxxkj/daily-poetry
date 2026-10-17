@@ -59,20 +59,56 @@ function http(method, p, body, retry) {
     });
 }
 
+// 超长的句（元曲散曲 / 古文动辄几十上百字，库里 6.6 万行 >16 字）在卡片里会横向溢出。
+// 中文没有空格, CSS 的 word-break/overflow-wrap 都拦不住, 只能在数据层把长句切开。
+// 切开点优先选已有的句读（，。、！？；等），没有就硬切（不补标点，保持原文不动）。
+function wrapLines(lines) {
+    const out = [];
+    const cut = 16; // 单行 16 字 + 字距 3rpx 在 36rpx 字号下刚好不撑满卡片
+    const PUNCT = /[，。、！？；：「」『』（）()]/g;
+    lines.forEach((l) => {
+        if (typeof l !== "string" || l.length <= cut) {
+            out.push(l);
+            return;
+        }
+        // 收集可断位置：每个标点后面（即下一个字符的 index）
+        const breaks = new Set();
+        PUNCT.lastIndex = 0;
+        let m;
+        while ((m = PUNCT.exec(l)) !== null) breaks.add(m.index + 1);
+        let i = 0;
+        while (i < l.length) {
+            // 从 i+cut 往回/往前找最近的断点，找不到就硬切在 i+cut
+            let next = i + cut;
+            if (!breaks.has(next)) {
+                let found = -1;
+                breaks.forEach((b) => {
+                    if (b > i && (found === -1 || Math.abs(b - next) < Math.abs(found - next))) found = b;
+                });
+                if (found > i + 8) next = found; // 离目标不远才采用，避免一行过短
+            }
+            out.push(l.slice(i, next));
+            i = next;
+        }
+    });
+    return out;
+}
+
 // 规范化诗:content 数组 → 字符串,补全各字段
 function normPoem(p) {
     if (!p) return null;
+    const rawLines = Array.isArray(p.content)
+        ? p.content
+        : String(p.content || "").split("\n");
     return {
         id: p.id,
         title: p.title || "",
-        content: Array.isArray(p.content) ? p.content.join("\n") : String(p.content || ""),
+        content: rawLines.join("\n"),
         author: (p.author && p.author.name) || "",
         dynasty: (p.dynasty && p.dynasty.name) || "",
         type: (p.type && p.type.name) || "",
         typeDesc: (p.type && p.type.description) || "",
-        lines: Array.isArray(p.content)
-            ? p.content
-            : String(p.content || "").split("\n"),
+        lines: wrapLines(rawLines),
     };
 }
 
