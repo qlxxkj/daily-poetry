@@ -68,7 +68,7 @@ function wrapLines(lines) {
     // 逗号是七言/五言的强节奏点，允许断到 15 字（含标点，7 言两句各 8 字刚好）
     // 其他句读（。、！？等）只在 12 字内才断，避免拆碎短句
     const COMMA = /[，,]/g;
-    const PUNCT = /[。、！？；：「」『』（）()]/g;
+    const PUNCT = /[。、！？；：「」『』（）()—…]/g;
     lines.forEach((l) => {
         if (typeof l !== "string" || l.length <= HARD) {
             out.push(l);
