@@ -39,16 +39,18 @@
             </view>
         </view>
 
-        <button class="btn btn--block pick rise-item" style="animation-delay: 80ms" loading="{{loading}}" bindtap="onPickMore" disabled="{{loading}}">
-            {{loading ? T.today_pick_loading : T.today_pick}}
+        <button class="btn btn--block pick rise-item {{loading ? 'btn--loading' : ''}}" style="animation-delay: 80ms" bindtap="onPickMore" disabled="{{loading}}">
+            <text class="btn__text">{{loading ? T.today_pick_loading : T.today_pick}}</text>
+            <view class="btn__spinner" wx:if="{{loading}}"></view>
         </button>
     </block>
 
     <view wx:else class="welcome rise">
         <view class="welcome__seal serif">{{T.today_seal}}</view>
         <view class="welcome__desc">{{T.today_welcome}}</view>
-        <button class="btn btn--block" loading="{{loading}}" bindtap="onPickMore" disabled="{{loading}}">
-            {{loading ? T.today_empty_loading : T.today_empty}}
+        <button class="btn btn--block {{loading ? 'btn--loading' : ''}}" bindtap="onPickMore" disabled="{{loading}}">
+            <text class="btn__text">{{loading ? T.today_empty_loading : T.today_empty}}</text>
+            <view class="btn__spinner" wx:if="{{loading}}"></view>
         </button>
     </view>
 
