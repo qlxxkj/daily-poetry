@@ -49,7 +49,7 @@ Page({
         this.setData({ loading: true, error: "" });
         feihualing(c)
             .then((p) => this.setData({ poem: p, loading: false, faved: fav.has(p) }))
-            .catch((e) => this.setData({ loading: false, error: e.message || i18n.t("fh_fail") }));
+            .catch(() => this.setData({ loading: false, error: i18n.t("err_net") }));
     },
 
     onCharInput(e) {
@@ -70,7 +70,7 @@ Page({
             const p = await feihualing(c);
             this.setData({ poem: p, loading: false, faved: fav.has(p) });
         } catch (e) {
-            this.setData({ loading: false, error: e.message || i18n.t("fh_fail") });
+            this.setData({ loading: false, error: i18n.t("err_net") });
         }
     },
 
