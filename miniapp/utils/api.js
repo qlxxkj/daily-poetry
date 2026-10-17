@@ -64,7 +64,10 @@ function http(method, p, body, retry) {
 // 切开点优先选已有的句读（，。、！？；等），没有就硬切（不补标点，保持原文不动）。
 function wrapLines(lines) {
     const out = [];
-    const cut = 14; // 每段 ≤ 14 字：36rpx 字号 + 3rpx 字距，14 字约 546rpx，留出卡片左右 padding 富余
+    // 每段 ≤ 15 字：卡片内容宽 606rpx（750 屏 - page 左右 32 - 卡片左右 40），
+    // 36rpx 字号 + 3rpx 字距下 15 字（含标点）约 579rpx，刚好一行放得下不溢出；
+    // 这样七言绝句"一行两句"（7+7+中间标点=15）不会折行。
+    const cut = 15;
     const PUNCT = /[，。、！？；：「」『』（）()]/g;
     lines.forEach((l) => {
         if (typeof l !== "string" || l.length <= cut) {
