@@ -121,6 +121,7 @@ page {
     border-radius: var(--r-lg);
     box-shadow: var(--shadow);
     overflow-wrap: anywhere; /* 诗词超长句/标题不撑破卡片 */
+    min-width: 0;           /* 防止内容把卡片撑出父容器 */
 }
 
 .hr { height: 1rpx; background: var(--line); }
@@ -227,7 +228,7 @@ button::after { border: none; }
 .chip--on { background: var(--accent); color: var(--on-solid); }
 
 /* ---------- 诗词展示块 ---------- */
-.poem { padding: var(--s-7) var(--s-5) var(--s-5); }
+.poem { padding: var(--s-7) var(--s-5) var(--s-5); max-width: 100%; }
 
 .poem__meta {
     display: flex;
@@ -261,7 +262,8 @@ button::after { border: none; }
     line-height: 2;
     letter-spacing: 3rpx;
     color: var(--ink);
-    /* 超宽句子允许换行, 不溢出卡片 */
+    /* 长句在卡片内换行, 不溢出 */
+    white-space: normal;
     word-break: break-word;
     overflow-wrap: anywhere;
 }
