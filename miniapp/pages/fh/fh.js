@@ -43,6 +43,7 @@ Page({
 
     // 与 play 同逻辑，但不清空 poem，避免语言切换瞬间白屏
     refresh() {
+        if (this.data.loading) return;
         const c = this.data.char.trim();
         if (!c) return;
         this.setData({ loading: true, error: "" });
@@ -61,6 +62,7 @@ Page({
     },
 
     async play() {
+        if (this.data.loading) return;
         const c = this.data.char.trim();
         if (!c) return;
         this.setData({ loading: true, error: "", poem: null });

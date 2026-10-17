@@ -111,8 +111,9 @@ Page({
             return;
         }
         if (this.data.loading) return;
-        // 已有诗先保持(不闪 loading 遮罩),后台静默拉取
-        const silent = !!this.data.poem;
+        // 手动「再抽一首」：显示 loading spinner，防止连点；
+        // 后台静默刷新（已有诗在屏上）不显示 loading，避免闪白屏
+        const silent = !manual && !!this.data.poem;
         this.setData({ loading: silent ? false : true, error: "" });
         try {
             const p = await randomPoem();

@@ -227,6 +227,16 @@ button::after { border: none; }
 .chip:active { transform: scale(0.94); }
 .chip--on { background: var(--accent); color: var(--on-solid); }
 
+/* 按钮 loading 态：文字旁转圈，避免用户以为没反应或连点多次 */
+.btn--loading { gap: 12rpx; }
+.btn__spinner {
+    width: 28rpx; height: 28rpx; border-radius: 50%; flex-shrink: 0;
+    border: 3rpx solid rgba(255,255,255,0.35);
+    border-top-color: var(--on-solid, #fff);
+    animation: btn-spin 0.7s linear infinite;
+}
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+
 /* ---------- 诗词展示块 ---------- */
 .poem { padding: var(--s-7) var(--s-5) var(--s-5); max-width: 100%; }
 

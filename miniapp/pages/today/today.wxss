@@ -40,21 +40,3 @@
     color: var(--ink-3);
 }
 
-/* ---------- 「再抽一首」加载动效 ----------
-   点按钮后数据没回来前，按钮变 loading 态：文字旁转圈，
-   避免用户以为点了没反应。disabled 保持原样式，只靠动效提示。 */
-.btn--loading {
-    gap: 12rpx;
-}
-.btn__spinner {
-    width: 28rpx;
-    height: 28rpx;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 3rpx solid rgba(255, 255, 255, 0.35);
-    border-top-color: var(--on-solid, #fff);
-    animation: btn-spin 0.7s linear infinite;
-}
-@keyframes btn-spin {
-    to { transform: rotate(360deg); }
-}
