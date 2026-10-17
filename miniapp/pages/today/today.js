@@ -124,12 +124,13 @@ Page({
             if (silent) {
                 this.setData({ loading: false });
             } else {
-                this.setData({ loading: false, poem: null, error: e.message || i18n.t("err_load") });
+                this.setData({ loading: false, poem: null, error: i18n.t("err_net") });
             }
         }
     },
 
     onPickMore() {
+        if (this.data.loading) return;
         // manual=true：绕过「已有同语言诗就跳过」的守卫，总是拉一首新的
         this.pick(false, false, true);
     },

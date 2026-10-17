@@ -177,9 +177,6 @@ button::after { border: none; }
 .btn--ghost:active { opacity: 1; }
 .btn--block { width: 100%; }
 .btn[disabled] { opacity: 0.45; transform: none; }
-/* loading 时按钮虽然 disabled，但 spinner 要清晰可见，不能被 0.45 一起淡掉 */
-.btn[disabled].btn--loading { opacity: 1; }
-.btn[disabled].btn--loading .btn__text { opacity: 0.6; }
 
 /* 诗词卡片下方唯一的重按钮，与卡片拉开层级（今日「再抽一首」/ 飞花令「换一首」复用） */
 .pick { margin-top: var(--s-5); }

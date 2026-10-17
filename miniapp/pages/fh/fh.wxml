@@ -26,7 +26,7 @@
             >{{item}}</view>
         </view>
 
-        <button class="btn btn--block {{loading ? 'btn--loading' : ''}}" bindtap="play" disabled="{{loading}}">
+        <button class="btn btn--block {{loading ? 'btn--loading' : ''}}" bindtap="play">
             <text class="btn__text">{{loading ? T.fh_play_loading : T.fh_play}}</text>
             <view class="btn__spinner" wx:if="{{loading}}"></view>
         </button>
@@ -65,7 +65,7 @@
             <view class="result__hit">含「{{char}}」<text wx:if="{{poem.type}}"> · {{poem.type}}</text></view>
         </view>
 
-        <button class="btn btn--block pick {{loading ? 'btn--loading' : ''}}" bindtap="play" disabled="{{loading}}">
+        <button class="btn btn--block pick {{loading ? 'btn--loading' : ''}}" bindtap="play">
             <text class="btn__text">{{loading ? T.fh_play_loading : T.fh_change}}</text>
             <view class="btn__spinner" wx:if="{{loading}}"></view>
         </button>

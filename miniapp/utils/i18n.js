@@ -108,7 +108,7 @@ const DICT = {
         // 错误兜底
         err_load: "加载失败",
         err_api: "API 地址未配置 (config.js)",
-        err_net: "网络请求失败",
+        err_net: "网络开小差啦，请再试一下",
 
         // 分享标题（品牌与标签）
         share_brand: "一诗一令古诗词",
@@ -205,7 +205,7 @@ const DICT = {
 
         err_load: "加載失敗",
         err_api: "API 地址未配置 (config.js)",
-        err_net: "網絡請求失敗",
+        err_net: "網絡開小差了，請再試一下",
 
         share_brand: "一詩一令古詩詞",
         share_daily: "每日一詩",
