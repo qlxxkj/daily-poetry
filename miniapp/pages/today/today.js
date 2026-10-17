@@ -101,11 +101,12 @@ Page({
     },
 
     // auto=true 表示「今日这首」,结果写进当天缓存;
-    // 手动「再抽一首」(onPickMore)传 auto=false,不写缓存,避免顶掉今日这首。
+    // 手动「再抽一首」(onPickMore)传 manual=true,不写缓存,避免顶掉今日这首,
+    // 且必须强制拉一首新的(不能命中"不打断用户"的守卫)。
     // force=true:即使已渲染了缓存版,也要后台重新拉取(stale 或手动刷新)。
-    async pick(auto, force) {
-        // 已有缓存且不是强制刷新 → 直接用缓存,不发请求(避免打断正在看的)
-        if (force !== true && this.data.poem && this._poemLang === this.data.lang) {
+    async pick(auto, force, manual) {
+        // 已有同语言诗、且既不强刷也不是手动再抽 → 跳过,不打断用户正在看的
+        if (!manual && force !== true && this.data.poem && this._poemLang === this.data.lang) {
             this.setData({ faved: fav.has(this.data.poem) });
             return;
         }
@@ -130,7 +131,8 @@ Page({
     },
 
     onPickMore() {
-        this.pick(false);
+        // manual=true：绕过「已有同语言诗就跳过」的守卫，总是拉一首新的
+        this.pick(false, false, true);
     },
 
     saveToday(p) {
