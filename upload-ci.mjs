@@ -17,13 +17,12 @@ const projectPath = "miniapp";
 const desc = `CI auto-upload ${new Date().toISOString()}`;
 
 await ci.upload({
+  project: { appid, type: "miniProgram", privateKey: key },
   projectPath,
-  appid,
   version: "0.0.0",
   desc,
-  robot: 1,                       // 上传机器人 1, 可按需改
+  robot: "1",
   onProgressUpdate: console.log,
-  key,
 });
 
 console.log("开发版已上传到微信后台 (appid=%s), 请在后台选为体验版或提审", appid);
