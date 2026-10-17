@@ -16,12 +16,19 @@ if (!key) {
 const projectPath = "miniapp";
 const desc = `CI auto-upload ${new Date().toISOString()}`;
 
-await ci.upload({
-  project: { appid, type: "miniProgram", privateKey: key },
+const project = new ci.Project({
+  appid,
+  type: "miniProgram",
   projectPath,
+  privateKey: key,
+  ignores: ["node_modules/**/*"],
+});
+
+await ci.upload({
+  project,
   version: "0.0.0",
   desc,
-  robot: "1",
+  robot: 1,
   onProgressUpdate: console.log,
 });
 
