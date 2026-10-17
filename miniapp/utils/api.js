@@ -41,7 +41,7 @@ function http(method, p, body, retry) {
             method,
             data: body,
             header: { "content-type": "application/json" },
-            timeout: 8000,
+            timeout: 5000,
             success: (res) => {
                 if (res.statusCode >= 200 && res.statusCode < 300) resolve(res.data);
                 else reject(new Error(`HTTP ${res.statusCode}: ${(res.data && res.data.error) || ""}`.trim()));
@@ -50,7 +50,7 @@ function http(method, p, body, retry) {
                 // 网络层错误(超时/fail)且还有重试额度 → 等 800ms 重发一次;
                 // 否则 reject。业务 4xx/5xx 走 success 分支,不会进这里。
                 if (retry > 0 && /fail|timeout/i.test(err.errMsg || "")) {
-                    setTimeout(() => http(method, p, body, retry - 1).then(resolve, reject), 800);
+                    setTimeout(() => http(method, p, body, retry - 1).then(resolve, reject), 500);
                 } else {
                     reject(new Error(err.errMsg || i18n.t("err_net")));
                 }
