@@ -35,7 +35,7 @@
             <view class="poem__rule"></view>
 
             <view class="poem__body serif">
-                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">{{item}}</view>
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line {{item.length > 8 ? 'poem__line--wrap' : ''}}">{{item}}</view>
             </view>
         </view>
 

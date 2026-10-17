@@ -13,6 +13,13 @@
     color: var(--ink-3);
 }
 
+/* 超过 8 字的句（如长句）允许换行, 不溢出卡片 */
+.poem__line--wrap {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
 /* ---------- 空态 ---------- */
 .welcome {
     padding: 96rpx 0 0;
