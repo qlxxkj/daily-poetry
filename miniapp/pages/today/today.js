@@ -114,16 +114,9 @@ Page({
         // 手动「再抽一首」：显示 loading spinner，防止连点；
         // 后台静默刷新（已有诗在屏上）不显示 loading，避免闪白屏
         const silent = !manual && !!this.data.poem;
-        const t0 = Date.now();
         this.setData({ loading: silent ? false : true, error: "" });
         try {
             const p = await randomPoem();
-            // 请求太快（<400ms）时 spinner 一闪即逝，用户以为没反应；
-            // 手动点击时强制等 400ms 再渲染，让 spinner 有足够时间被看到
-            if (manual) {
-                const wait = 400 - (Date.now() - t0);
-                if (wait > 0) await new Promise((r) => setTimeout(r, wait));
-            }
             this.setData({ poem: p, loading: false, faved: fav.has(p) });
             this._poemLang = this.data.lang;
             if (auto === true) this.saveToday(p);
