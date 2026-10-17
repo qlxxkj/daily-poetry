@@ -12,7 +12,8 @@
 const DICT = {
     "zh-Hans": {
         // tabBar / 导航栏标题
-        tab_today: "今日",
+        tab_today: "一诗",
+        nav_today: "今日一诗",
         tab_fh: "飞花令",
         tab_mine: "我的",
         nav_query: "查询",
@@ -120,7 +121,8 @@ const DICT = {
     },
 
     "zh-Hant": {
-        tab_today: "今日",
+        tab_today: "一詩",
+        nav_today: "今日一詩",
         tab_fh: "飛花令",
         tab_mine: "我的",
         nav_query: "查詢",

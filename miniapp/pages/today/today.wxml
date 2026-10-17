@@ -1,4 +1,4 @@
-<navbar title="{{T.tab_today}}" theme="{{theme}}" search="{{true}}" bind:search="goQuery" />
+<navbar title="{{T.nav_today}}" theme="{{theme}}" search="{{true}}" bind:search="goQuery" />
 
 <view class="page page--tab {{theme === 'dark' ? 't-dark' : ''}}">
     <!-- 页头一行：只有日期，简繁切换已收进「我的」设置，避免两处重复 -->
