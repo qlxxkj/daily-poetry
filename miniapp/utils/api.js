@@ -64,30 +64,42 @@ function http(method, p, body, retry) {
 // 切开点优先选已有的句读（，。、！？；等），没有就硬切（不补标点，保持原文不动）。
 function wrapLines(lines) {
     const out = [];
-    // 每段 ≤ 15 字：卡片内容宽 606rpx（750 屏 - page 左右 32 - 卡片左右 40），
-    // 36rpx 字号 + 3rpx 字距下 15 字（含标点）约 579rpx，刚好一行放得下不溢出；
-    // 这样七言绝句"一行两句"（7+7+中间标点=15）不会折行。
-    const cut = 15;
-    const PUNCT = /[，。、！？；：「」『』（）()]/g;
+    const HARD = 15; // 硬上限：卡片内容宽 606rpx，36rpx+3rpx 字距下 15 字约 579rpx 放得下，16 字就溢出
+    // 逗号是七言/五言的强节奏点，允许断到 15 字（含标点，7 言两句各 8 字刚好）
+    // 其他句读（。、！？等）只在 12 字内才断，避免拆碎短句
+    const COMMA = /[，,]/g;
+    const PUNCT = /[。、！？；：「」『』（）()]/g;
     lines.forEach((l) => {
-        if (typeof l !== "string" || l.length <= cut) {
+        if (typeof l !== "string" || l.length <= HARD) {
             out.push(l);
             return;
         }
-        // 收集可断位置：每个标点后面（即下一个字符的 index）
-        const breaks = [];
-        PUNCT.lastIndex = 0;
+        const commaB = [];
+        COMMA.lastIndex = 0;
         let m;
-        while ((m = PUNCT.exec(l)) !== null) breaks.push(m.index + 1);
-        breaks.sort((a, b) => a - b);
+        while ((m = COMMA.exec(l)) !== null) commaB.push(m.index + 1);
+        commaB.sort((a, b) => a - b);
+        const otherB = [];
+        PUNCT.lastIndex = 0;
+        while ((m = PUNCT.exec(l)) !== null) otherB.push(m.index + 1);
+        otherB.sort((a, b) => a - b);
         let i = 0;
-        let bi = 0; // 指向 > i 的第一个断点
+        let ci = 0;
+        let oi = 0;
         while (i < l.length) {
-            // 默认硬切在 i+cut（保证不溢出）；若 [i+8, i+cut] 内有句读断点则用它，读起来更顺
-            let next = i + cut;
-            while (bi < breaks.length && breaks[bi] <= i) bi++;
-            const b = bi < breaks.length ? breaks[bi] : -1;
-            if (b !== -1 && b >= i + 8 && b <= next) next = b;
+            let next = i + HARD;
+            // 1) 逗号断点（i+6 到 i+HARD 之间）优先——保住七言节奏
+            while (ci < commaB.length && commaB[ci] <= i) ci++;
+            const c = ci < commaB.length ? commaB[ci] : -1;
+            if (c !== -1 && c >= i + 6 && c <= next) {
+                next = c;
+            } else {
+                // 2) 其他句读断点（i+4 到 12 之间）其次
+                while (oi < otherB.length && otherB[oi] <= i) oi++;
+                const o = oi < otherB.length ? otherB[oi] : -1;
+                if (o !== -1 && o >= i + 4 && o <= i + 12) next = o;
+                // 3) 都没有 → 硬切在 i+HARD
+            }
             out.push(l.slice(i, next));
             i = next;
         }
