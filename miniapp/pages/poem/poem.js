@@ -5,6 +5,7 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
+const PYPIN = require("../../utils/pinyin.json");
 
 Page({
     data: {
@@ -13,6 +14,8 @@ Page({
         theme: "light",
         faved: false,
         sheet: false,
+        charPanel: false,
+        charPanelChars: [],
         T: {},
     },
 
@@ -93,5 +96,17 @@ Page({
     },
     onShareTimeline() {
         return share.timeline(this.data.poem, "");
+    },
+
+    // ---------- 长按查字 ----------
+    onCharPanelLine(e) {
+        const chars = [];
+        for (const ch of String(e.currentTarget.dataset.line || "")) {
+            if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });
+        }
+        this.setData({ charPanel: true, charPanelChars: chars });
+    },
+    closeCharPanel() {
+        this.setData({ charPanel: false, charPanelChars: [] });
     },
 });

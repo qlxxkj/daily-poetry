@@ -4,6 +4,7 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
+const PYPIN = require("../../utils/pinyin.json");
 
 // 按语言分键存:来回切繁简时各自都能复用当天那首,不用反复重抽
 function storeKey(lang) {
@@ -41,6 +42,8 @@ Page({
         themePref: "auto",
         faved: false,
         sheet: false,
+        charPanel: false,
+        charPanelChars: [],
         T: {},
     },
 
@@ -180,6 +183,18 @@ Page({
 
     onDetail() {
         gotoPoem(this.data.poem);
+    },
+
+    // ---------- 长按查字 ----------
+    onCharPanelLine(e) {
+        const chars = [];
+        for (const ch of String(e.currentTarget.dataset.line || "")) {
+            if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });
+        }
+        this.setData({ charPanel: true, charPanelChars: chars });
+    },
+    closeCharPanel() {
+        this.setData({ charPanel: false, charPanelChars: [] });
     },
 
     // ---------- 分享 ----------

@@ -26,7 +26,8 @@
             <view class="poem__rule"></view>
 
             <view class="poem__body serif">
-                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">{{item}}</view>
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line"
+                      data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</view>
             </view>
 
             <view wx:if="{{poem.typeDesc}}" class="poem__note">{{poem.typeDesc}}</view>
@@ -48,4 +49,11 @@
     bind:close="closeShare"
     bind:timeline="onTimelineTip"
     bind:copy="onCopy"
+/>
+
+<char-panel
+    show="{{charPanel}}"
+    chars="{{charPanelChars}}"
+    theme="{{theme}}"
+    bind:close="closeCharPanel"
 />

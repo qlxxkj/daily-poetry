@@ -2,6 +2,7 @@
   "navigationBarTitleText": "一诗一令古诗词 - 飞花令抽字觅诗",
   "usingComponents": {
     "navbar": "/components/navbar/navbar",
-    "share-sheet": "/components/share-sheet/share-sheet"
+    "share-sheet": "/components/share-sheet/share-sheet",
+    "char-panel": "/components/char-panel/char-panel"
   }
 }

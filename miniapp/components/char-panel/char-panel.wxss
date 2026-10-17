@@ -1,0 +1,107 @@
+/* 长按查字浮层：底部升起，逐字网格展示拼音。
+   深色主题由 .cp--dark 切换变量，与 share-sheet 同思路。 */
+
+.cp {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+}
+
+/* ---------- 遮罩 ---------- */
+.cp__mask {
+    position: absolute;
+    inset: 0;
+    background: var(--mask);
+}
+
+/* ---------- 底部卡片 ---------- */
+.cp__sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-radius: 28rpx 28rpx 0 0;
+    padding: 28rpx 32rpx calc(28rpx + env(safe-area-inset-bottom));
+    box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.12);
+}
+
+.cp--dark {
+    --bg: #141110;
+    --card: #211D1C;
+    --fill: #302B2A;
+    --line: #373230;
+    --ink: #F2EBE9;
+    --ink-2: #C9C0BE;
+    --ink-3: #B2AAA8;
+    --accent: #E78F73;
+    --mask: rgba(0, 0, 0, 0.62);
+}
+
+/* ---------- 头部 ---------- */
+.cp__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+}
+
+.cp__title {
+    font-size: 28rpx;
+    font-weight: 600;
+    letter-spacing: 2rpx;
+    color: var(--ink);
+}
+
+.cp__close {
+    width: 48rpx;
+    height: 48rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
+    color: var(--ink-3);
+    border-radius: 50%;
+    background: var(--fill);
+}
+
+/* ---------- 字网格：5 列 ---------- */
+.cp__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12rpx;
+    max-height: 520rpx;
+    overflow-y: auto;
+}
+
+.cp__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rpx;
+    padding: 14rpx 4rpx;
+    border-radius: 12rpx;
+    background: var(--fill);
+}
+
+.cp__py {
+    font-size: 20rpx;
+    color: var(--ink-3);
+    letter-spacing: 1rpx;
+    min-height: 28rpx;
+    line-height: 28rpx;
+}
+
+.cp__ch {
+    font-size: 44rpx;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.cp__empty {
+    text-align: center;
+    padding: 40rpx 0;
+    font-size: 26rpx;
+    color: var(--ink-3);
+}

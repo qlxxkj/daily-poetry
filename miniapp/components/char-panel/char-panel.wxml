@@ -1,0 +1,16 @@
+<view wx:if="{{show}}" class="cp {{theme === 'dark' ? 'cp--dark' : ''}}">
+    <view class="cp__mask" bindtap="onClose"></view>
+    <view class="cp__sheet" catchtap="noop">
+        <view class="cp__head">
+            <text class="cp__title">长按查字</text>
+            <text class="cp__close" bindtap="onClose">✕</text>
+        </view>
+        <view class="cp__grid" wx:if="{{chars.length}}">
+            <view wx:for="{{chars}}" wx:key="ch" class="cp__cell">
+                <text class="cp__py">{{item.py}}</text>
+                <text class="cp__ch serif">{{item.ch}}</text>
+            </view>
+        </view>
+        <view class="cp__empty" wx:else>这行里没有可查的字</view>
+    </view>
+</view>
