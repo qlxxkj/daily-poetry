@@ -6,6 +6,8 @@ import ci from "miniprogram-ci";
 import { readFileSync } from "node:fs";
 
 const appid = JSON.parse(readFileSync("miniapp/project.config.json", "utf8")).appid;
+// 版本号从 package.json 读 (SemVer: MAJOR.MINOR.PATCH), 提交前手动 bump
+const version = JSON.parse(readFileSync("package.json", "utf8")).version;
 const key = process.env.WX_CI_UPLOAD_KEY;
 
 if (!key) {
@@ -26,7 +28,7 @@ const project = new ci.Project({
 
 await ci.upload({
   project,
-  version: "0.0.0",
+  version,
   desc,
   robot: 1,
   onProgressUpdate: console.log,

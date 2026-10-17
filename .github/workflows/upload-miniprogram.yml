@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       # miniprogram-ci 是微信官方上传工具, 走 npm 装, 不依赖本地密钥文件,
       # 上传走 HTTPS 调微信接口, 需要 project.config.json 里的 appid + upload key。
