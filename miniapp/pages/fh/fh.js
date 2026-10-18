@@ -4,7 +4,9 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
-const PYPIN = require("../../utils/pinyin.json");
+// pinyin.json ~139KB，延迟加载：首次长按时才 require
+let _PYPIN = null;
+function pinyin() { return (_PYPIN = _PYPIN || require("../../utils/pinyin.json")); }
 
 Page({
     data: {
@@ -22,9 +24,10 @@ Page({
     },
 
     onShow() {
-        const t = theme.sync(this);
+        // tab 先更新再 sync：即使 theme.sync 出问题，selected 也正确
         const bar = typeof this.getTabBar === "function" ? this.getTabBar() : null;
-        if (bar) bar.setData({ selected: 1, theme: t });
+        if (bar) bar.setData({ selected: 1, theme: theme.current() });
+        theme.sync(this);
         if (this.data.poem) this.setData({ faved: fav.has(this.data.poem) });
         this.setData({ T: i18n.dict() });
         if (this._langOff) this._langOff();
@@ -116,6 +119,7 @@ Page({
 
     // ---------- 长按查字 ----------
     onCharPanelLine(e) {
+        const PYPIN = pinyin();
         const chars = [];
         for (const ch of String(e.currentTarget.dataset.line || "")) {
             if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });

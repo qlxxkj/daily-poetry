@@ -105,3 +105,71 @@
     font-size: 26rpx;
     color: var(--ink-3);
 }
+
+.cp__hint {
+    text-align: center;
+    font-size: 22rpx;
+    color: var(--ink-3);
+    margin-top: 16rpx;
+}
+
+/* ---------- 头部（详情视图：标题居中，返回/关闭左右对齐）---------- */
+.cp__head--centered {
+    position: relative;
+    justify-content: center;
+}
+
+.cp__head--centered .cp__back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 26rpx;
+    color: var(--accent);
+    line-height: 48rpx;
+}
+
+.cp__head--centered .cp__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/* ---------- 详情视图 ---------- */
+.cp__detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12rpx;
+}
+
+.cp__detail-ch {
+    font-size: 96rpx;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.cp__detail-py {
+    font-size: 30rpx;
+    color: var(--ink-2);
+    margin-top: 8rpx;
+}
+
+.cp__detail-meaning {
+    margin-top: 24rpx;
+    width: 100%;
+    text-align: left;
+}
+
+.cp__detail-text {
+    font-size: 28rpx;
+    line-height: 1.7;
+    color: var(--ink-2);
+}
+
+.cp__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24rpx 0;
+}

@@ -1,16 +1,42 @@
 <view wx:if="{{show}}" class="cp {{theme === 'dark' ? 'cp--dark' : ''}}">
     <view class="cp__mask" bindtap="onClose"></view>
     <view class="cp__sheet" catchtap="noop">
-        <view class="cp__head">
-            <text class="cp__title">长按查字</text>
-            <text class="cp__close" bindtap="onClose">✕</text>
-        </view>
-        <view class="cp__grid" wx:if="{{chars.length}}">
-            <view wx:for="{{chars}}" wx:key="ch" class="cp__cell">
-                <text class="cp__py">{{item.py}}</text>
-                <text class="cp__ch serif">{{item.ch}}</text>
+
+        <!-- 列表视图 -->
+        <block wx:if="{{!activeChar}}">
+            <view class="cp__head">
+                <text class="cp__title">长按查字</text>
+                <text class="cp__close" bindtap="onClose">✕</text>
             </view>
-        </view>
-        <view class="cp__empty" wx:else>这行里没有可查的字</view>
+            <view class="cp__grid" wx:if="{{chars.length}}">
+                <view wx:for="{{chars}}" wx:key="ch" class="cp__cell"
+                      data-ch="{{item.ch}}" bindtap="onCharTap">
+                    <text class="cp__py">{{item.py}}</text>
+                    <text class="cp__ch serif">{{item.ch}}</text>
+                </view>
+            </view>
+            <view class="cp__empty" wx:else>这行里没有可查的字</view>
+            <view class="cp__hint" wx:if="{{chars.length}}">点字查看释义</view>
+        </block>
+
+        <!-- 详情视图（点字后） -->
+        <block wx:else>
+            <view class="cp__head cp__head--centered">
+                <text class="cp__back" bindtap="onBack">‹ 返回</text>
+                <text class="cp__title">查字</text>
+                <text class="cp__close" bindtap="onClose">✕</text>
+            </view>
+            <view class="cp__detail">
+                <text class="cp__detail-ch serif">{{activeChar.ch}}</text>
+                <text class="cp__detail-py">{{activeChar.py}}</text>
+                <view class="cp__detail-meaning">
+                    <view wx:if="{{loadingDetail}}" class="cp__loading">
+                        <view class="btn__spinner"></view>
+                    </view>
+                    <text wx:else class="cp__detail-text">{{activeChar.mn || '暂无释义'}}</text>
+                </view>
+            </view>
+        </block>
+
     </view>
 </view>
