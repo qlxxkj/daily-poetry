@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>诗词 · 管理</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav__logo">诗词管理</a>
+    <div class="nav__links">
+        <a href="/poems" class="on">诗词</a>
+        <a href="/authors">作者</a>
+    </div>
+    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
+</nav>
+<main class="container">
+
+<% if (filters.q || filters.dynasty_id || filters.type_id || filters.author_id) { %>
+<div class="filter-bar">
+    <form method="get" action="/poems" class="filter-form">
+        <input type="text" name="q" value="<%= q %>" placeholder="搜索标题/内容…" class="input filter-q">
+        <select name="dynasty_id" class="input filter-sel">
+            <option value="">朝代（全部）</option>
+            <% dynasties.forEach(d => { %>
+                <option value="<%= d.id %>" <%= d.id == filters.dynasty_id ? "selected" : "" %>><%= d.name %></option>
+            <% }) %>
+        </select>
+        <select name="type_id" class="input filter-sel">
+            <option value="">类型（全部）</option>
+            <% types.forEach(t => { %>
+                <option value="<%= t.id %>" <%= t.id == filters.type_id ? "selected" : "" %>><%= t.name %></option>
+            <% }) %>
+        </select>
+        <input type="number" name="author_id" value="<%= filters.author_id %>" placeholder="作者ID" class="input filter-author" style="width:90px">
+        <button type="submit" class="btn">搜索</button>
+        <a href="/poems" class="btn-ghost">清空</a>
+    </form>
+</div>
+<% } else { %>
+<form method="get" action="/poems" class="filter-form search-hero">
+    <input type="text" name="q" placeholder="搜索标题、诗句、作者…（FTS5）" class="input input--lg" autofocus>
+    <button type="submit" class="btn">搜索</button>
+</form>
+<% } %>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th><th>标题</th><th>作者</th><th>朝代</th><th>类型</th>
+            <th>音频</th><th>释义</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% rows.forEach(p => { %>
+        <tr>
+            <td class="muted"><%= p.id %></td>
+            <td><strong><%= p.title || "—" %></strong></td>
+            <td><%= p.author_name || "—" %></td>
+            <td class="muted"><%= p.dynasty_name || "—" %></td>
+            <td class="muted"><%= p.type_name || "—" %></td>
+            <td><%= p.audio_url ? "✓" : "" %></td>
+            <td><%= p.explanation ? "✓" : "" %></td>
+            <td><a href="/poems/<%= p.id %>" class="btn-sm">编辑</a></td>
+        </tr>
+        <% }) %>
+        <% if (!rows.length) { %>
+        <tr><td colspan="8" class="empty">没有结果</td></tr>
+        <% } %>
+    </tbody>
+</table>
+
+<% if (hasMore && nextAfter) { %>
+<a href="/poems?after=<%= nextAfter %><%= filters.q ? `&q=${encodeURIComponent(filters.q)}` : "" %><%= filters.dynasty_id ? `&dynasty_id=${filters.dynasty_id}` : "" %><%= filters.type_id ? `&type_id=${filters.type_id}` : "" %><%= filters.author_id ? `&author_id=${filters.author_id}` : "" %>"
+   class="btn btn-block load-more">加载更多</a>
+<% } %>
+
+</main>
+<script src="/public/app.js"></script>
+</body>
+</html>

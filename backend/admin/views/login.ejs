@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录 · 诗词管理</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body class="login-page">
+<div class="login-box">
+    <h1>诗词管理后台</h1>
+    <p class="login-hint">输入管理员 token</p>
+    <form method="post" action="/login">
+        <input type="password" name="token" placeholder="ADMIN_TOKEN" required autofocus>
+        <input type="hidden" name="next" value="">
+        <button type="submit" class="btn">登录</button>
+    </form>
+    <% if (error) { %><p class="login-err"><%= error %></p><% } %>
+</div>
+</body>
+</html>

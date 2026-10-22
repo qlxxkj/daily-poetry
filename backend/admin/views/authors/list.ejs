@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>作者 · 管理</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav__logo">诗词管理</a>
+    <div class="nav__links">
+        <a href="/poems">诗词</a>
+        <a href="/authors" class="on">作者</a>
+    </div>
+    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
+</nav>
+<main class="container">
+
+<div class="filter-bar">
+    <form method="get" action="/authors" class="filter-form">
+        <input type="text" name="q" value="<%= q %>" placeholder="搜索作者名…" class="input filter-q">
+        <button type="submit" class="btn">搜索</button>
+        <a href="/authors/new" class="btn btn--primary">＋ 新建作者</a>
+    </form>
+</div>
+
+<table class="table">
+    <thead><tr><th>ID</th><th>姓名</th><th>朝代</th><th>诗词数</th><th>简介</th><th></th></tr></thead>
+    <tbody>
+        <% rows.forEach(a => { %>
+        <tr>
+            <td class="muted"><%= a.id %></td>
+            <td><strong><%= a.name %></strong></td>
+            <td class="muted"><%= a.dynasty_name || "—" %></td>
+            <td class="muted"><%= a.poem_count %></td>
+            <td class="muted cell-ellipsis"><%= (a.description || "").slice(0, 40) %></td>
+            <td><a href="/authors/<%= a.id %>" class="btn-sm">编辑</a></td>
+        </tr>
+        <% }) %>
+        <% if (!rows.length) { %><tr><td colspan="6" class="empty">没有结果</td></tr><% } %>
+    </tbody>
+</table>
+
+<% if (hasMore && nextAfter) { %>
+<a href="/authors?after=<%= nextAfter %><%= q ? `&q=${encodeURIComponent(q)}` : "" %>" class="btn btn-block load-more">加载更多</a>
+<% } %>
+</main>
+<script src="/public/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新建作者 · 管理</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav__logo">诗词管理</a>
+    <div class="nav__links">
+        <a href="/poems">诗词</a>
+        <a href="/authors" class="on">作者</a>
+    </div>
+    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
+</nav>
+<main class="container">
+<h2>新建作者</h2>
+<form method="post" action="/authors/new" class="form">
+    <div class="form-row">
+        <label>姓名</label>
+        <input type="text" name="name" class="input" required autofocus>
+    </div>
+    <div class="form-row">
+        <label>朝代</label>
+        <select name="dynasty_id" class="input">
+            <option value="">— 无 —</option>
+            <% dynasties.forEach(d => { %>
+                <option value="<%= d.id %>"><%= d.name %></option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="form-row">
+        <label>简介（可选）</label>
+        <textarea name="description" rows="4" class="input textarea"></textarea>
+    </div>
+    <div class="form-actions">
+        <a href="/authors" class="btn-ghost">取消</a>
+        <button type="submit" class="btn">创建</button>
+    </div>
+</form>
+</main>
+<script src="/public/app.js"></script>
+</body>
+</html>

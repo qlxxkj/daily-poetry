@@ -19,3 +19,24 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  admin:
+    build: ./admin
+    container_name: poetry-admin
+    restart: unless-stopped
+    depends_on:
+      - poetry
+    ports:
+      - "${ADMIN_PORT:-3000}:3000"
+    volumes:
+      - ./data:/app/data    # 共享 SQLite，admin 写、Go API 读
+    environment:
+      - DB_PATH=/app/data/poetry.db
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-changeme}
+      - PORT=3000
+      - TZ=Asia/Shanghai
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
