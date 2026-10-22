@@ -35,9 +35,11 @@
             <view class="poem__rule"></view>
 
             <view class="poem__body serif">
-                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">
-                    <text data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</text>
-                </view>
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line"
+                      data-line="{{item}}"
+                      bind:touchstart="onCharPanelTouchStart"
+                      bind:touchend="onCharPanelTouchEnd"
+                      bind:touchmove="onCharPanelTouchMove">{{item}}</view>
             </view>
         </view>
 

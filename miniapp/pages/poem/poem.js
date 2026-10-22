@@ -101,10 +101,28 @@ Page({
     },
 
     // ---------- 长按查字 ----------
-    onCharPanelLine(e) {
+    _charTimer: null,
+    _charMoved: false,
+    onCharPanelTouchStart(e) {
+        this._charMoved = false;
+        this._charLine = e.currentTarget.dataset.line;
+        this._charTimer = setTimeout(() => {
+            this._charTimer = null;
+            if (this._charMoved) return;
+            this._openCharPanel(this._charLine);
+        }, 400);
+    },
+    onCharPanelTouchMove() {
+        this._charMoved = true;
+        if (this._charTimer) { clearTimeout(this._charTimer); this._charTimer = null; }
+    },
+    onCharPanelTouchEnd() {
+        if (this._charTimer) { clearTimeout(this._charTimer); this._charTimer = null; }
+    },
+    _openCharPanel(line) {
         const PYPIN = pinyin();
         const chars = [];
-        for (const ch of String(e.currentTarget.dataset.line || "")) {
+        for (const ch of String(line || "")) {
             if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });
         }
         this.setData({ charPanel: true, charPanelChars: chars });

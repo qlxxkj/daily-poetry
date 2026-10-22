@@ -273,6 +273,8 @@ button::after { border: none; }
     line-height: 2;
     letter-spacing: 3rpx;
     color: var(--ink);
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* 诗词卡片的操作已改为右上角纯图标（见下面的 .poem__top / .pact），
