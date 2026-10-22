@@ -4,13 +4,12 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
-// pinyin.json ~139KB（10911 个诗库用字）
-// 在 onLoad 里立即同步加载一次，避免长按时 require 延迟；
-// 若 require 失败（打包缺失等），_PYPIN = {} 保底，浮层仍弹出、只显示字不显示拼音
+// pinyin.js ~132KB（10911 个诗库用字），onLoad 时立即同步加载；
+// 失败则 _PYPIN = {} 兜底，浮层仍弹出、只显示字不显示拼音
 let _PYPIN = {};
 function pinyin() {
     if (Object.keys(_PYPIN).length === 0) {
-        try { _PYPIN = require("../../utils/pinyin.json"); } catch (e) { console.warn("[pinyin] require failed", e); }
+        try { _PYPIN = require("../../utils/pinyin.js"); } catch (e) { console.warn("[pinyin] require failed", e); }
     }
     return _PYPIN;
 }
@@ -207,7 +206,6 @@ Page({
     _charTimer: null,
     _charMoved: false,
     onCharPanelTouchStart(e) {
-        console.log("[char-panel] touchstart", e.currentTarget.dataset.line);
         this._charMoved = false;
         this._charLine = e.currentTarget.dataset.line;
         this._charTimer = setTimeout(() => {
@@ -224,14 +222,11 @@ Page({
         if (this._charTimer) { clearTimeout(this._charTimer); this._charTimer = null; }
     },
     _openCharPanel(line) {
-        console.log("[char-panel] open, line:", line);
-        let PYPIN = {};
-        try { PYPIN = pinyin(); } catch (err) { console.error("[char-panel] pinyin require failed", err); }
+        const PYPIN = pinyin();
         const chars = [];
         for (const ch of String(line || "")) {
             if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });
         }
-        console.log("[char-panel] chars:", chars.length);
         this.setData({ charPanel: true, charPanelChars: chars });
     },
     closeCharPanel() {

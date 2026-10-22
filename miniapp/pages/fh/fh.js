@@ -4,11 +4,11 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
-// pinyin.json ~139KB，onLoad 时立即同步加载；失败则用空对象兜底（浮层仍出，只是无拼音）
+// pinyin.js ~132KB，onLoad 时立即同步加载；失败则 _PYPIN = {} 兜底（浮层仍出，只是无拼音）
 let _PYPIN = {};
 function pinyin() {
     if (Object.keys(_PYPIN).length === 0) {
-        try { _PYPIN = require("../../utils/pinyin.json"); } catch (e) { console.warn("[pinyin] require failed", e); }
+        try { _PYPIN = require("../../utils/pinyin.js"); } catch (e) { console.warn("[pinyin] require failed", e); }
     }
     return _PYPIN;
 }
