@@ -17,12 +17,12 @@
 /* ---------- 底部卡片 ---------- */
 .cp__sheet {
     position: absolute;
-    bottom: 0;
+    bottom: calc(160rpx + env(safe-area-inset-bottom));
     left: 0;
     right: 0;
     background: var(--card);
     border-radius: 28rpx 28rpx 0 0;
-    padding: 28rpx 32rpx calc(28rpx + env(safe-area-inset-bottom));
+    padding: 28rpx 32rpx 28rpx;
     box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.12);
 }
 

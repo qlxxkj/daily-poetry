@@ -4,9 +4,14 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
-// pinyin.json ~139KB，延迟加载：首次长按时才 require
-let _PYPIN = null;
-function pinyin() { return (_PYPIN = _PYPIN || require("../../utils/pinyin.json")); }
+// pinyin.json ~139KB，onLoad 时立即同步加载；失败则用空对象兜底（浮层仍出，只是无拼音）
+let _PYPIN = {};
+function pinyin() {
+    if (Object.keys(_PYPIN).length === 0) {
+        try { _PYPIN = require("../../utils/pinyin.json"); } catch (e) { console.warn("[pinyin] require failed", e); }
+    }
+    return _PYPIN;
+}
 
 Page({
     data: {
@@ -22,6 +27,8 @@ Page({
         charPanelChars: [],
         T: {},
     },
+
+    onLoad() { pinyin(); },
 
     onShow() {
         // tab 先更新再 sync：即使 theme.sync 出问题，selected 也正确

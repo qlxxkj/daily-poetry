@@ -4,9 +4,16 @@ const fav = require("../../utils/fav.js");
 const share = require("../../utils/share.js");
 const theme = require("../../utils/theme.js");
 const i18n = require("../../utils/i18n.js");
-// pinyin.json ~139KB，延迟加载：页面初始化不拉，首次长按时才 require（微信 module 缓存保证只读一次）
-let _PYPIN = null;
-function pinyin() { return (_PYPIN = _PYPIN || require("../../utils/pinyin.json")); }
+// pinyin.json ~139KB（10911 个诗库用字）
+// 在 onLoad 里立即同步加载一次，避免长按时 require 延迟；
+// 若 require 失败（打包缺失等），_PYPIN = {} 保底，浮层仍弹出、只显示字不显示拼音
+let _PYPIN = {};
+function pinyin() {
+    if (Object.keys(_PYPIN).length === 0) {
+        try { _PYPIN = require("../../utils/pinyin.json"); } catch (e) { console.warn("[pinyin] require failed", e); }
+    }
+    return _PYPIN;
+}
 
 // 按语言分键存:来回切繁简时各自都能复用当天那首,不用反复重抽
 function storeKey(lang) {
@@ -47,6 +54,12 @@ Page({
         charPanel: false,
         charPanelChars: [],
         T: {},
+    },
+
+    onLoad() {
+        // 页面加载时立即把 pinyin.json 装进 _PYPIN，
+        // 长按查字时直接查字典，无需再触发 require
+        pinyin();
     },
 
     onShow() {
