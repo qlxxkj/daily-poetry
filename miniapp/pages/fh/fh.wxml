@@ -59,8 +59,9 @@
             <view class="poem__rule"></view>
 
             <view class="poem__body serif">
-                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line"
-                      data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</view>
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">
+                    <text data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</text>
+                </view>
             </view>
 
             <view class="result__hit">含「{{char}}」<text wx:if="{{poem.type}}"> · {{poem.type}}</text></view>

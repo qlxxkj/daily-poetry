@@ -26,8 +26,9 @@
             <view class="poem__rule"></view>
 
             <view class="poem__body serif">
-                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line"
-                      data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</view>
+                <view wx:for="{{poem.lines}}" wx:key="*this" class="poem__line">
+                    <text data-line="{{item}}" bind:longpress="onCharPanelLine">{{item}}</text>
+                </view>
             </view>
 
             <view wx:if="{{poem.typeDesc}}" class="poem__note">{{poem.typeDesc}}</view>
