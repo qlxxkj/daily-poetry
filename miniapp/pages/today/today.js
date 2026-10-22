@@ -194,6 +194,7 @@ Page({
     _charTimer: null,
     _charMoved: false,
     onCharPanelTouchStart(e) {
+        console.log("[char-panel] touchstart", e.currentTarget.dataset.line);
         this._charMoved = false;
         this._charLine = e.currentTarget.dataset.line;
         this._charTimer = setTimeout(() => {
@@ -210,11 +211,14 @@ Page({
         if (this._charTimer) { clearTimeout(this._charTimer); this._charTimer = null; }
     },
     _openCharPanel(line) {
-        const PYPIN = pinyin();
+        console.log("[char-panel] open, line:", line);
+        let PYPIN = {};
+        try { PYPIN = pinyin(); } catch (err) { console.error("[char-panel] pinyin require failed", err); }
         const chars = [];
         for (const ch of String(line || "")) {
             if (ch >= "一" && ch <= "鿿") chars.push({ ch, py: PYPIN[ch] || "" });
         }
+        console.log("[char-panel] chars:", chars.length);
         this.setData({ charPanel: true, charPanelChars: chars });
     },
     closeCharPanel() {
