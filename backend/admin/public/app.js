@@ -1,3 +1,21 @@
+// 暗色主题切换（localStorage 记忆）
+(function () {
+    const KEY = "poetry-admin-theme";
+    const apply = (dark) => {
+        document.documentElement.classList.toggle("t-dark", dark);
+        const btn = document.getElementById("theme-toggle");
+        if (btn) btn.textContent = dark ? "○" : "◐";
+    };
+    apply(localStorage.getItem(KEY) === "dark");
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest("#theme-toggle");
+        if (!btn) return;
+        const dark = !document.documentElement.classList.contains("t-dark");
+        localStorage.setItem(KEY, dark ? "dark" : "light");
+        apply(dark);
+    });
+})();
+
 // 诗词编辑页：作者搜索 → 填入 author_id 输入框（通过 select option 动态插入）
 document.addEventListener("DOMContentLoaded", () => {
     const searchEl = document.getElementById("author_search");

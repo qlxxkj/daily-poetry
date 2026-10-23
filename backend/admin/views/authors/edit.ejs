@@ -7,19 +7,15 @@
     <link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
-<nav class="nav">
-    <a href="/" class="nav__logo">诗词管理</a>
-    <div class="nav__links">
-        <a href="/poems">诗词</a>
-        <a href="/authors" class="on">作者</a>
-    </div>
-    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
-</nav>
+<%- include("../_nav.ejs", { active: "authors" }) %>
 <main class="container">
 
 <% if (flash === "saved") { %><div class="toast toast--ok">已保存</div><% } %>
 
-<h2>编辑作者 #<%= a.id %></h2>
+<div class="page-head">
+    <h1>编辑作者 #<%= a.id %></h1>
+    <p class="sub"><%= a.poem_count || 0 %> 首诗</p>
+</div>
 
 <form method="post" action="/authors/<%= a.id %>" class="form">
     <div class="form-row">
@@ -40,8 +36,8 @@
         <textarea name="description" rows="5" class="input textarea"><%= a.description %></textarea>
     </div>
     <div class="form-actions">
-        <a href="/authors" class="btn-ghost">← 返回列表</a>
-        <button type="submit" class="btn">保存</button>
+        <a href="/authors" class="btn btn--ghost">← 返回列表</a>
+        <button type="submit" class="btn btn--primary">保存</button>
     </div>
 </form>
 </main>

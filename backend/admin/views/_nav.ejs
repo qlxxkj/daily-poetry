@@ -1,0 +1,13 @@
+<nav class="nav">
+    <a href="/" class="nav__logo">诗词管理</a>
+    <div class="nav__links">
+        <a href="/poems" class="<%= typeof active !== 'undefined' && active === 'poems' ? 'on' : '' %>">诗词</a>
+        <a href="/authors" class="<%= typeof active !== 'undefined' && active === 'authors' ? 'on' : '' %>">作者</a>
+    </div>
+    <div class="nav__logout">
+        <button type="button" class="theme-toggle" id="theme-toggle" title="切换暗色">◐</button>
+        <form method="post" action="/logout">
+            <button type="submit" class="btn-sm">退出</button>
+        </form>
+    </div>
+</nav>

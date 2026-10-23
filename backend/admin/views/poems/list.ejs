@@ -7,15 +7,13 @@
     <link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
-<nav class="nav">
-    <a href="/" class="nav__logo">诗词管理</a>
-    <div class="nav__links">
-        <a href="/poems" class="on">诗词</a>
-        <a href="/authors">作者</a>
-    </div>
-    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
-</nav>
+<%- include("../_nav.ejs", { active: "poems" }) %>
 <main class="container">
+
+<div class="page-head">
+    <h1>诗词</h1>
+    <p class="sub"><%= total != null ? "共 " + total + " 条" : "" %><%= filters.q ? " · 关键词「" + q + "」" : "" %></p>
+</div>
 
 <% if (filters.q || filters.dynasty_id || filters.type_id || filters.author_id) { %>
 <div class="filter-bar">
@@ -33,9 +31,9 @@
                 <option value="<%= t.id %>" <%= t.id == filters.type_id ? "selected" : "" %>><%= t.name %></option>
             <% }) %>
         </select>
-        <input type="number" name="author_id" value="<%= filters.author_id %>" placeholder="作者ID" class="input filter-author" style="width:90px">
+        <input type="number" name="author_id" value="<%= filters.author_id %>" placeholder="作者ID" class="input filter-author">
         <button type="submit" class="btn">搜索</button>
-        <a href="/poems" class="btn-ghost">清空</a>
+        <a href="/poems" class="btn-sm">清空</a>
     </form>
 </div>
 <% } else { %>
@@ -45,6 +43,7 @@
 </form>
 <% } %>
 
+<div class="table-wrap">
 <table class="table">
     <thead>
         <tr>
@@ -55,13 +54,16 @@
     <tbody>
         <% rows.forEach(p => { %>
         <tr>
-            <td class="muted"><%= p.id %></td>
-            <td><strong><%= p.title || "—" %></strong></td>
+            <td class="num"><%= p.id %></td>
+            <td>
+                <div class="poem-title"><%= p.title || "—" %></div>
+                <div class="poem-meta"><%= p.author_name || "佚名" %></div>
+            </td>
             <td><%= p.author_name || "—" %></td>
-            <td class="muted"><%= p.dynasty_name || "—" %></td>
-            <td class="muted"><%= p.type_name || "—" %></td>
-            <td><%= p.audio_url ? "✓" : "" %></td>
-            <td><%= p.explanation ? "✓" : "" %></td>
+            <td class="num"><%= p.dynasty_name || "—" %></td>
+            <td class="num"><%= p.type_name || "—" %></td>
+            <td><span class="dot<%= p.audio_url ? "" : " dot--off" %>"></span></td>
+            <td><span class="dot<%= p.explanation ? "" : " dot--off" %>"></span></td>
             <td><a href="/poems/<%= p.id %>" class="btn-sm">编辑</a></td>
         </tr>
         <% }) %>
@@ -70,6 +72,7 @@
         <% } %>
     </tbody>
 </table>
+</div>
 
 <% if (hasMore && nextAfter) { %>
 <a href="/poems?after=<%= nextAfter %><%= filters.q ? `&q=${encodeURIComponent(filters.q)}` : "" %><%= filters.dynasty_id ? `&dynasty_id=${filters.dynasty_id}` : "" %><%= filters.type_id ? `&type_id=${filters.type_id}` : "" %><%= filters.author_id ? `&author_id=${filters.author_id}` : "" %>"

@@ -7,16 +7,11 @@
     <link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
-<nav class="nav">
-    <a href="/" class="nav__logo">诗词管理</a>
-    <div class="nav__links">
-        <a href="/poems">诗词</a>
-        <a href="/authors" class="on">作者</a>
-    </div>
-    <form method="post" action="/logout" class="nav__logout"><button type="submit" class="btn-ghost">退出</button></form>
-</nav>
+<%- include("../_nav.ejs", { active: "authors" }) %>
 <main class="container">
-<h2>新建作者</h2>
+<div class="page-head">
+    <h1>新建作者</h1>
+</div>
 <form method="post" action="/authors/new" class="form">
     <div class="form-row">
         <label>姓名</label>
@@ -36,8 +31,8 @@
         <textarea name="description" rows="4" class="input textarea"></textarea>
     </div>
     <div class="form-actions">
-        <a href="/authors" class="btn-ghost">取消</a>
-        <button type="submit" class="btn">创建</button>
+        <a href="/authors" class="btn btn--ghost">取消</a>
+        <button type="submit" class="btn btn--primary">创建</button>
     </div>
 </form>
 </main>

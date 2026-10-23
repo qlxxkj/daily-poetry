@@ -45,9 +45,21 @@ module.exports = function (db) {
         const dynasties = db.prepare("SELECT id, name FROM dynasties_zh_hans ORDER BY start_year").all();
         const types = db.prepare("SELECT id, name, category FROM poetry_types_zh_hans ORDER BY id").all();
 
+        let total;
+        try {
+            const csql = q
+                ? `SELECT COUNT(*) AS n FROM poems_zh_hans p WHERE p.id IN (
+                    SELECT rowid FROM poems_fts_zh_hans WHERE poems_fts_zh_hans MATCH ?
+                    UNION SELECT rowid FROM poems_fts_zh_hans WHERE title MATCH ?)`
+                : "SELECT COUNT(*) AS n FROM poems_zh_hans";
+            const cparams = q ? [`"${q.replace(/"/g, '""')}"`, `"${q.replace(/"/g, '""')}"`] : [];
+            total = db.prepare(csql).get(...cparams).n;
+        } catch (e) { total = null; }
+
         res.render("poems/list", {
             rows,
             q, dynastyId, typeId, authorId, afterId,
+            total,
             hasMore,
             nextAfter: hasMore ? rows[rows.length - 1]?.id : "",
             dynasties, types,
