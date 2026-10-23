@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>作者 · 管理</title>
-    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <%- include("../_nav.ejs", { active: "authors" }) %>
@@ -45,6 +45,6 @@
 <a href="/authors?after=<%= nextAfter %><%= q ? `&q=${encodeURIComponent(q)}` : "" %>" class="btn btn-block load-more">加载更多</a>
 <% } %>
 </main>
-<script src="/public/app.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>
